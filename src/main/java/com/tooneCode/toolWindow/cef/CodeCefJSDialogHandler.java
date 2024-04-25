@@ -1,4 +1,4 @@
-package com.tooneCode.toolWindow;
+package com.tooneCode.toolWindow.cef;
 
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefJSDialogCallback;

@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
 
 public class EditorTextReplaceAction extends AnAction {
@@ -18,7 +19,7 @@ public class EditorTextReplaceAction extends AnAction {
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         Document document = editor.getDocument();
-        String replaceText = e.getRequiredData(DataKey.create("replaceText"));
+        String replaceText = e.getRequiredData(DataKey.create("code"));
         // Work off of the primary caret to get the selection info
         Caret primaryCaret = editor.getCaretModel().getPrimaryCaret();
         int start = primaryCaret.getSelectionStart();

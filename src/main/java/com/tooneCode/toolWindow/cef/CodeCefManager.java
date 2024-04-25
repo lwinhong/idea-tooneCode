@@ -1,4 +1,4 @@
-package com.tooneCode.toolWindow;
+package com.tooneCode.toolWindow.cef;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.intellij.openapi.project.Project;
@@ -13,8 +13,8 @@ import java.awt.*;
 import java.util.Map;
 
 public class CodeCefManager implements ICodeCefManager {
-    private final Project _project;
-    private final ToolWindow _toolWindow;
+    private Project _project;
+    private ToolWindow _toolWindow;
     JBCefBrowser _browser;
     JBCefJSQuery _jsQuery;
 
@@ -84,9 +84,15 @@ public class CodeCefManager implements ICodeCefManager {
         return "";
     }
 
-    private void ExecuteJS(String js) {
+    @Override
+    public void ExecuteJS(String js) {
         var cefBrowser = _browser.getCefBrowser();
         cefBrowser.executeJavaScript(js, cefBrowser.getURL(), 0);
+    }
+
+    @Override
+    public void SendMessageToPage(String cmd, String value) {
+        ExecuteJS("window.exportVar('" + cmd + "', " + value + ");");
     }
 
     /*
@@ -102,25 +108,13 @@ public class CodeCefManager implements ICodeCefManager {
         //_browser.openDevtools();
     }
 
-    public class CodeCefExecuteData {
-        private String type;
-        private String value;
+    @Override
+    public void dispose() {
+        _project = null;
+        _toolWindow = null;
+        _browser = null;
+        _jsQuery = null;
 
-        public String getType() {
-            return type;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
     }
 }
 

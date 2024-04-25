@@ -10,17 +10,22 @@ import com.intellij.openapi.editor.impl.DocumentImpl;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
 
 public class CreateEditorAction extends AnAction {
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         String initialContent = "Your initial content";
-        Document document = new DocumentImpl(initialContent);
-        Editor editor = EditorFactory.getInstance().createEditor(document);
-
+        //Document document = new DocumentImpl(initialContent);
+        //Editor editor = EditorFactory.getInstance().createEditor(document);
         //PsiFile.getViewProvider();
-        ;
         //PsiManager.getInstance(e.getProject()).findViewProvider();
+        Document document = EditorFactory.getInstance().createDocument(initialContent);
+        EditorFactory.getInstance().createEditor(document, e.getProject());
+
     }
 
     @Override

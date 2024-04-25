@@ -1,0 +1,51 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.tooneCode.idea-tooneCode</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Idea-tooneCode</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="toonesale@toone.com.cn" url="https://www.toone.com.cn/">Toone</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    Toone 编码助手. 快速方便. 心有灵犀一点通。<br>
+    <em>编码助手. 快速方便. 心有灵犀一点通。</em>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="TooneCode" anchor="right" factoryClass="com.tooneCode.toolWindow.CodeToolWindowFactory"/>
+<!--        <projectService-->
+<!--                serviceInterface="com.tooneCode.services.ICodeProjectService"-->
+<!--                serviceImplementation="com.tooneCode.services.CodeProjectServiceImpl"/>-->
+
+    </extensions>
+    <actions>
+        <action
+                id="tooneCode.actions.EditorTextReplaceAction"
+                class="com.tooneCode.actions.EditorTextReplaceAction"
+                text="TooneCode"
+                description="Replaces selected text with 'Replacement'."
+        >
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+        <action
+                id="tooneCode.actions.CreateEditorAction"
+                class="com.tooneCode.actions.CreateEditorAction"
+                text="新增编辑器"
+                description="新增编辑器."
+        >
+        </action>
+    </actions>
+</idea-plugin>

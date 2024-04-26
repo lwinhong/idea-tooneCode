@@ -5,6 +5,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.tooneCode.services.CodeProjectServiceImpl;
 import com.tooneCode.toolWindow.cef.CodeCefManager;
 import com.tooneCode.toolWindow.cef.ICodeCefManager;
+import icons.IconUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class CodeToolWindow implements com.intellij.openapi.wm.ToolWindowFactory, ICodeToolWindow {
@@ -20,7 +21,7 @@ public class CodeToolWindow implements com.intellij.openapi.wm.ToolWindowFactory
         contentManager.addContent(
                 contentManager.getFactory().createContent(component, "", false));
         codeCefManager.LoadWebPage();
-
+        toolWindow.setIcon(IconUtil.pluginIcon);
         CodeProjectServiceImpl.getInstance(project).setCodeToolWindow(this);
     }
 

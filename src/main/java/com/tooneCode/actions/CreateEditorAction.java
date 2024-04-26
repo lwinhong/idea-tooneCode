@@ -26,10 +26,20 @@ public class CreateEditorAction extends AnAction {
         Document document = EditorFactory.getInstance().createDocument(initialContent);
         EditorFactory.getInstance().createEditor(document, e.getProject());
 
+        //这个打开设置的方法
+//        val notification = Notification("listener", "Title", "Hello, world!", NotificationType.INFORMATION)
+//        notification.addAction(object :NotificationAction("ShowProjectStructureSettings") {
+//            override fun actionPerformed(e:AnActionEvent, notification:Notification){
+//                // 用于打开设置界面, 这里的 ShowSettings 是 IDEA 定义的常量值
+//                ActionManager.getInstance().getAction("ShowSettings").actionPerformed(e)
+//            }
+//        })
+//        Notifications.Bus.notify(notification, e.project)
+
     }
 
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {
-        return ActionUpdateThread.BGT;
+        return ActionUpdateThread.EDT;
     }
 }

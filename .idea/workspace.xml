@@ -4,28 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="实现代码插入">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/TooneCodePopupMenuActionGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddCommentsAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddExplainAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddTestsAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAskAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeAppServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/ICodeAppService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/ICodeToolWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/messages/IdeaTooneCodeBundle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="新增右键菜单和action">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/CreateEditorAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/CreateEditorAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/EditorTextReplaceAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/EditorTextReplaceAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddCommentsAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddCommentsAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddExplainAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddExplainAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddTestsAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddTestsAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAskAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAskAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/CodeCefJSDialogHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefJSDialogHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/CodeCefLoadHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefLoadHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/CodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/CodeToolWindowFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/CodeToolWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/ICodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/ICodeCefManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/ICodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/ICodeCefManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,18 +55,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "lwinhong"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;lwinhong&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/lwinhong/idea-tooneCode.git",
-    "accountId": "0ddd20cd-3da7-4155-bccb-9d91a6ceafd0"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/lwinhong/idea-tooneCode.git&quot;,
+    &quot;accountId&quot;: &quot;0ddd20cd-3da7-4155-bccb-9d91a6ceafd0&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2023.2.5/6fd173ee61048678bd13a9b88367a760ea7a1f14/ideaIC-2023.2.5-sources.jar!/com/intellij/serviceContainer/ComponentManagerImpl.kt" root0="SKIP_INSPECTION" />
   </component>
@@ -97,31 +88,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Run Plugin.executor": "Debug",
-    "Gradle.idea-tooneCode [setupDependencies].executor": "Run",
-    "Gradle.idea-toonecode [setupDependencies].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/liyk/idea-plugin/idea-tooneCode",
-    "project.structure.last.edited": "项目",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.17721522",
-    "settings.editor.selected.configurable": "Console"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Run Plugin.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.idea-tooneCode [setupDependencies].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.idea-toonecode [setupDependencies].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.17721522&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件": [
-      "JavaFX"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件&quot;: [
+      &quot;JavaFX&quot;
     ],
-    "kotlin-gradle-user-dirs": [
-      "C:\\Users\\Administrator\\.gradle"
+    &quot;kotlin-gradle-user-dirs&quot;: [
+      &quot;C:\\Users\\Administrator\\.gradle&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.tooneCode.services" />
@@ -152,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714015960782</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="新增右键菜单和action">
+      <option name="closed" value="true" />
+      <created>1714044361991</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714044361991</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -184,36 +183,23 @@
     </ignored-roots>
     <MESSAGE value="首次" />
     <MESSAGE value="实现代码插入" />
-    <option name="LAST_COMMIT_MESSAGE" value="实现代码插入" />
+    <MESSAGE value="新增右键菜单和action" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增右键菜单和action" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/actions/CreateEditorAction.java</url>
-          <line>28</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/actions/EditorTextReplaceAction.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAskAction.java</url>
-          <line>20</line>
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java</url>
+          <line>84</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="GradleRunConfiguration">
-        <watch expression="tw" language="JAVA" />
+        <watch expression="new java.io.File(filePath).getName()" language="JAVA" />
+        <watch expression="this.codeToolWindow == toolWindow" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>

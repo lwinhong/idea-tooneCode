@@ -1,9 +1,7 @@
 package com.tooneCode.services;
 
 import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.Service;
-import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.tooneCode.toolWindow.ICodeToolWindow;
@@ -15,7 +13,6 @@ import java.util.Objects;
 @Service(Service.Level.PROJECT)
 public final class CodeProjectServiceImpl implements ICodeProjectService {
     private final Project project;
-    //    private final EditorFactory editorFactory;
     private final FileEditorManager fileEditorManager;
 
     private ICodeToolWindow codeToolWindow;
@@ -26,6 +23,11 @@ public final class CodeProjectServiceImpl implements ICodeProjectService {
         this.fileEditorManager = FileEditorManager.getInstance(project);
     }
 
+    /**
+     * 获取当前project服务实例
+     * @param project project
+     * @return  当前project服务实例
+     */
     public static ICodeProjectService getInstance(Project project) {
         return project.getService(CodeProjectServiceImpl.class);
     }

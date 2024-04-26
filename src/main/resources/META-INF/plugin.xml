@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>IdeaTooneCode</name>
+    <name>TooneCode</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="toonesale@toone.com.cn" url="https://www.toone.com.cn/">Toone</vendor>
@@ -33,10 +33,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="com.tooneCode.toolWindow" anchor="right"
                     factoryClass="com.tooneCode.toolWindow.CodeToolWindow"/>
-        <!--        <applicationService serviceImplementation="com.tooneCode.services.CodeAppServiceImpl"-->
-        <!--                            serviceInterface="com.tooneCode.services.ICodeAppService"-->
-        <!--        />-->
-
+        <notificationGroup id="tooneCode.notice" displayType="BALLOON"/>
     </extensions>
     <actions>
         <action
@@ -58,8 +55,7 @@
                class="com.tooneCode.actions.TooneCodePopupMenuActionGroup"
                popup="true" text="TooneCode" description="TooneCode AI 编码助手"
         >
-            <add-to-group group-id="EditorPopupMenu" anchor="first"
-            />
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </group>
         <action
                 id="tooneCode.actions.code.CodeGenerateAddCommentsAction"
@@ -88,6 +84,16 @@
                 text="提问"
                 description="提问."
         >
+        </action>
+
+
+        <action id="ApplyCosyInlayCompletion"
+                class="com.tooneCode.completion.action.CodeApplyInlayAction"
+                text="Apply TooneCode Inline Completion">
+            <keyboard-shortcut first-keystroke="TAB" keymap="$default" replace-all="true"/>
+            <keyboard-shortcut first-keystroke="TAB" keymap="Mac OS X" replace-all="true"/>
+            <keyboard-shortcut first-keystroke="TAB" keymap="Mac OS X 10.5+" replace-all="true"/>
+            <keyboard-shortcut first-keystroke="alt TAB" keymap="$default"/>
         </action>
     </actions>
 </idea-plugin>

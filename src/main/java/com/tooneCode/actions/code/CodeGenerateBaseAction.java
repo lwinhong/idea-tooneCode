@@ -1,20 +1,30 @@
 package com.tooneCode.actions.code;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
 import com.tooneCode.services.CodeProjectServiceImpl;
 import com.tooneCode.toolWindow.ICodeToolWindow;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.util.HashMap;
+
 public abstract class CodeGenerateBaseAction extends AnAction {
+    protected final String ChatCodeCmd = "chat_code";
+
     public CodeGenerateBaseAction() {
         super();
     }
 
-    public CodeGenerateBaseAction(@Nullable String text, @Nullable String description) {
-        super(text, description, null);
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override
@@ -48,6 +58,47 @@ public abstract class CodeGenerateBaseAction extends AnAction {
 
     protected ICodeToolWindow getCodeToolWindow(Project project) {
         return CodeProjectServiceImpl.getInstance(project).getCodeToolWindow();
+    }
+
+    protected void SendMessageToPage(@NotNull AnActionEvent e, String cmd, String data, String prompt) {
+        var tw = getCodeToolWindow(e);
+        if (tw != null) {
+            var filePath = getFilePath(e);
+            ActivateToolWindow(e, () -> {
+                try {
+                    tw.getICodeCefManager().SendMessageToPage(cmd, data,
+                            new HashMap<>() {
+                                {
+                                    put("prompt", prompt);
+                                    put("file", filePath);
+                                    put("language", "");
+                                }
+                            });
+                } catch (Exception ex) {
+                    //
+                }
+            });
+        }
+    }
+
+    protected String getFilePath(@NotNull AnActionEvent e) {
+        var editor = e.getRequiredData(CommonDataKeys.EDITOR);
+        var project = e.getProject();
+        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
+        if (psiFile != null) {
+            File f = new File(psiFile.getVirtualFile().getPath());
+            return f.getName();
+        }
+        return "";
+    }
+
+    protected String PromptWrapper(String code, String suffix) {
+        return code + "\n" + suffix;
+    }
+
+    protected String getEditorSelectedText(@NotNull AnActionEvent e) {
+        var editor = e.getRequiredData(CommonDataKeys.EDITOR);
+        return editor.getSelectionModel().getSelectedText();
     }
 
 }

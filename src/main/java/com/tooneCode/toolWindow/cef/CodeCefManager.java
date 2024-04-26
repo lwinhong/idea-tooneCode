@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CodeCefManager implements ICodeCefManager {
@@ -91,8 +92,20 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     @Override
-    public void SendMessageToPage(String cmd, String value) {
-        ExecuteJS("window.exportVar('" + cmd + "', " + value + ");");
+    public void SendMessageToPage(String cmd, String value, Map<String, String> more) {
+        var m = new HashMap<String, String>();
+        m.put("value", value);
+        m.put("cmd", cmd);
+        if (more != null && !more.isEmpty()) {
+            m.putAll(more);
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            value = mapper.writeValueAsString(m);
+        } catch (JsonProcessingException e) {
+            // ignore
+        }
+        ExecuteJS("window.exportVar(" + value + ");");
     }
 
     /*
@@ -105,7 +118,7 @@ public class CodeCefManager implements ICodeCefManager {
                 + " };";
         ExecuteJS(inject);
 
-        //_browser.openDevtools();
+        _browser.openDevtools();
     }
 
     @Override

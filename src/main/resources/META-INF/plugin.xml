@@ -86,7 +86,7 @@
         >
         </action>
 
-
+        <!-- 按Tab键接受TooneCode的提示 -->
         <action id="ApplyCosyInlayCompletion"
                 class="com.tooneCode.completion.action.CodeApplyInlayAction"
                 text="Apply TooneCode Inline Completion">
@@ -95,5 +95,9 @@
             <keyboard-shortcut first-keystroke="TAB" keymap="Mac OS X 10.5+" replace-all="true"/>
             <keyboard-shortcut first-keystroke="alt TAB" keymap="$default"/>
         </action>
+        <!-- 触发TooneCode的提示 -->
+        <action id="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
+                class="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
+                text="CodeTriggerInlayCompletionAction"/>
     </actions>
 </idea-plugin>

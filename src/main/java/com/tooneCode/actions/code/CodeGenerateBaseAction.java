@@ -60,17 +60,17 @@ public abstract class CodeGenerateBaseAction extends AnAction {
         return CodeProjectServiceImpl.getInstance(project).getCodeToolWindow();
     }
 
-    protected void SendMessageToPage(@NotNull AnActionEvent e, String cmd, String data, String prompt) {
+    protected void SendMessageToPage(@NotNull AnActionEvent e, String cmd, String value, String prompt) {
         var tw = getCodeToolWindow(e);
         if (tw != null) {
             var filePath = getFilePath(e);
             ActivateToolWindow(e, () -> {
                 try {
-                    tw.getICodeCefManager().SendMessageToPage(cmd, data,
+                    tw.getICodeCefManager().SendMessageToPage(cmd, value,
                             new HashMap<>() {
                                 {
                                     put("prompt", prompt);
-                                    put("file", filePath);
+                                    put("filePath", filePath);
                                     put("language", "");
                                 }
                             });
@@ -90,10 +90,6 @@ public abstract class CodeGenerateBaseAction extends AnAction {
             return f.getName();
         }
         return "";
-    }
-
-    protected String PromptWrapper(String code, String suffix) {
-        return code + "\n" + suffix;
     }
 
     protected String getEditorSelectedText(@NotNull AnActionEvent e) {

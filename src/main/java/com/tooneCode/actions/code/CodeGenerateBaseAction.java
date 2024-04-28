@@ -9,6 +9,7 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.tooneCode.services.CodeProjectServiceImpl;
 import com.tooneCode.toolWindow.ICodeToolWindow;
+import com.tooneCode.util.LanguageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,7 +72,7 @@ public abstract class CodeGenerateBaseAction extends AnAction {
                                 {
                                     put("prompt", prompt);
                                     put("filePath", filePath);
-                                    put("language", "");
+                                    put("language", LanguageUtil.getLanguageByFilePath(filePath));
                                 }
                             });
                 } catch (Exception ex) {

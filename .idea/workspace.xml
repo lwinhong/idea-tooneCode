@@ -4,19 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="新增右键菜单和action">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="加入了一些自动完成代码">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/common/CodeCacheKeys.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/listener/CodeInlayCompletionSelectionListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/model/CompletionRenderType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/CompletionContextParams.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/CompletionParams.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/TooneCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeDefaultInlayRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeInlayRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayCompletionCollector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/enums/CodeCompletionModeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/enums/CompletionGenerateLengthLevelEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/enums/CompletionTriggerModeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/model/CodeEditorInlayItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/model/CodeEditorInlayList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/model/CompletionTriggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/model/InlayCompletionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/model/InlayDisposeEventEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/model/InlayTriggerEventEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/util/ApplicationUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/util/EditorUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/util/FileUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/util/LanguageUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/CreateEditorAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/CreateEditorAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/EditorTextReplaceAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/EditorTextReplaceAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddCommentsAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddCommentsAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddExplainAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddExplainAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddTestsAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddTestsAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAskAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAskAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/ICodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/ICodeCefManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeTriggerInlayCompletionAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeTriggerInlayCompletionAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeInlayManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeInlayManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeInlayManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeInlayManagerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/listeners/CodeEditorListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/listeners/CodeEditorListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,9 +62,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -88,34 +105,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Run Plugin.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.idea-tooneCode [setupDependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.idea-toonecode [setupDependencies].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.17721522&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Run Plugin.executor": "Debug",
+    "Gradle.idea-tooneCode [setupDependencies].executor": "Run",
+    "Gradle.idea-toonecode [setupDependencies].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/liyk/idea-plugin/idea-tooneCode/src/main/resources/icons",
+    "project.structure.last.edited": "项目",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.17721522",
+    "settings.editor.selected.configurable": "com.nnthink.aixcoder.config.Config"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件&quot;: [
-      &quot;JavaFX&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件": [
+      "JavaFX"
     ],
-    &quot;kotlin-gradle-user-dirs&quot;: [
-      &quot;C:\\Users\\Administrator\\.gradle&quot;
+    "kotlin-gradle-user-dirs": [
+      "C:\\Users\\Administrator\\.gradle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.tooneCode.services" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\liyk\idea-plugin\idea-tooneCode\src\main\resources\icons" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="icons" />
+      <recent name="" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
@@ -151,7 +175,23 @@
       <option name="project" value="LOCAL" />
       <updated>1714044361991</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="action和web页面交互">
+      <option name="closed" value="true" />
+      <created>1714118763077</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714118763077</updated>
+    </task>
+    <task id="LOCAL-00005" summary="加入了一些自动完成代码">
+      <option name="closed" value="true" />
+      <created>1714209104052</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1714209104052</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -184,15 +224,22 @@
     <MESSAGE value="首次" />
     <MESSAGE value="实现代码插入" />
     <MESSAGE value="新增右键菜单和action" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增右键菜单和action" />
+    <MESSAGE value="action和web页面交互" />
+    <MESSAGE value="加入了一些自动完成代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="加入了一些自动完成代码" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java</url>
-          <line>84</line>
-          <option name="timeStamp" value="34" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/listeners/CodeEditorListener.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/completion/listener/CodeInlayCompletionSelectionListener.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

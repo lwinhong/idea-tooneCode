@@ -34,6 +34,7 @@
         <toolWindow id="com.tooneCode.toolWindow" anchor="right"
                     factoryClass="com.tooneCode.toolWindow.CodeToolWindow"/>
         <notificationGroup id="tooneCode.notice" displayType="BALLOON"/>
+        <editorFactoryListener implementation="com.tooneCode.listeners.CodeEditorListener"/>
     </extensions>
     <actions>
         <action

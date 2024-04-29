@@ -51,6 +51,7 @@ dependencies {
     implementation("com.alibaba:fastjson:2.0.49")
     implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.22.0")
     implementation("org.eclipse.xtext:org.eclipse.xtext:2.34.0")
+    implementation("org.projectlombok:lombok:1.18.30")
 }
 
 

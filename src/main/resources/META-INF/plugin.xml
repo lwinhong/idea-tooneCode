@@ -100,5 +100,11 @@
         <action id="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
                 class="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
                 text="CodeTriggerInlayCompletionAction"/>
+         <!-- Esc退出当前inlay 提示 -->
+        <action id="DisposeCosyInlayCompletionAction" class="com.tooneCode.completion.action.CodeEscapeInlaysAction"
+        >
+            <keyboard-shortcut first-keystroke="ESCAPE" keymap="$default"/>
+            <override-text place="MainMenu" text="Hide Completions in Editor"/>
+        </action>
     </actions>
 </idea-plugin>

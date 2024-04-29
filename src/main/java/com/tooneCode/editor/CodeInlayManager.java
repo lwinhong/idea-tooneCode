@@ -3,6 +3,7 @@ package com.tooneCode.editor;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.util.TextRange;
 import com.tooneCode.editor.enums.CompletionTriggerModeEnum;
 import com.tooneCode.editor.model.CompletionTriggerConfig;
 import com.tooneCode.editor.model.InlayDisposeEventEnum;
@@ -30,4 +31,11 @@ public interface CodeInlayManager extends Disposable {
     void editorChanged(@NotNull CompletionTriggerConfig config, @NotNull Editor editor, int offset, CompletionTriggerModeEnum triggerMode);
 
     void cancelCompletion(@NotNull Editor editor);
+
+    boolean isAvailable(@NotNull Editor editor);
+
+    boolean hasCompletionInlays(@NotNull Editor editor);
+
+    int countCompletionInlays(@NotNull Editor editor, @NotNull TextRange searchRange, boolean inlineInlays,
+                              boolean afterLineEndInlays, boolean blockInlays, boolean matchInLeadingWhitespace);
 }

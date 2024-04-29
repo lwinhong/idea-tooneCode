@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.impl.ImaginaryEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiBinaryFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
@@ -200,4 +201,67 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
 //            });
 //        }
     }
+
+    public boolean hasCompletionInlays(@NotNull Editor editor) {
+        if (editor == null) {
+            //$$$reportNull$$$0(11);
+        }
+
+        if (!this.isAvailable(editor)) {
+            return false;
+        } else {
+            return this.countCompletionInlays(editor, TextRange.from(0, editor.getDocument().getTextLength()), true, true, true, true) > 0;
+        }
+    }
+
+        public int countCompletionInlays(@NotNull Editor editor, @NotNull TextRange searchRange, boolean inlineInlays, boolean afterLineEndInlays, boolean blockInlays, boolean matchInLeadingWhitespace) {
+        if (editor == null) {
+            //$$$reportNull$$$0(12);
+        }
+
+        if (searchRange == null) {
+            //$$$reportNull$$$0(13);
+        }
+
+        if (!this.isAvailable(editor)) {
+            return 0;
+        } else {
+            int startOffset = searchRange.getStartOffset();
+            int endOffset = searchRange.getEndOffset();
+            InlayModel inlayModel = editor.getInlayModel();
+            int totalCount = 0;
+            if (inlineInlays) {
+                totalCount = (int)((long)totalCount + inlayModel.getInlineElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
+                    if (!(inlay.getRenderer() instanceof CodeInlayRenderer)) {
+                        return false;
+                    } else if (matchInLeadingWhitespace) {
+                        return true;
+                    } else {
+                        List<String> lines = ((CodeInlayRenderer)inlay.getRenderer()).getContentLines();
+                        if (lines.isEmpty()) {
+                            return false;
+                        } else {
+                            int whitespaceEnd = inlay.getOffset() + com.tooneCode.util.StringUtils.countHeadWhitespaceLength((String)lines.get(0));
+                            return searchRange.getEndOffset() >= whitespaceEnd;
+                        }
+                    }
+                }).count());
+            }
+
+            if (blockInlays) {
+                totalCount = (int)((long)totalCount + inlayModel.getBlockElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
+                    return inlay.getRenderer() instanceof CodeInlayRenderer;
+                }).count());
+            }
+
+            if (afterLineEndInlays) {
+                totalCount = (int)((long)totalCount + inlayModel.getAfterLineEndElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
+                    return inlay.getRenderer() instanceof CodeInlayRenderer;
+                }).count());
+            }
+
+            return totalCount;
+        }
+    }
+
 }

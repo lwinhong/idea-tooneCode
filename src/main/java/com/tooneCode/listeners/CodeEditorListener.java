@@ -19,7 +19,7 @@ public class CodeEditorListener implements EditorFactoryListener {
         Project project = editor.getProject();
         if (project != null && !project.isDisposed() && editor != null && !editor.isDisposed()) {
             Disposable editorDisposable = Disposer.newDisposable("CodeEditorListener");
-//            EditorUtil.disposeWithEditor(editor, editorDisposable);
+            EditorUtil.disposeWithEditor(editor, editorDisposable);
 //            editor.getCaretModel().addCaretListener(new CosyCaretListener(editor), editorDisposable);
 //            editor.getDocument().addDocumentListener(new CosyDocumentListener(editor), editorDisposable);
             editor.getSelectionModel().addSelectionListener(this.selectionListener, editorDisposable);

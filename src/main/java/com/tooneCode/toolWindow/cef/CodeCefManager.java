@@ -6,7 +6,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.jcef.*;
 import com.tooneCode.services.CodeProjectServiceImpl;
 import org.cef.browser.CefBrowser;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson2.JSON;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,8 +66,7 @@ public class CodeCefManager implements ICodeCefManager {
 
     private String Execute(String data) throws JsonProcessingException {
         //页面也idea通讯就用这一个口（data用json，key：value包装）
-        ObjectMapper mapper = new ObjectMapper();
-        var executeData = mapper.readValue(data, Map.class);
+        var executeData = JSON.parseObject(data, Map.class);
         var type = executeData.get("type").toString();
         var value = executeData.get("value").toString();
         switch (type) {
@@ -99,12 +98,7 @@ public class CodeCefManager implements ICodeCefManager {
         if (more != null && !more.isEmpty()) {
             m.putAll(more);
         }
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            value = mapper.writeValueAsString(m);
-        } catch (JsonProcessingException e) {
-            // ignore
-        }
+        value = JSON.toJSONString(m);
         ExecuteJS("window.exportVar(" + value + ");");
     }
 
@@ -118,7 +112,7 @@ public class CodeCefManager implements ICodeCefManager {
                 + " };";
         ExecuteJS(inject);
 
-        _browser.openDevtools();
+        //_browser.openDevtools();
     }
 
     @Override

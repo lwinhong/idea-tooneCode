@@ -12,7 +12,7 @@
 
 
     <!-- Declare the default resource location for localizing menu strings -->
-    <resource-bundle>messages.IdeaTooneCodeBundle</resource-bundle>
+    <resource-bundle>messageBundle</resource-bundle>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
@@ -35,6 +35,9 @@
                     factoryClass="com.tooneCode.toolWindow.CodeToolWindow"/>
         <notificationGroup id="tooneCode.notice" displayType="BALLOON"/>
         <editorFactoryListener implementation="com.tooneCode.listeners.CodeEditorListener"/>
+        <typedHandler order="first, before completionAutoPopup"
+                      implementation="com.tooneCode.editor.InputTypeEndHandler"/>
+        <postStartupActivity implementation="com.tooneCode.listeners.ProjectActivityListener"/>
     </extensions>
     <actions>
         <action
@@ -100,11 +103,12 @@
         <action id="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
                 class="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
                 text="CodeTriggerInlayCompletionAction"/>
-         <!-- Esc退出当前inlay 提示 -->
+        <!-- Esc退出当前inlay 提示 -->
         <action id="DisposeCosyInlayCompletionAction" class="com.tooneCode.completion.action.CodeEscapeInlaysAction"
         >
             <keyboard-shortcut first-keystroke="ESCAPE" keymap="$default"/>
             <override-text place="MainMenu" text="Hide Completions in Editor"/>
         </action>
+
     </actions>
 </idea-plugin>

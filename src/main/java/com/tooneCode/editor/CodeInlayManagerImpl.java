@@ -1,11 +1,15 @@
 package com.tooneCode.editor;
 
 import com.intellij.injected.editor.EditorWindow;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.components.Service;
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.Inlay;
 import com.intellij.openapi.editor.InlayModel;
 import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.editor.impl.DocumentImpl;
 import com.intellij.openapi.editor.impl.ImaginaryEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
@@ -15,11 +19,12 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.tooneCode.common.CodeCacheKeys;
 import com.tooneCode.editor.enums.CompletionTriggerModeEnum;
-import com.tooneCode.editor.model.CodeEditorInlayList;
-import com.tooneCode.editor.model.CompletionTriggerConfig;
-import com.tooneCode.editor.model.InlayDisposeEventEnum;
-import com.tooneCode.util.ApplicationUtil;
-import com.tooneCode.util.FileUtil;
+import com.tooneCode.editor.model.*;
+import com.tooneCode.services.TelemetryService;
+import com.tooneCode.services.model.TextChangeContext;
+import com.tooneCode.services.model.TimestampEnum;
+import com.tooneCode.util.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.util.concurrency.annotations.RequiresEdt;
 
@@ -30,6 +35,9 @@ import java.util.List;
 
 @Service
 public final class CodeInlayManagerImpl implements CodeInlayManager {
+
+    private final Logger LOGGER = LogUtil.getLogger();
+
     @Override
     public void dispose() {
 
@@ -214,7 +222,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
         }
     }
 
-        public int countCompletionInlays(@NotNull Editor editor, @NotNull TextRange searchRange, boolean inlineInlays, boolean afterLineEndInlays, boolean blockInlays, boolean matchInLeadingWhitespace) {
+    public int countCompletionInlays(@NotNull Editor editor, @NotNull TextRange searchRange, boolean inlineInlays, boolean afterLineEndInlays, boolean blockInlays, boolean matchInLeadingWhitespace) {
         if (editor == null) {
             //$$$reportNull$$$0(12);
         }
@@ -231,17 +239,17 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
             InlayModel inlayModel = editor.getInlayModel();
             int totalCount = 0;
             if (inlineInlays) {
-                totalCount = (int)((long)totalCount + inlayModel.getInlineElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
+                totalCount = (int) ((long) totalCount + inlayModel.getInlineElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
                     if (!(inlay.getRenderer() instanceof CodeInlayRenderer)) {
                         return false;
                     } else if (matchInLeadingWhitespace) {
                         return true;
                     } else {
-                        List<String> lines = ((CodeInlayRenderer)inlay.getRenderer()).getContentLines();
+                        List<String> lines = ((CodeInlayRenderer) inlay.getRenderer()).getContentLines();
                         if (lines.isEmpty()) {
                             return false;
                         } else {
-                            int whitespaceEnd = inlay.getOffset() + com.tooneCode.util.StringUtils.countHeadWhitespaceLength((String)lines.get(0));
+                            int whitespaceEnd = inlay.getOffset() + com.tooneCode.util.StringUtils.countHeadWhitespaceLength((String) lines.get(0));
                             return searchRange.getEndOffset() >= whitespaceEnd;
                         }
                     }
@@ -249,13 +257,13 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
             }
 
             if (blockInlays) {
-                totalCount = (int)((long)totalCount + inlayModel.getBlockElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
+                totalCount = (int) ((long) totalCount + inlayModel.getBlockElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
                     return inlay.getRenderer() instanceof CodeInlayRenderer;
                 }).count());
             }
 
             if (afterLineEndInlays) {
-                totalCount = (int)((long)totalCount + inlayModel.getAfterLineEndElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
+                totalCount = (int) ((long) totalCount + inlayModel.getAfterLineEndElementsInRange(startOffset, endOffset).stream().filter((inlay) -> {
                     return inlay.getRenderer() instanceof CodeInlayRenderer;
                 }).count());
             }
@@ -264,4 +272,136 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
         }
     }
 
+    @RequiresEdt
+    public boolean applyCompletion(@NotNull Editor editor, Integer lineCount) {
+        if (editor == null) {
+            //$$$reportNull$$$0(15);
+        }
+
+        if (editor.isDisposed()) {
+            LOGGER.warn("editor already disposed");
+            return false;
+        } else {
+            Project project = editor.getProject();
+            if (project != null && !project.isDisposed()) {
+                if (this.isProcessing(editor)) {
+                    LOGGER.warn("can't apply inlays while processing");
+                    return false;
+                } else {
+                    synchronized (CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS) {
+                        CodeEditorInlayList list = (CodeEditorInlayList) CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(editor);
+                        if (list == null) {
+                            return false;
+                        } else {
+                            TelemetryService.getInstance().updateTimestamp(TimestampEnum.ACCEPT_TIMESTAMP_TYPE.getType(), System.currentTimeMillis());
+                            this.disposeInlays(editor, InlayDisposeEventEnum.ACCEPTED);
+                            CodeEditorInlayItem inlayItem = list.getCurrentInlayItem();
+                            if (inlayItem != null) {
+                                this.applyCompletion(project, editor, inlayItem, lineCount);
+                            }
+
+                            return true;
+                        }
+                    }
+                }
+            } else {
+                LOGGER.warn("project disposed or null: " + project);
+                return false;
+            }
+        }
+    }
+
+    @RequiresEdt
+    public void applyCompletion(@NotNull Project project, @NotNull Editor editor, @NotNull CodeEditorInlayItem inlayItem, Integer lineCount) {
+        if (project == null) {
+            //$$$reportNull$$$0(16);
+        }
+
+        if (editor == null) {
+            //$$$reportNull$$$0(17);
+        }
+
+        if (inlayItem == null) {
+            //$$$reportNull$$$0(18);
+        }
+
+        WriteCommandAction.runWriteCommandAction(project, "Apply Tongyi Inline Suggestion", "TONGYI", () -> {
+            if (!project.isDisposed()) {
+                String content = null;
+                if (lineCount != null) {
+                    content = inlayItem.getLines(lineCount);
+                }
+
+                if (content == null) {
+                    content = inlayItem.getContent();
+                }
+
+                Document document = editor.getDocument();
+                if (document instanceof DocumentImpl && !((DocumentImpl) document).acceptsSlashR()) {
+                    content = StringUtils.remove(content, '\r');
+                }
+
+                content = StringUtils.stripEnd(content, " \t\n");
+                int caretOffset = content.indexOf("<|cursor|>");
+                if (caretOffset < 0) {
+                    caretOffset = content.length();
+                } else {
+                    content = content.replace("<|cursor|>", "");
+                }
+
+                int startOffset = editor.getCaretModel().getOffset();
+                int startLineNumber = editor.getCaretModel().getLogicalPosition().line;
+                document.insertString(startOffset, content);
+                document.getLineStartOffset(editor.getCaretModel().getLogicalPosition().line);
+                editor.getCaretModel().moveToOffset(editor.getCaretModel().getOffset() + caretOffset);
+                String filePath = EditorUtil.getEditorFilePath(editor);
+                TelemetryService.getInstance().telemetryTextChange(new TextChangeContext(editor.getProject(), filePath, content,
+                        startLineNumber, true, LanguageUtil.getLanguageByFilePath(filePath), "completion"));
+                TelemetryService.getInstance().applyCompletion(editor, inlayItem,
+                        lineCount == null ? inlayItem.getTotalLineCount() : lineCount);
+            }
+        }, new PsiFile[0]);
+    }
+
+    public void renderInlayCompletionItem(InlayCompletionRequest request, CodeEditorInlayItem item) {
+        Editor editor = request.getEditor();
+        InlayModel inlayModel = editor.getInlayModel();
+        ArrayList<Inlay<CodeInlayRenderer>> insertedInlays = new ArrayList<>();
+        int index = 0;
+        int lineStartIndex = 0;
+        int totalLineCount = item.getTotalLineCount();
+        int lineMaxLength = CompletionUtil.getInlayChunkMaxPixelLength(editor, request, item);
+
+        try {
+            for (int i = 0; i < item.getChunks().size(); ++i) {
+                CodeEditorInlayItem.EditorInlayItemChunk inlay = item.getChunks().get(i);
+                if (i != item.getChunks().size() - 1 || !StringUtils.isBlank(StringUtils.join(inlay.getCompletionLines(), "\n").trim())) {
+                    CodeDefaultInlayRenderer renderer = new CodeDefaultInlayRenderer(item, editor, request, inlay.getCompletionLines(), lineStartIndex, totalLineCount, lineMaxLength);
+                    Inlay<CodeInlayRenderer> editorInlay = null;
+                    switch (inlay.getType()) {
+                        case Inline:
+                            editorInlay = inlayModel.addInlineElement(item.getEditorOffset(), true, Integer.MAX_VALUE - index, renderer);
+                            break;
+                        case AfterLineEnd:
+                            editorInlay = inlayModel.addAfterLineEndElement(item.getEditorOffset(), true, renderer);
+                            break;
+                        case Block:
+                            editorInlay = inlayModel.addBlockElement(item.getEditorOffset(), true, false, Integer.MAX_VALUE - index, renderer);
+                    }
+
+                    if (editorInlay != null) {
+                        renderer.setInlay(editorInlay);
+                    }
+
+                    insertedInlays.add(editorInlay);
+                    ++index;
+                    lineStartIndex += inlay.getCompletionLines().size();
+                }
+            }
+        } catch (Exception var14) {
+            Exception e = var14;
+            LOGGER.warn("render inlay error:" + e.getMessage(), e);
+        }
+
+    }
 }

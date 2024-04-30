@@ -50,8 +50,13 @@ tasks {
 dependencies {
     implementation("com.alibaba:fastjson:2.0.49")
     implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.22.0")
+    implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc:0.22.0")
+    implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.websocket:0.22.0")
+    implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.generator:0.22.0")
     implementation("org.eclipse.xtext:org.eclipse.xtext:2.34.0")
     implementation("org.projectlombok:lombok:1.18.30")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:okhttp-sse:4.12.0")
 }
 
 

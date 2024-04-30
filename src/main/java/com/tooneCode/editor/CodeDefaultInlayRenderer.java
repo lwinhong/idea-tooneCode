@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.Generated;
 
 
@@ -207,62 +208,226 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
         }
     }
 
+    @Generated
     public @NotNull List<String> getLines() {
         return this.lines;
     }
 
+    @Generated
     public @NotNull String getContent() {
         return this.content;
     }
 
+    @Generated
     public List<String> getTooltipTexts() {
         return this.tooltipTexts;
     }
 
+    @Generated
     public int getCachedWidth() {
         return this.cachedWidth;
     }
 
+    @Generated
     public int getCachedHeight() {
         return this.cachedHeight;
     }
 
+    @Generated
     public int getLineMaxLength() {
         return this.lineMaxLength;
     }
 
+    @Generated
     public int getTotalLineCount() {
         return this.totalLineCount;
     }
 
+    @Generated
     public CodeEditorInlayItem getItem() {
         return this.item;
     }
 
+    @Generated
     public long getLastUpdateDisplayTimeLength() {
         return this.lastUpdateDisplayTimeLength;
     }
 
+    @Generated
     public void setCachedWidth(int cachedWidth) {
         this.cachedWidth = cachedWidth;
     }
 
+    @Generated
     public void setCachedHeight(int cachedHeight) {
         this.cachedHeight = cachedHeight;
     }
 
+    @Generated
     public void setLineMaxLength(int lineMaxLength) {
         this.lineMaxLength = lineMaxLength;
     }
 
+    @Generated
     public void setTotalLineCount(int totalLineCount) {
         this.totalLineCount = totalLineCount;
     }
 
+    @Generated
     public void setItem(CodeEditorInlayItem item) {
         this.item = item;
     }
 
+    @Generated
+    protected boolean canEqual(Object other) {
+        return other instanceof CodeDefaultInlayRenderer;
+    }
+
+    @Generated
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (!(o instanceof CodeDefaultInlayRenderer)) {
+            return false;
+        } else {
+            CodeDefaultInlayRenderer other = (CodeDefaultInlayRenderer) o;
+            if (!other.canEqual(this)) {
+                return false;
+            } else {
+                label103:
+                {
+                    Object this$lines = this.getLines();
+                    Object other$lines = other.getLines();
+                    if (this$lines == null) {
+                        if (other$lines == null) {
+                            break label103;
+                        }
+                    } else if (this$lines.equals(other$lines)) {
+                        break label103;
+                    }
+
+                    return false;
+                }
+
+                Object this$tooltipTexts = this.getTooltipTexts();
+                Object other$tooltipTexts = other.getTooltipTexts();
+                if (this$tooltipTexts == null) {
+                    if (other$tooltipTexts != null) {
+                        return false;
+                    }
+                } else if (!this$tooltipTexts.equals(other$tooltipTexts)) {
+                    return false;
+                }
+
+                label89:
+                {
+                    Object this$content = this.getContent();
+                    Object other$content = other.getContent();
+                    if (this$content == null) {
+                        if (other$content == null) {
+                            break label89;
+                        }
+                    } else if (this$content.equals(other$content)) {
+                        break label89;
+                    }
+
+                    return false;
+                }
+
+                Object this$textAttributes = this.getTextAttributes();
+                Object other$textAttributes = other.getTextAttributes();
+                if (this$textAttributes == null) {
+                    if (other$textAttributes != null) {
+                        return false;
+                    }
+                } else if (!this$textAttributes.equals(other$textAttributes)) {
+                    return false;
+                }
+
+                label75:
+                {
+                    Object this$inlay = this.getInlay();
+                    Object other$inlay = other.getInlay();
+                    if (this$inlay == null) {
+                        if (other$inlay == null) {
+                            break label75;
+                        }
+                    } else if (this$inlay.equals(other$inlay)) {
+                        break label75;
+                    }
+
+                    return false;
+                }
+
+                if (this.getCachedWidth() != other.getCachedWidth()) {
+                    return false;
+                } else if (this.getCachedHeight() != other.getCachedHeight()) {
+                    return false;
+                } else if (this.getLineMaxLength() != other.getLineMaxLength()) {
+                    return false;
+                } else if (this.getTotalLineCount() != other.getTotalLineCount()) {
+                    return false;
+                } else {
+                    label62:
+                    {
+                        Object this$item = this.getItem();
+                        Object other$item = other.getItem();
+                        if (this$item == null) {
+                            if (other$item == null) {
+                                break label62;
+                            }
+                        } else if (this$item.equals(other$item)) {
+                            break label62;
+                        }
+
+                        return false;
+                    }
+
+                    if (this.getLastUpdateDisplayTimeLength() != other.getLastUpdateDisplayTimeLength()) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    @Generated
+    public int hashCode() {
+        //int PRIME = true;
+        int result = 1;
+        Object $lines = this.getLines();
+        result = result * 59 + ($lines == null ? 43 : $lines.hashCode());
+        Object $tooltipTexts = this.getTooltipTexts();
+        result = result * 59 + ($tooltipTexts == null ? 43 : $tooltipTexts.hashCode());
+        Object $content = this.getContent();
+        result = result * 59 + ($content == null ? 43 : $content.hashCode());
+        Object $textAttributes = this.getTextAttributes();
+        result = result * 59 + ($textAttributes == null ? 43 : $textAttributes.hashCode());
+        Object $inlay = this.getInlay();
+        result = result * 59 + ($inlay == null ? 43 : $inlay.hashCode());
+        result = result * 59 + this.getCachedWidth();
+        result = result * 59 + this.getCachedHeight();
+        result = result * 59 + this.getLineMaxLength();
+        result = result * 59 + this.getTotalLineCount();
+        Object $item = this.getItem();
+        result = result * 59 + ($item == null ? 43 : $item.hashCode());
+        long $lastUpdateDisplayTimeLength = this.getLastUpdateDisplayTimeLength();
+        result = result * 59 + (int) ($lastUpdateDisplayTimeLength >>> 32 ^ $lastUpdateDisplayTimeLength);
+        return result;
+    }
+
+    @Generated
+    public String toString() {
+        var var10000 = this.getLines();
+        return "CodeDefaultInlayRenderer(lines=" + var10000 + ", tooltipTexts=" + this.getTooltipTexts()
+                + ", content=" + this.getContent() + ", textAttributes=" + this.getTextAttributes()
+                + ", inlay=" + this.getInlay() + ", cachedWidth=" + this.getCachedWidth() + ", cachedHeight="
+                + this.getCachedHeight() + ", lineMaxLength=" + this.getLineMaxLength() + ", totalLineCount="
+                + this.getTotalLineCount() + ", item=" + this.getItem() + ", lastUpdateDisplayTimeLength="
+                + this.getLastUpdateDisplayTimeLength() + ")";
+    }
 
     static {
         DEFAULT_INLAY_TEXT_THEME.setForegroundColor(new JBColor(new Color(8026746), new Color(8026746)));

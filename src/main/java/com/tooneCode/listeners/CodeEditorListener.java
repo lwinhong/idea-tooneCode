@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.event.*;
 import com.intellij.openapi.editor.ex.util.EditorUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
+import com.tooneCode.completion.listener.CodeDocumentListener;
 import com.tooneCode.completion.listener.CodeInlayCompletionSelectionListener;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +22,7 @@ public class CodeEditorListener implements EditorFactoryListener {
             Disposable editorDisposable = Disposer.newDisposable("CodeEditorListener");
             EditorUtil.disposeWithEditor(editor, editorDisposable);
 //            editor.getCaretModel().addCaretListener(new CosyCaretListener(editor), editorDisposable);
-//            editor.getDocument().addDocumentListener(new CosyDocumentListener(editor), editorDisposable);
+            editor.getDocument().addDocumentListener(new CodeDocumentListener(editor), editorDisposable);
             editor.getSelectionModel().addSelectionListener(this.selectionListener, editorDisposable);
         }
     }

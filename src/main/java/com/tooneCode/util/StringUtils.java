@@ -1,13 +1,15 @@
 package com.tooneCode.util;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class StringUtils {
-    //private static Logger logger = Logger.getInstance(StringUtils.class);
+    private static Logger logger = Logger.getInstance(StringUtils.class);
 
     public StringUtils() {
     }
@@ -50,4 +52,24 @@ public class StringUtils {
         return offset;
     }
 
+    public static Long getNumberFromString(String line) {
+        try {
+            return Long.parseLong(line);
+        } catch (NumberFormatException var4) {
+            logger.warn("Failed to parse number from string: " + line + " try using pattern.");
+
+            try {
+                return Long.parseLong(line.replaceAll("\\D+", ""));
+            } catch (NumberFormatException var3) {
+                logger.warn("Failed to parse number using regex: " + line);
+                return null;
+            }
+        }
+    }
+
+    public static long getNotEmptyLineCount(String text) {
+        return text == null ? 0L : Arrays.stream(text.split("\n")).filter((line) -> {
+            return !line.trim().isEmpty();
+        }).count();
+    }
 }

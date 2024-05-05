@@ -30,9 +30,9 @@ import com.tooneCode.util.ApplicationUtil;
 import com.tooneCode.util.Debouncer;
 import lombok.Generated;
 import org.eclipse.aether.deployment.DeploymentException;
-import org.eclipse.lsp4j.CompletionItem;
-import org.eclipse.lsp4j.CompletionList;
+import org.eclipse.lsp4j.*;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
+import org.eclipse.lsp4j.services.WorkspaceService;
 
 public class LanguageWebSocketService {
     private static final Logger log = Logger.getInstance(LanguageWebSocketService.class);
@@ -65,6 +65,47 @@ public class LanguageWebSocketService {
     public void connect() throws DeploymentException, IOException {
 //        this.webSocketClient.connect();
 //        this.server = this.webSocketClient.getServer();
+        this.server = new LanguageServer() {
+            @Override
+            public CompletableFuture<InitializeResultExt> initialize(InitializeParamsWithConfig var1) {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<Object> shutdown() {
+                return null;
+            }
+
+            @Override
+            public void exit() {
+
+            }
+
+            @Override
+            public TextDocumentService getTextDocumentService() {
+                return null;
+            }
+
+            @Override
+            public SnippetService getSnippetService() {
+                return null;
+            }
+
+            @Override
+            public ChatService getChatService() {
+                return null;
+            }
+
+            @Override
+            public AuthService getAuthService() {
+                return null;
+            }
+
+            @Override
+            public WorkspaceService getWorkspaceService() {
+                return null;
+            }
+        };
     }
 
     public void cancelInlayCompletion() {
@@ -76,7 +117,7 @@ public class LanguageWebSocketService {
     }
 
     public List<CompletionItem> completionWithDebouncer(CompletionParams params, long delayTime, long timeout) {
-        List<CompletionItem> completionItems = new ArrayList();
+        List<CompletionItem> completionItems = new ArrayList<>();
         Future<List<CompletionItem>> future = this.completionDebouncer.debounce(params.getRequestId(), () -> {
             return this.completion(params, timeout);
         }, delayTime, TimeUnit.MILLISECONDS);
@@ -140,7 +181,15 @@ public class LanguageWebSocketService {
 
     public List<CompletionItem> completion(CompletionParams params, long timeout) {
         List<CompletionItem> result = null;
+        result = new ArrayList<>();
+        CompletionItem item = new CompletionItem();
+        item.setInsertText("exampleKeyword");
+        item.setLabel("Example Keyword");
 
+        // 可以添加额外的详细信息
+        item.setKind(CompletionItemKind.Keyword);
+        item.setDocumentation("More documentation for the keyword.");
+        result.add(item);
         try {
             String var10001 = params.getRequestId();
             log.info("tongyi trigger completion:" + var10001 + " local:" + params.getUseLocalModel() + " remote:" + params.getUseRemoteModel());
@@ -377,6 +426,8 @@ public class LanguageWebSocketService {
         for (int i = 0; i < retryCount; ++i) {
             try {
                 CompletableFuture<AuthStatus> future = this.server.getAuthService().status();
+                if (future == null)
+                    return null;
                 return (AuthStatus) future.get(timeout, TimeUnit.MILLISECONDS);
             } catch (TimeoutException var7) {
                 log.warn("cosy get auth status timeout");

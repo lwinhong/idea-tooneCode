@@ -50,8 +50,8 @@ public class TooneCoder {
     private static final long STARTUP_TIMEOUT = 10000L;
 
     //    public static final int DEFAULT_LINGMA_PORT = 36510;
-    public Map<String, Boolean> readyMap = new ConcurrentHashMap();
-    private Map<String, LanguageWebSocketService> languageServiceMap = new ConcurrentHashMap();
+    public Map<String, Boolean> readyMap = new ConcurrentHashMap<>();
+    private Map<String, LanguageWebSocketService> languageServiceMap = new ConcurrentHashMap<>();
     private BinaryRunner binaryRunner;
     public int cosyStartRetryTimes = 0;
     //    public static final String COSY_INFO_FILE_NAME = ".info";
@@ -60,8 +60,8 @@ public class TooneCoder {
 //    public static final int MAX_INFO_FILE_RETRY_TIMES = 20;
 //    public static final int INFO_FILE_LINE_COUNT = 2;
 //    private SlideWindowStatQps statQps = new SlideWindowStatQps();
-    private Map<String, Lock> startLockMap = new ConcurrentHashMap();
-    private Map<String, AtomicBoolean> startingStateMap = new ConcurrentHashMap();
+    private Map<String, Lock> startLockMap = new ConcurrentHashMap<>();
+    private Map<String, AtomicBoolean> startingStateMap = new ConcurrentHashMap<>();
 
     @Contract(
             pure = true
@@ -116,10 +116,10 @@ public class TooneCoder {
             listeners.forEach(CodeStartupListener::onCancelled);
         } else {
             try {
-                log.info(CodeBundle.message("check.cosy.version.state", new Object[0]));
+                log.info("check.cosy.version.state");
                 BinaryManager.INSTANCE.checkBinary(false);
                 log.info("starting to startup cosy");
-                log.info(CodeBundle.message("start.cosy.process.state", new Object[0]));
+                log.info("start.cosy.process.state");
                 if (INSTANCE.startup(project, params, listeners, false)) {
                     log.info("succeed to startup cosy");
                     GrantAuthorNotification.notifyNeedLogin(project, false);
@@ -168,13 +168,15 @@ public class TooneCoder {
                         } else {
                             this.addConfigToInitializeParams(params);
                             CompletableFuture<InitializeResultExt> future = languageService.getServer().initialize(params);
-                            InitializeResultExt latestInitializeResult = (InitializeResultExt) future.get(10000L, TimeUnit.MILLISECONDS);
-                            if (latestInitializeResult != null) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("get cosy initialize result" + JsonUtil.toJson(latestInitializeResult));
-                                }
+                            if (future != null) {
+                                InitializeResultExt latestInitializeResult = future.get(10000L, TimeUnit.MILLISECONDS);
+                                if (latestInitializeResult != null) {
+                                    if (log.isDebugEnabled()) {
+                                        log.debug("get cosy initialize result" + JsonUtil.toJson(latestInitializeResult));
+                                    }
 
-                                FeatureService.getInstance().updateFeatures(latestInitializeResult.getExperimental());
+                                    FeatureService.getInstance().updateFeatures(latestInitializeResult.getExperimental());
+                                }
                             }
 
                             this.readyMap.put(project.getLocationHash(), Boolean.TRUE);
@@ -218,12 +220,15 @@ public class TooneCoder {
     }
 
     private boolean initCosyLanguageService(Project project, File homeDir, boolean debugMode) throws IOException {
+        // todo 这里可以判断服务是否可用
+        //return true;
         File infoFile = new File(homeDir, ".info");
         if (infoFile.exists()) {
             log.info(".info exists, start to connect Cosy server");
             return this.connectCosyServer(project, homeDir, debugMode);
         } else {
             log.info(".info not exist, start to create Cosy process");
+            infoFile.mkdirs();
             return this.startCosy(project, homeDir, debugMode);
         }
     }
@@ -248,7 +253,7 @@ public class TooneCoder {
 
     private boolean connectCosyServer(Project project, File homeDir, boolean debugMode) throws IOException {
         new File(homeDir, ".info");
-        Pair<Integer, Long> infoPair = this.readCosyInfoFile(20);
+        Pair<Integer, Long> infoPair = this.readCosyInfoFile(1);
         if (infoPair == null) {
             log.warn("Cannot read from .info, connect to Cosy server failed");
             return false;
@@ -261,8 +266,8 @@ public class TooneCoder {
                     LanguageWebSocketService languageService = LanguageWebSocketService.createService(port);
                     languageService.connect();
                     this.languageServiceMap.put(project.getLocationHash(), languageService);
-                    Thread heartBeat = new Thread(new CodeHeartbeatRunner(project, null /*languageService.getWebSocketClient().getSession()*/, languageService.getServer()));
-                    heartBeat.start();
+//                    Thread heartBeat = new Thread(new CodeHeartbeatRunner(project, null /*languageService.getWebSocketClient().getSession()*/, languageService.getServer()));
+//                    heartBeat.start();
                     return true;
                 } catch (Exception var10) {
                     Exception e = var10;

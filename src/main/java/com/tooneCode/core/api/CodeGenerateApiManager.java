@@ -18,8 +18,8 @@ public class CodeGenerateApiManager {
     private CodeGenerateApiManager() {
     }
 
-    public ICodeGenerateApiRequest codeGenerateRequest(Map<String, Object> postData) {
-        var requestApi = new CodeGenerateApi();
+    public ICodeGenerateApiRequest codeGenerateRequest(Map<String, Object> postData, ICodeGenerateApiCallBack callback) {
+        var requestApi = new CodeGenerateApi(callback);
         try {
             var json = JSON.toJSONString(postData);
             requestApi.run(json, MEDIA_TYPE_JSON);

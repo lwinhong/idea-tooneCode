@@ -1,9 +1,7 @@
 package com.tooneCode.ui.config;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.tooneCode.common.CodeSetting;
 import com.tooneCode.editor.enums.CompletionTriggerModeEnum;
@@ -14,7 +12,8 @@ import org.jetbrains.annotations.Nullable;
         name = "CodeSettings",
         storages = {@Storage("code_setting.xml")}
 )
-public class CodePersistentSetting implements PersistentStateComponent<CodeSetting> {
+@Service
+public final class CodePersistentSetting implements PersistentStateComponent<CodeSetting> {
     private static Logger log = Logger.getInstance(CodePersistentSetting.class);
     private static CodePersistentSetting fallbackSetting = new CodePersistentSetting();
     CodeSetting setting;
@@ -25,7 +24,8 @@ public class CodePersistentSetting implements PersistentStateComponent<CodeSetti
 
     public static CodePersistentSetting getInstance() {
         try {
-            CodePersistentSetting state = (CodePersistentSetting) ServiceManager.getService(CodePersistentSetting.class);
+            CodePersistentSetting state = ApplicationManager.getApplication().getService(CodePersistentSetting.class);
+            //CodePersistentSetting state = (CodePersistentSetting) ServiceManager.getService(CodePersistentSetting.class);
             if (state != null && state.getState() != null) {
                 return state;
             } else {

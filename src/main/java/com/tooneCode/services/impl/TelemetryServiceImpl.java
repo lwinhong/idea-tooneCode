@@ -5,15 +5,17 @@ import com.intellij.openapi.components.Service;
 import com.intellij.openapi.diagnostic.Logger;
 import com.tooneCode.core.enums.TrackEventTypeEnum;
 import com.tooneCode.core.TooneCoder;
+import com.tooneCode.core.model.CompletionParams;
+import com.tooneCode.editor.enums.CompletionTriggerModeEnum;
 import com.tooneCode.editor.model.CodeEditorInlayItem;
+import com.tooneCode.editor.model.CodeEditorInlayList;
+import com.tooneCode.editor.model.InlayDisposeEventEnum;
 import com.tooneCode.services.TelemetryService;
 import com.tooneCode.services.TelemetryThread;
-import com.tooneCode.services.model.Features;
-import com.tooneCode.services.model.TextChangeContext;
-import com.tooneCode.services.model.TextChangeReportStrategy;
-import com.tooneCode.services.model.TextChangeStat;
+import com.tooneCode.services.model.*;
 import com.tooneCode.util.Debouncer;
-import com.tooneCode.util.LogUtil;
+import com.tooneCode.util.LanguageUtil;
+import com.tooneCode.util.TypingSpeeder;
 import org.apache.commons.lang3.StringUtils;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
@@ -39,6 +41,7 @@ public final class TelemetryServiceImpl implements TelemetryService {
     private AtomicReference<Long> lastDisposeTimeMs = new AtomicReference((Object) null);
     private final Map<String, Timer> timerMap = new ConcurrentHashMap();
     private Map<String, Debouncer> textChangeDebouncerMap = new ConcurrentHashMap();
+    private TypingSpeeder typingSpeeder = new TypingSpeeder();
 
     public TelemetryServiceImpl() {
     }
@@ -367,6 +370,107 @@ public final class TelemetryServiceImpl implements TelemetryService {
             this.telemetry(project, TrackEventTypeEnum.TEXT_CHANGE, UUID.randomUUID().toString(), data);
         }
 
+    }
+
+    public long getTimestamp(String type) {
+        return TimestampEnum.ACCEPT_TIMESTAMP_TYPE.getType().equals(type) ? this.lastAcceptTime.get() : 0L;
+    }
+
+    public void clearTypeCommandRecord() {
+        this.lastCommand.set(null);
+        this.currentCommand.set(null);
+        this.typingSpeeder.clear();
+    }
+
+    public void triggerCompletion(CompletionTriggerModeEnum triggerMode, Editor editor, CompletionParams params) {
+        Map<String, String> data = new HashMap();
+        data.put("triggerMode", triggerMode.getName());
+        data.put("useLocalModel", String.valueOf(params.getUseLocalModel()));
+        data.put("useRemoteModel", String.valueOf(params.getUseRemoteModel()));
+        TypingStat stat = this.getTypeStat();
+        data.put("avgTypingSpeed", String.valueOf(stat.getAvgTypingSpeed()));
+        data.put("lastTypingSpeed", String.valueOf(stat.getLastTypingSpeed()));
+        data.put("typingLength", String.valueOf(stat.getTypingLength()));
+        data.put("lastTypedChars", stat.getLastTypedChars());
+        data.put("currentTypedChars", stat.getCurrentTypedChars());
+        data.put("typedCharRowDiff", stat.getTypedCharRowDiff() == null ? null : String.valueOf(stat.getTypedCharRowDiff()));
+        if (params.getTextDocument() != null) {
+            data.put("language", LanguageUtil.getLanguageByFilePath(params.getTextDocument().getUri()));
+        }
+
+        this.buildMeasurements(data, null);
+        if (params.getCompletionContextParams() != null) {
+            data.put("context", JSON.toJSONString(params.getCompletionContextParams()));
+        }
+
+        this.telemetry(editor.getProject(), TrackEventTypeEnum.INLINE_COMPLETION_TRIGGER, params.getRequestId(), data);
+    }
+
+    public TypingStat getTypeStat() {
+        TypingStat stat = new TypingStat();
+        stat.setAvgTypingSpeed(this.typingSpeeder.getAvgSpeed());
+        stat.setLastTypingSpeed(this.typingSpeeder.getLastSpeed());
+        stat.setTypingLength(this.typingSpeeder.getTypedLength());
+        stat.setLastTypedChars(this.typingSpeeder.getLastTypedChars());
+        stat.setCurrentTypedChars(this.typingSpeeder.getCurrentTypedChars());
+        stat.setTypedCharRowDiff(this.typingSpeeder.getTypedCharRowDiff());
+        return stat;
+    }
+
+    public void disposeCompletion(InlayDisposeEventEnum disposeAction, Editor editor, CodeEditorInlayList inlayList) {
+        this.disposeCompletion(disposeAction, editor, inlayList, (String) null);
+    }
+
+    public void disposeCompletion(InlayDisposeEventEnum disposeAction, Editor editor, CodeEditorInlayList inlayList, String commandName) {
+        if (!InlayDisposeEventEnum.GENERATING.getName().equals(disposeAction.getName()) && !InlayDisposeEventEnum.ACCEPTED.getName().equals(disposeAction.getName()) && inlayList != null && inlayList.getItems() != null && !inlayList.getItems().isEmpty()) {
+            Iterator var5 = inlayList.getItems().iterator();
+
+            while (var5.hasNext()) {
+                CodeEditorInlayItem item = (CodeEditorInlayItem) var5.next();
+                if (item.isAccepted()) {
+                    return;
+                }
+            }
+
+            CodeEditorInlayItem headItem = (CodeEditorInlayItem) inlayList.getItems().get(0);
+            String batchId = headItem.getRequestId();
+
+            for (int i = 0; i < inlayList.getItems().size(); ++i) {
+                CodeEditorInlayItem item = (CodeEditorInlayItem) inlayList.getItems().get(i);
+                Map<String, String> data = new HashMap();
+                data.put("disposeType", disposeAction.getName());
+                data.put("rendered", String.valueOf(item.isRendered()));
+                data.put("totalLineCount", String.valueOf(item.getTotalLineCount()));
+                data.put("totalChars", String.valueOf(item.getContent().length()));
+                data.put("index", String.valueOf(i));
+                if (i == inlayList.getSelectIndex() && InlayDisposeEventEnum.ACCEPTED.getName().equals(disposeAction.getName())) {
+                    data.put("accepted", "true");
+                } else {
+                    data.put("accepted", "false");
+                }
+
+                if (commandName != null) {
+                    data.put("commandName", commandName);
+                }
+
+                if (StringUtils.isNotEmpty(item.getCacheId())) {
+                    data.put("cacheId", item.getCacheId());
+                }
+
+                if (StringUtils.isNotBlank(item.getBatchId())) {
+                    batchId = item.getBatchId();
+                }
+
+                data.put("batchId", batchId);
+                this.buildMeasurements(data, item);
+                this.telemetry(editor.getProject(), TrackEventTypeEnum.INLINE_COMPLETION_DISPOSE, item.getRequestId(), data);
+            }
+
+            this.latestDisposeType.getAndSet(disposeAction.getName());
+            this.latestDisposeCommandName.getAndSet(commandName);
+            this.lastAccepted.getAndSet(false);
+            this.lastDisposeTimeMs.getAndSet(System.currentTimeMillis());
+        }
     }
 
 }

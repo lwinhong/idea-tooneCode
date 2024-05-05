@@ -2,6 +2,8 @@ package com.tooneCode.util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.intellij.openapi.diagnostic.Logger;
@@ -10,8 +12,24 @@ import org.jetbrains.annotations.NotNull;
 
 public class StringUtils {
     private static Logger logger = Logger.getInstance(StringUtils.class);
+    public static String FOUR_SPACE_TAB = "    ";
+    public static String TAB = "\t";
+    public static String TAB_SPACE_PATTERN = "[\t ]*";
+    public static final String HTML_TAG_PATTERN = "\\<.*?>";
+    public static final String WHITESPACE_PATTERN = "\\s+";
+    private static final int INDENT_COUNT = 4;
 
     public StringUtils() {
+    }
+
+    public static String countLeadingLength(String str, String pattern) {
+        Pattern p = Pattern.compile("^" + pattern);
+        Matcher m = p.matcher(str);
+        return m.find() ? m.group() : "";
+    }
+
+    public static String tabContent(String leadingContent) {
+        return leadingContent.matches("(" + FOUR_SPACE_TAB + ")+") ? FOUR_SPACE_TAB : TAB;
     }
 
     public static List<String> replaceHeadTabs(@NotNull List<String> lines, boolean useTabs, int tabWidth) {
@@ -72,4 +90,9 @@ public class StringUtils {
             return !line.trim().isEmpty();
         }).count();
     }
+
+    public static boolean isJavaLineEnding(String lineContent) {
+        return org.apache.commons.lang3.StringUtils.isBlank(lineContent) || lineContent.endsWith(";") || lineContent.endsWith("{") || lineContent.endsWith("*/") || lineContent.startsWith("//");
+    }
+
 }

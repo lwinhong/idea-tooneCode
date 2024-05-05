@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 @Service
 public final class FeatureServiceImpl implements FeatureService {
     private static final Logger LOGGER = Logger.getInstance(FeatureServiceImpl.class);
-    Map<String, String> features = new ConcurrentHashMap();
+    Map<String, String> features = new ConcurrentHashMap<>();
     ReadWriteLock rwLock = new ReentrantReadWriteLock();
     Lock readLock;
     Lock writeLock;

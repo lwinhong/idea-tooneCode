@@ -26,7 +26,7 @@ public class CodeCacheKeys {
     public static final Key<List<TextChangeStat>> KEY_TEXT_CHANGE_STAT;
     //    public static final Key<CosyCommandListener.CommandEditorState> COMMAND_STATE_KEY;
     public static final Key<InlayCompletionRequest> KEY_COMPLETION_LATEST_REQUEST;
-    //    public static final Key<InlayCompletionRequest> KEY_COMPLETION_LATEST_PROJECT_REQUEST;
+    public static final Key<InlayCompletionRequest> KEY_COMPLETION_LATEST_PROJECT_REQUEST;
     public static final Key<AuthStatus> KEY_AUTH_STATUS;
 //    public static final Key<GlobalConfig> KEY_GLOBAL_CONFIG;
 //    public static final Key<GlobalEndpointConfig> KEY_ENDPOINT_CONFIG;
@@ -47,7 +47,7 @@ public class CodeCacheKeys {
 
 //        COMMAND_STATE_KEY = Key.create("code.commandState");
         KEY_COMPLETION_LATEST_REQUEST = Key.create("code.completionLatestRequest");
-//        KEY_COMPLETION_LATEST_PROJECT_REQUEST = Key.create("code.completionLatestEditor");
+        KEY_COMPLETION_LATEST_PROJECT_REQUEST = Key.create("code.completionLatestEditor");
         KEY_AUTH_STATUS = Key.create("code.authStatus");
         KEY_TEXT_CHANGE_STAT = Key.create("code.textChangeStat");
 //        KEY_GLOBAL_CONFIG = Key.create("code.globalConfig");

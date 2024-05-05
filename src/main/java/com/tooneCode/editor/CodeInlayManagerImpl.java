@@ -18,6 +18,8 @@ import com.intellij.psi.PsiBinaryFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.tooneCode.common.CodeCacheKeys;
+import com.tooneCode.completion.CodeCompletionService;
+import com.tooneCode.core.TooneCoder;
 import com.tooneCode.editor.enums.CompletionTriggerModeEnum;
 import com.tooneCode.editor.model.*;
 import com.tooneCode.services.TelemetryService;
@@ -97,23 +99,23 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
         }
         List<CodeInlayRenderer> renderers = this.collectInlays(editor, 0, editor.getDocument().getTextLength());
         this.clearInlays(renderers);
-//        var inlayList = (CodeEditorInlayList) CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(editor);
-//        if (disposeAction != InlayDisposeEventEnum.GENERATING && disposeAction != InlayDisposeEventEnum.TOGGLE_COMPLETION) {
-//            this.cancelCompletion(editor);
-//            InlayCompletionRequest oldRequest = (InlayCompletionRequest) CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
-//            if (oldRequest != null) {
-//                oldRequest.cancel();
-//                Disposer.dispose(oldRequest);
-//                CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.set(editor, (Object) null);
-//                CodeCacheKeys.KEY_COMPLETION_LATEST_PROJECT_REQUEST.set(editor.getProject(), (Object) null);
-//            }
-//
-//            CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.set(editor, null);
-//        }
-//
-//        if (!renderers.isEmpty()) {
-//            TelemetryService.getInstance().disposeCompletion(disposeAction, editor, inlayList, commandName);
-//        }
+        var inlayList = (CodeEditorInlayList) CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(editor);
+        if (disposeAction != InlayDisposeEventEnum.GENERATING && disposeAction != InlayDisposeEventEnum.TOGGLE_COMPLETION) {
+            this.cancelCompletion(editor);
+            InlayCompletionRequest oldRequest = (InlayCompletionRequest) CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
+            if (oldRequest != null) {
+                oldRequest.cancel();
+                Disposer.dispose(oldRequest);
+                CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.set(editor, null);
+                CodeCacheKeys.KEY_COMPLETION_LATEST_PROJECT_REQUEST.set(editor.getProject(), null);
+            }
+
+            CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.set(editor, null);
+        }
+
+        if (!renderers.isEmpty()) {
+            TelemetryService.getInstance().disposeCompletion(disposeAction, editor, inlayList, commandName);
+        }
     }
 
     public List<CodeInlayRenderer> collectInlays(@NotNull Editor editor, int startOffset, int endOffset) {
@@ -151,11 +153,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     }
 
     public void cancelCompletion(@NotNull Editor editor) {
-        if (editor == null) {
-            //$$$reportNull$$$0(19);
-        }
-
-        //CosyCompletionService.getInstance().cancelInlayCompletions(editor.getProject());
+        CodeCompletionService.getInstance().cancelInlayCompletions(editor.getProject());
     }
 
     private boolean isProcessing(@NotNull Editor editor) {
@@ -202,12 +200,12 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
         }
 
         Project project = editor.getProject();
-//        if (Cosy.INSTANCE.checkCosy(project, true)) {
-//            SwingUtilities.invokeLater(() -> {
-//                this.disposeInlays(editor, InlayDisposeEventEnum.TYPING);
-//                InlayPreviewRequest.build().generate(config, editor, triggerMode);
-//            });
-//        }
+        if (TooneCoder.INSTANCE.checkCosy(project, true)) {
+            SwingUtilities.invokeLater(() -> {
+                this.disposeInlays(editor, InlayDisposeEventEnum.TYPING);
+                InlayPreviewRequest.build().generate(config, editor, triggerMode);
+            });
+        }
     }
 
     public boolean hasCompletionInlays(@NotNull Editor editor) {

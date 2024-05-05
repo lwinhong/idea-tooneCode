@@ -486,7 +486,7 @@ public class ChangeUserSettingParams extends BaseUserSetting {
 
         @Generated
         public Boolean getEnable() {
-            return this.enable;
+            return true;// || this.enable;
         }
 
         @Generated

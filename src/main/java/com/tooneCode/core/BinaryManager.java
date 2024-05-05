@@ -95,7 +95,7 @@ public class BinaryManager {
                     log.error("fail to get cosy temp zipfile.");
                 }
             } else {
-                log.error("fail to get cosy binary resource.");
+                log.info("fail to get cosy binary resource.");
             }
         } catch (Throwable var5) {
             Throwable e = var5;

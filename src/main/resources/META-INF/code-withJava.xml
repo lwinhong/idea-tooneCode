@@ -1,0 +1,42 @@
+<idea-plugin>
+    <vendor>tongyi-lingma</vendor>
+<!--    <vendor email="lihua.llh@alibaba-inc.com" url="https://developer.aliyun.com/tool/cosy?channel=idea_vendor">Alibaba Cloud AI Coding Assistant</vendor>-->
+
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.tooneCode.intellij">
+
+
+    </extensions>
+
+<!--    <extensions defaultExtensionNs="com.intellij">-->
+<!--        <intentionAction>-->
+<!--            <className>com.alibabacloud.intellij.cosy.search.action.CodeSearchIntentionAction</className>-->
+<!--        </intentionAction>-->
+<!--        <jvm.exceptionFilter implementation="com.alibabacloud.intellij.cosy.ui.search.filter.CosyDebuggerFilter"/>-->
+<!--        <codeInsight.inlayProvider language="JAVA" implementationClass="com.alibabacloud.intellij.cosy.editor.CosyEditorChatHintProvider"/>-->
+<!--    </extensions>-->
+
+<!--    <actions>-->
+<!--        <action id="CosyCodeSearchAction"-->
+<!--                class="com.alibabacloud.intellij.cosy.search.action.CodeSearchAction">-->
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift S"/>-->
+<!--        </action>-->
+<!--    </actions>-->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor id="CodeCompletionContributor"
+                                implementationClass="com.tooneCode.completion.CodeCompletionContributor"
+                                language="JAVA" order="first"/>
+    </extensions>
+
+
+<!--    <projectListeners>-->
+<!--        <listener class="com.alibabacloud.intellij.cosy.listener.CosyBulkFileListener"-->
+<!--                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>-->
+<!--        <listener class="com.alibabacloud.intellij.cosy.listener.CosyEditorTrackerListener"-->
+<!--                  topic="com.intellij.codeInsight.daemon.impl.EditorTrackerListener kerListener"/>-->
+<!--    </projectListeners>-->
+
+
+</idea-plugin>

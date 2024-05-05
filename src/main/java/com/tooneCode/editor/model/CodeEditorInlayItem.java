@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Generated;
 
 public class CodeEditorInlayItem {
     private String requestId;
@@ -19,6 +20,7 @@ public class CodeEditorInlayItem {
     private long displayTimeMs;
     private int rankIndex;
     private String batchId;
+    private boolean accepted = false;
 
     public void addChunk(CompletionRenderType type, List<String> completionLines) {
         if (this.chunks == null) {
@@ -37,116 +39,127 @@ public class CodeEditorInlayItem {
     }
 
 
+    @Generated
     public String getRequestId() {
         return this.requestId;
     }
 
-
+    @Generated
     public String getCacheId() {
         return this.cacheId;
     }
 
-
+    @Generated
     public int getEditorOffset() {
         return this.editorOffset;
     }
 
-
+    @Generated
     public String getContent() {
         return this.content;
     }
 
-
+    @Generated
     public List<EditorInlayItemChunk> getChunks() {
         return this.chunks;
     }
 
-
+    @Generated
     public int getTotalLineCount() {
         return this.totalLineCount;
     }
 
-
+    @Generated
     public boolean isRendered() {
         return this.rendered;
     }
 
-
+    @Generated
     public long getFirstDisplayTimeMs() {
         return this.firstDisplayTimeMs;
     }
 
-
+    @Generated
     public long getDisplayTimeMs() {
         return this.displayTimeMs;
     }
 
-
+    @Generated
     public int getRankIndex() {
         return this.rankIndex;
     }
 
-
+    @Generated
     public String getBatchId() {
         return this.batchId;
     }
 
+    @Generated
+    public boolean isAccepted() {
+        return this.accepted;
+    }
 
+    @Generated
     public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
 
-
+    @Generated
     public void setCacheId(String cacheId) {
         this.cacheId = cacheId;
     }
 
-
+    @Generated
     public void setEditorOffset(int editorOffset) {
         this.editorOffset = editorOffset;
     }
 
-
+    @Generated
     public void setContent(String content) {
         this.content = content;
     }
 
-
+    @Generated
     public void setChunks(List<EditorInlayItemChunk> chunks) {
         this.chunks = chunks;
     }
 
-
+    @Generated
     public void setTotalLineCount(int totalLineCount) {
         this.totalLineCount = totalLineCount;
     }
 
-
+    @Generated
     public void setRendered(boolean rendered) {
         this.rendered = rendered;
     }
 
-
+    @Generated
     public void setFirstDisplayTimeMs(long firstDisplayTimeMs) {
         this.firstDisplayTimeMs = firstDisplayTimeMs;
     }
 
-
+    @Generated
     public void setDisplayTimeMs(long displayTimeMs) {
         this.displayTimeMs = displayTimeMs;
     }
 
-
+    @Generated
     public void setRankIndex(int rankIndex) {
         this.rankIndex = rankIndex;
     }
 
-
+    @Generated
     public void setBatchId(String batchId) {
         this.batchId = batchId;
     }
 
+    @Generated
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
 
+    @Generated
     public boolean equals(Object o) {
         if (o == this) {
             return true;
@@ -238,12 +251,12 @@ public class CodeEditorInlayItem {
         }
     }
 
-
+    @Generated
     protected boolean canEqual(Object other) {
         return other instanceof CodeEditorInlayItem;
     }
 
-
+    @Generated
     public int hashCode() {
         //int PRIME = true;
         int result = 1;
@@ -268,18 +281,23 @@ public class CodeEditorInlayItem {
         return result;
     }
 
-
+    @Generated
     public String toString() {
         String var10000 = this.getRequestId();
         return "CodeEditorInlayItem(requestId=" + var10000 + ", cacheId=" + this.getCacheId() + ", editorOffset=" + this.getEditorOffset() + ", content=" + this.getContent() + ", chunks=" + this.getChunks() + ", totalLineCount=" + this.getTotalLineCount() + ", rendered=" + this.isRendered() + ", firstDisplayTimeMs=" + this.getFirstDisplayTimeMs() + ", displayTimeMs=" + this.getDisplayTimeMs() + ", rankIndex=" + this.getRankIndex() + ", batchId=" + this.getBatchId() + ")";
     }
 
-
+    @Generated
     public CodeEditorInlayItem() {
     }
 
+    @Generated
+    public CodeEditorInlayItem(String requestId, String cacheId, int editorOffset, String content,
+                               List<EditorInlayItemChunk> chunks, int totalLineCount, boolean rendered,
+                               long firstDisplayTimeMs, long displayTimeMs, int rankIndex, String batchId
+            , boolean accepted)
 
-    public CodeEditorInlayItem(String requestId, String cacheId, int editorOffset, String content, List<EditorInlayItemChunk> chunks, int totalLineCount, boolean rendered, long firstDisplayTimeMs, long displayTimeMs, int rankIndex, String batchId) {
+    {
         this.requestId = requestId;
         this.cacheId = cacheId;
         this.editorOffset = editorOffset;
@@ -291,33 +309,34 @@ public class CodeEditorInlayItem {
         this.displayTimeMs = displayTimeMs;
         this.rankIndex = rankIndex;
         this.batchId = batchId;
+        this.accepted = accepted;
     }
 
     public static class EditorInlayItemChunk {
         private CompletionRenderType type;
         private List<String> completionLines;
 
-
+        @Generated
         public CompletionRenderType getType() {
             return this.type;
         }
 
-
+        @Generated
         public List<String> getCompletionLines() {
             return this.completionLines;
         }
 
-
+        @Generated
         public void setType(CompletionRenderType type) {
             this.type = type;
         }
 
-
+        @Generated
         public void setCompletionLines(List<String> completionLines) {
             this.completionLines = completionLines;
         }
 
-
+        @Generated
         public boolean equals(Object o) {
             if (o == this) {
                 return true;
@@ -353,12 +372,12 @@ public class CodeEditorInlayItem {
             }
         }
 
-
+        @Generated
         protected boolean canEqual(Object other) {
             return other instanceof EditorInlayItemChunk;
         }
 
-
+        @Generated
         public int hashCode() {
             //int PRIME = true;
             int result = 1;
@@ -369,17 +388,17 @@ public class CodeEditorInlayItem {
             return result;
         }
 
-
+        @Generated
         public String toString() {
             CompletionRenderType var10000 = this.getType();
             return "CodeEditorInlayItem.EditorInlayItemChunk(type=" + var10000 + ", completionLines=" + this.getCompletionLines() + ")";
         }
 
-
+        @Generated
         public EditorInlayItemChunk() {
         }
 
-
+        @Generated
         public EditorInlayItemChunk(CompletionRenderType type, List<String> completionLines) {
             this.type = type;
             this.completionLines = completionLines;

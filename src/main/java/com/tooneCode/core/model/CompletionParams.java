@@ -1,12 +1,13 @@
 package com.tooneCode.core.model;
 
 import java.util.Objects;
-//
+
+import com.tooneCode.core.model.params.CompletionContextParams;
+import com.tooneCode.core.model.params.RemoteModelParams;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
 import org.eclipse.lsp4j.TextDocumentPositionParams;
 import org.eclipse.lsp4j.jsonrpc.validation.NonNull;
-import org.eclipse.xtext.xbase.lib.Pure;
 import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class CompletionParams extends TextDocumentPositionParams {
     private String fileContent;
     private Boolean useLocalModel;
     private Boolean UseRemoteModel;
-    //private RemoteModelParams remoteModelParams;
+    private RemoteModelParams remoteModelParams;
     private CompletionContextParams completionContextParams;
 
     public CompletionParams() {
@@ -67,13 +68,13 @@ public class CompletionParams extends TextDocumentPositionParams {
         this.UseRemoteModel = useRemoteModel;
     }
 
-//    public RemoteModelParams getRemoteModelParams() {
-//        return this.remoteModelParams;
-//    }
-//
-//    public void setRemoteModelParams(RemoteModelParams remoteModelParams) {
-//        this.remoteModelParams = remoteModelParams;
-//    }
+    public RemoteModelParams getRemoteModelParams() {
+        return this.remoteModelParams;
+    }
+
+    public void setRemoteModelParams(RemoteModelParams remoteModelParams) {
+        this.remoteModelParams = remoteModelParams;
+    }
 
     public String getRequestId() {
         return this.requestId;

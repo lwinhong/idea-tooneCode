@@ -27,6 +27,14 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends optional="true" config-file="code-withJava.xml">com.intellij.modules.java</depends>
+
+    <projectListeners>
+        <listener class="com.tooneCode.listeners.CodeLookupManagerListener"
+                  topic="com.intellij.codeInsight.lookup.LookupManagerListener"/>
+        <listener class="com.tooneCode.listeners.CodeEditorManagerListener"
+                  topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
+    </projectListeners>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->

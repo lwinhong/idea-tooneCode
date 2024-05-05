@@ -88,7 +88,7 @@ public class CodeConfig {
             log.warn("invalid local storage path:" + setting.getLocalStoragePath());
         }
 
-        return Paths.get(getUserHome(), ".lingma");
+        return Paths.get(getUserHome(), ".tooneCode");
     }
 
     private static String getUserHome() {

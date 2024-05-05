@@ -27,7 +27,10 @@ public class AuthStatus {
     }
 
     public boolean isAllow() {
-        return this.status != null && this.status == AuthStateEnum.LOGIN.getValue() && this.whitelist != null && AuthWhitelistStatusEnum.PASS.getValue() == this.whitelist;
+        //目前不需要登录。直接return true
+        return true;
+
+        //return this.status != null && this.status == AuthStateEnum.LOGIN.getValue() && this.whitelist != null && AuthWhitelistStatusEnum.PASS.getValue() == this.whitelist;
     }
 
     @Generated
@@ -157,7 +160,7 @@ public class AuthStatus {
         } else if (!(o instanceof AuthStatus)) {
             return false;
         } else {
-            AuthStatus other = (AuthStatus)o;
+            AuthStatus other = (AuthStatus) o;
             if (!other.canEqual(this)) {
                 return false;
             } else {
@@ -191,7 +194,8 @@ public class AuthStatus {
                     return false;
                 }
 
-                label126: {
+                label126:
+                {
                     Object this$id = this.getId();
                     Object other$id = other.getId();
                     if (this$id == null) {
@@ -205,7 +209,8 @@ public class AuthStatus {
                     return false;
                 }
 
-                label119: {
+                label119:
+                {
                     Object this$accountId = this.getAccountId();
                     Object other$accountId = other.getAccountId();
                     if (this$accountId == null) {
@@ -232,7 +237,8 @@ public class AuthStatus {
                 if (this.getQuota() != other.getQuota()) {
                     return false;
                 } else {
-                    label104: {
+                    label104:
+                    {
                         Object this$whitelist = this.getWhitelist();
                         Object other$whitelist = other.getWhitelist();
                         if (this$whitelist == null) {
@@ -256,7 +262,8 @@ public class AuthStatus {
                         return false;
                     }
 
-                    label90: {
+                    label90:
+                    {
                         Object this$orgName = this.getOrgName();
                         Object other$orgName = other.getOrgName();
                         if (this$orgName == null) {

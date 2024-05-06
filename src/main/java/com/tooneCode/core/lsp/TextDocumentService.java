@@ -1,6 +1,7 @@
 package com.tooneCode.core.lsp;
 
 import com.google.common.annotations.Beta;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -86,8 +87,8 @@ public interface TextDocumentService {
     }
 
     @JsonRequest(
-        value = "completionItem/resolve",
-        useSegment = false
+            value = "completionItem/resolve",
+            useSegment = false
     )
     default CompletableFuture<CompletionItem> resolveCompletionItem(CompletionItem unresolved) {
         throw new UnsupportedOperationException();
@@ -150,8 +151,8 @@ public interface TextDocumentService {
     }
 
     @JsonRequest(
-        value = "codeAction/resolve",
-        useSegment = false
+            value = "codeAction/resolve",
+            useSegment = false
     )
     default CompletableFuture<CodeAction> resolveCodeAction(CodeAction unresolved) {
         throw new UnsupportedOperationException();
@@ -163,8 +164,8 @@ public interface TextDocumentService {
     }
 
     @JsonRequest(
-        value = "codeLens/resolve",
-        useSegment = false
+            value = "codeLens/resolve",
+            useSegment = false
     )
     default CompletableFuture<CodeLens> resolveCodeLens(CodeLens unresolved) {
         throw new UnsupportedOperationException();
@@ -199,13 +200,19 @@ public interface TextDocumentService {
     void didOpen(DidOpenTextDocumentParams var1);
 
     @JsonNotification
-    void didChange(DidChangeTextDocumentParams var1);
+    default void didChange(DidChangeTextDocumentParams var1) {
+
+    }
 
     @JsonNotification
-    void didClose(DidCloseTextDocumentParams var1);
+    default void didClose(DidCloseTextDocumentParams var1) {
+
+    }
 
     @JsonNotification
-    void didSave(DidSaveTextDocumentParams var1);
+    default void didSave(DidSaveTextDocumentParams var1) {
+
+    }
 
     @JsonNotification
     default void willSave(WillSaveTextDocumentParams params) {
@@ -222,8 +229,8 @@ public interface TextDocumentService {
     }
 
     @JsonRequest(
-        value = "documentLink/resolve",
-        useSegment = false
+            value = "documentLink/resolve",
+            useSegment = false
     )
     default CompletableFuture<DocumentLink> documentLinkResolve(DocumentLink params) {
         throw new UnsupportedOperationException();
@@ -271,16 +278,16 @@ public interface TextDocumentService {
     }
 
     @JsonRequest(
-        value = "callHierarchy/incomingCalls",
-        useSegment = false
+            value = "callHierarchy/incomingCalls",
+            useSegment = false
     )
     default CompletableFuture<List<CallHierarchyIncomingCall>> callHierarchyIncomingCalls(CallHierarchyIncomingCallsParams params) {
         throw new UnsupportedOperationException();
     }
 
     @JsonRequest(
-        value = "callHierarchy/outgoingCalls",
-        useSegment = false
+            value = "callHierarchy/outgoingCalls",
+            useSegment = false
     )
     default CompletableFuture<List<CallHierarchyOutgoingCall>> callHierarchyOutgoingCalls(CallHierarchyOutgoingCallsParams params) {
         throw new UnsupportedOperationException();
@@ -292,16 +299,16 @@ public interface TextDocumentService {
     }
 
     @JsonRequest(
-        value = "textDocument/semanticTokens/full",
-        useSegment = false
+            value = "textDocument/semanticTokens/full",
+            useSegment = false
     )
     default CompletableFuture<SemanticTokens> semanticTokensFull(SemanticTokensParams params) {
         throw new UnsupportedOperationException();
     }
 
     @JsonRequest(
-        value = "textDocument/semanticTokens/full/delta",
-        useSegment = false
+            value = "textDocument/semanticTokens/full/delta",
+            useSegment = false
     )
     @ResponseJsonAdapter(SemanticTokensFullDeltaResponseAdapter.class)
     default CompletableFuture<Either<SemanticTokens, SemanticTokensDelta>> semanticTokensFullDelta(SemanticTokensDeltaParams params) {
@@ -309,8 +316,8 @@ public interface TextDocumentService {
     }
 
     @JsonRequest(
-        value = "textDocument/semanticTokens/range",
-        useSegment = false
+            value = "textDocument/semanticTokens/range",
+            useSegment = false
     )
     default CompletableFuture<SemanticTokens> semanticTokensRange(SemanticTokensRangeParams params) {
         throw new UnsupportedOperationException();

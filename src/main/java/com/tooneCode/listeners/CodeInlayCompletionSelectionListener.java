@@ -1,4 +1,4 @@
-package com.tooneCode.completion.listener;
+package com.tooneCode.listeners;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.SelectionEvent;

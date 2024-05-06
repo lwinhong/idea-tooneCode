@@ -295,7 +295,7 @@ public class CodeCompletionContributor extends CompletionContributor {
         presentation.setTypeText(CodeBundle.message("local.completion.flag.text", new Object[0]));
         presentation.setItemTextBold(false);
         presentation.setItemText(insertionText);
-        presentation.setIcon(CommonIcons.AI);
+        //presentation.setIcon(CommonIcons.AI);
     }
 
     private void addCosyLookupListener(CompletionParameters parameters) {

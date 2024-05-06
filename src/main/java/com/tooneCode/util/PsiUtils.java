@@ -4,10 +4,10 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.source.tree.CompositeElement;
+import com.tooneCode.common.CodeCacheKeys;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.editor.LogicalPosition;
@@ -225,6 +225,40 @@ public class PsiUtils {
             }
         } else {
             return true;
+        }
+    }
+
+    public static boolean isJavaMethodNewLine(Editor editor, PsiElement element, int newOffset, int previousOffset) {
+        if (element.getPrevSibling() != null && instanceOf(element.getPrevSibling(),
+                "com.intellij.psi.impl.source.tree.java.MethodElement", "com.intellij.psi.impl.source.PsiMethodImpl")) {
+            TextRange range = element.getPrevSibling().getTextRange();
+            if (previousOffset >= range.getEndOffset() && previousOffset > 0 && newOffset > previousOffset) {
+                String text = editor.getDocument().getText(new TextRange(previousOffset - 1, newOffset));
+                if ("}".equals(text.trim())) {
+                    log.info("check method end of newline, not trigger.");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isLiteralElement(Editor editor, PsiElement element) {
+        if (instanceOf(element, "com.jetbrains.python.psi.PyStringElement", "com.intellij.psi.PsiLiteralValue")) {
+            return true;
+        } else if (instanceOf(element.getParent(), "com.jetbrains.python.psi.PyLiteralExpression", "com.goide.psi.impl.GoStringLiteralImpl")) {
+            return true;
+        } else if (element.getParent() instanceof CompositeElement && ((CompositeElement) element.getParent()).getPsi() instanceof PsiLiteralValue) {
+            return true;
+        } else {
+            String text = element.getText();
+            if (StringUtils.isNotBlank(text) && text.startsWith("\"") && text.endsWith("\"")) {
+                return true;
+            } else {
+                Character typeChar = (Character) CodeCacheKeys.KEY_INPUT_TYPE_CHAR.get(editor);
+                return typeChar != null && (typeChar == '"' || typeChar == '\'');
+            }
         }
     }
 }

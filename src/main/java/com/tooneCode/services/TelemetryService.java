@@ -1,8 +1,10 @@
 package com.tooneCode.services;
 
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.tooneCode.core.enums.TrackEventTypeEnum;
 import com.tooneCode.core.model.CompletionParams;
 import com.tooneCode.editor.enums.CompletionTriggerModeEnum;
 import com.tooneCode.editor.model.CodeEditorInlayItem;
@@ -12,6 +14,8 @@ import com.tooneCode.services.impl.TelemetryServiceImpl;
 import com.tooneCode.services.model.TextChangeContext;
 import com.tooneCode.services.model.TypingStat;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 public interface TelemetryService {
     static @NotNull TelemetryService getInstance() {
@@ -37,4 +41,14 @@ public interface TelemetryService {
     void triggerCompletion(CompletionTriggerModeEnum triggerMode, Editor editor, CompletionParams params);
 
     TypingStat getTypeStat();
+
+    void telemetry(Project project, TrackEventTypeEnum eventType, String requestId, Map<String, String> data);
+
+    void typeRecord(Editor editor, String addedText);
+
+    void telemetryCommand(@NotNull CommandEvent event);
+
+    void initTelemetry(Project project);
+
+    void destroyTelemetry(Project project);
 }

@@ -23,7 +23,8 @@ public interface AuthService {
 
     @JsonRequest
     default CompletableFuture<AuthStatus> status() {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        return CompletableFuture.supplyAsync(AuthStatus::new);
     }
 
     @JsonRequest

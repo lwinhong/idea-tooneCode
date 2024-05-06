@@ -45,7 +45,7 @@ public class DefaultInlayCompletionCollector implements InlayCompletionCollector
         CodeStatusBarWidget.setStatusBarGenerating(this.editor.getProject(), true, false);
         LOGGER.debug(this.request.getParams().getRequestId() + " flow onNext");
         this.tooltipsDebouncer.shutdown();
-        WriteCommandAction.runWriteCommandAction(this.editor.getProject(), "Async Render Tongyi Suggestion", "TONGYI", () -> {
+        WriteCommandAction.runWriteCommandAction(this.editor.getProject(), "Async Render TooneCode Suggestion", "TONGYI", () -> {
             if (this.editor.getProject() != null && !this.editor.getProject().isDisposed()) {
                 CodeEditorInlayItem item = CodeCompletionService.getInstance().convertInlayItem(this.request, completionItem, "");
                 if (item == null) {

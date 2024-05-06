@@ -34,8 +34,14 @@
                   topic="com.intellij.codeInsight.lookup.LookupManagerListener"/>
         <listener class="com.tooneCode.listeners.CodeEditorManagerListener"
                   topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
-    </projectListeners>
+        <listener topic="com.intellij.openapi.command.CommandListener"
+                  class="com.tooneCode.listeners.CodeCommandListener"/>
 
+    </projectListeners>
+    <applicationListeners>
+        <listener topic="com.intellij.openapi.project.ProjectManagerListener"
+                  class="com.tooneCode.listeners.MultiLangCosyProjectManagerListener"/>
+    </applicationListeners>
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
@@ -46,6 +52,9 @@
         <typedHandler order="first, before completionAutoPopup"
                       implementation="com.tooneCode.editor.InputTypeEndHandler"/>
         <postStartupActivity implementation="com.tooneCode.listeners.ProjectActivityListener"/>
+        <statusBarWidgetFactory id="com.tooneCode.intellij.status"
+                                implementation="com.tooneCode.ui.statusbar.CodeStatusBarWidgetFactory"/>
+        <applicationConfigurable instance="com.tooneCode.ui.config.CodeConfigurable"/>
     </extensions>
     <actions>
         <action
@@ -117,6 +126,15 @@
             <keyboard-shortcut first-keystroke="ESCAPE" keymap="$default"/>
             <override-text place="MainMenu" text="Hide Completions in Editor"/>
         </action>
-
+        <action id="CosyCompletionTitleDisplayAction"
+                class="com.tooneCode.ui.statusbar.CodeCompletionTitleDisplayAction"
+                text="TooneCode Completion Settings"/>
+        <action id="DisplayStatusInfoAction"
+                class="com.tooneCode.ui.statusbar.CodeStatusInfoDisplayAction" popup="true"/>
+        <action id="CosyOpenSettingsAction"
+                class="com.tooneCode.ui.action.OpenSettingsAction" popup="true"/>
+        <group id="cosyStatusBarPopupNoLoginGroup">
+            <reference id="CosyOpenSettingsAction"/>
+        </group>
     </actions>
 </idea-plugin>

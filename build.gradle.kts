@@ -57,6 +57,7 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.30")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:okhttp-sse:4.12.0")
+    implementation("org.apache.commons:commons-collections4:4.5.0-M1")
 }
 
 

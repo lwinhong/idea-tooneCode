@@ -118,11 +118,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
         }
     }
 
-    public List<CodeInlayRenderer> collectInlays(@NotNull Editor editor, int startOffset, int endOffset) {
-        if (editor == null) {
-            //$$$reportNull$$$0(14);
-        }
-
+    public @NotNull List<CodeInlayRenderer> collectInlays(@NotNull Editor editor, int startOffset, int endOffset) {
         InlayModel model = editor.getInlayModel();
         ArrayList<Inlay<?>> inlays = new ArrayList<>();
         inlays.addAll(model.getInlineElementsInRange(startOffset, endOffset));

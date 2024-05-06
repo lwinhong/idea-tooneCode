@@ -7,6 +7,7 @@ import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
+import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
@@ -16,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -124,5 +127,36 @@ public class EditorUtil {
             LOGGER.error("fail to get editor caret position. ", e);
             return null;
         }
+    }
+
+    public static Editor getSelectedEditorSafely(@NotNull Project project) {
+
+        try {
+            FileEditorManager editorManager = FileEditorManager.getInstance(project);
+            return editorManager != null ? editorManager.getSelectedTextEditor() : null;
+        } catch (Exception var2) {
+            return null;
+        }
+    }
+
+    public static boolean isActiveProjectEditor(@NotNull Editor editor) {
+        Project project = ProjectUtils.getActiveProject();
+        return project != null && project.getBasePath() != null && editor.getProject() != null
+                && project.getBasePath().equals(editor.getProject().getBasePath());
+    }
+
+    public static String getCopyPasteText() {
+        CopyPasteManager copyPasteManager = CopyPasteManager.getInstance();
+        Transferable contents = copyPasteManager.getContents();
+        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            try {
+                return (String) contents.getTransferData(DataFlavor.stringFlavor);
+            } catch (Exception var3) {
+                Exception ex = var3;
+                ex.printStackTrace();
+            }
+        }
+
+        return null;
     }
 }

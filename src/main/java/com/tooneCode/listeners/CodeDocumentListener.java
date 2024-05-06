@@ -1,4 +1,4 @@
-package com.tooneCode.completion.listener;
+package com.tooneCode.listeners;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.CommandProcessor;
@@ -25,16 +25,10 @@ public class CodeDocumentListener implements BulkAwareDocumentListener {
 
     public CodeDocumentListener(@NotNull Editor editor) {
         super();
-        if (editor == null) {
-            //$$$reportNull$$$0(0);
-        }
         this.editor = editor;
     }
 
     public void documentChangedNonBulk(@NotNull DocumentEvent event) {
-        if (event == null) {
-            //$$$reportNull$$$0(1);
-        }
 
         Project project = this.editor.getProject();
         if (project != null && !project.isDisposed()) {
@@ -50,7 +44,8 @@ public class CodeDocumentListener implements BulkAwareDocumentListener {
                                     if (this.isIgnoreChange(event, this.editor, offset)) {
                                         CodeInlayManager.getInstance().disposeInlays(this.editor, InlayDisposeEventEnum.DOCUMENT_CHANGE);
                                     } else {
-                                        CodeInlayManager.getInstance().editorChanged(CompletionTriggerConfig.defaultConfig(InlayTriggerEventEnum.DOCUMENT_CHANGE),
+                                        CodeInlayManager.getInstance().editorChanged(
+                                                CompletionTriggerConfig.defaultConfig(InlayTriggerEventEnum.DOCUMENT_CHANGE),
                                                 this.editor, changeOffset, CompletionTriggerModeEnum.AUTO);
                                     }
 

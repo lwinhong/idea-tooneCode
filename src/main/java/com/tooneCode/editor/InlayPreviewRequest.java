@@ -165,17 +165,18 @@ public class InlayPreviewRequest {
     }
 
     private boolean isAllowInvoke(CodeSetting settings, Editor editor, CompletionTriggerModeEnum triggerMode) {
-        if (!CodePersistentSetting.getInstance().isEnableCloudCompletion(settings, triggerMode)) {
-            return false;
-        } else {
-            AuthStatus authStatus = (AuthStatus) CodeCacheKeys.KEY_AUTH_STATUS.get(ApplicationManager.getApplication());
-            if (authStatus == null) {
-                authStatus = UserAuthService.getInstance().getState(editor.getProject());
-                CodeCacheKeys.KEY_AUTH_STATUS.set(ApplicationManager.getApplication(), authStatus);
-            }
-
-            return authStatus != null && authStatus.isAllow();
-        }
+        return true;
+//        if (!CodePersistentSetting.getInstance().isEnableCloudCompletion(settings, triggerMode)) {
+//            return false;
+//        } else {
+//            AuthStatus authStatus = (AuthStatus) CodeCacheKeys.KEY_AUTH_STATUS.get(ApplicationManager.getApplication());
+//            if (authStatus == null) {
+//                authStatus = UserAuthService.getInstance().getState(editor.getProject());
+//                CodeCacheKeys.KEY_AUTH_STATUS.set(ApplicationManager.getApplication(), authStatus);
+//            }
+//
+//            return authStatus != null && authStatus.isAllow();
+//        }
     }
 
     private DelayStrategy getDelayStrategy() {

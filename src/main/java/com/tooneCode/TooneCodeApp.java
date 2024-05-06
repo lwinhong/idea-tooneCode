@@ -21,7 +21,7 @@ public class TooneCodeApp {
     }
 
     public static synchronized void init() {
-        log.info("start to init lingma app");
+        log.info("start to init toonecoder app");
         if (!INITED.getAndSet(true)) {
             doInit();
         }

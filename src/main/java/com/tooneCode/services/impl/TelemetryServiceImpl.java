@@ -1,6 +1,7 @@
 package com.tooneCode.services.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.diagnostic.Logger;
 import com.tooneCode.core.enums.TrackEventTypeEnum;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.tooneCode.common.CodeCacheKeys;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,9 +41,10 @@ public final class TelemetryServiceImpl implements TelemetryService {
     private AtomicReference<String> latestDisposeType = new AtomicReference((Object) null);
     private AtomicReference<String> latestDisposeCommandName = new AtomicReference((Object) null);
     private AtomicReference<Long> lastDisposeTimeMs = new AtomicReference((Object) null);
-    private final Map<String, Timer> timerMap = new ConcurrentHashMap();
-    private Map<String, Debouncer> textChangeDebouncerMap = new ConcurrentHashMap();
+    private final Map<String, Timer> timerMap = new ConcurrentHashMap<>();
+    private Map<String, Debouncer> textChangeDebouncerMap = new ConcurrentHashMap<>();
     private TypingSpeeder typingSpeeder = new TypingSpeeder();
+    static Set<String> ignoreCommands = new HashSet<>(Arrays.asList("Async Render TooneCode Suggestion", "Chat Insert Code"));
 
     public TelemetryServiceImpl() {
     }
@@ -63,6 +66,16 @@ public final class TelemetryServiceImpl implements TelemetryService {
                 return new Timer();
             });
             timer.scheduleAtFixedRate(new TelemetryThread(project), delayTime, delayTime);
+        }
+
+    }
+
+    public void destroyTelemetry(Project project) {
+        if (this.timerMap.containsKey(project.getBasePath())) {
+            Timer timer = (Timer) this.timerMap.remove(project.getBasePath());
+            if (timer != null) {
+                timer.cancel();
+            }
         }
 
     }
@@ -473,4 +486,16 @@ public final class TelemetryServiceImpl implements TelemetryService {
         }
     }
 
+    public void typeRecord(Editor editor, String addedText) {
+        this.typingSpeeder.keyTyped(addedText);
+        this.typingSpeeder.recordTyping(editor, addedText);
+    }
+
+    public void telemetryCommand(@NotNull CommandEvent event) {
+
+        if (!ignoreCommands.contains(event.getCommandName())) {
+            String lastCmd = (String) this.currentCommand.getAndSet(event.getCommandName());
+            this.lastCommand.getAndSet(lastCmd);
+        }
+    }
 }

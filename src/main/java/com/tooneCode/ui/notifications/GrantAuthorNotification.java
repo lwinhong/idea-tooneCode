@@ -142,22 +142,23 @@ public class GrantAuthorNotification {
         }
 
         if (TooneCoder.INSTANCE.checkCosy(project)) {
-            AuthStatus authStatus = UserAuthService.getInstance().getState(project);
-            if (authStatus != null && authStatus.getStatus() == AuthStateEnum.NETWORK_ERROR.getValue()) {
-                notifyNetworkErrorDirectly(project, authStatus);
-            } else if (authStatus != null && authStatus.getStatus() == AuthStateEnum.IP_BANNED_ERROR.getValue() && StringUtils.isNotBlank(authStatus.getOrgName())) {
-                notifyIpBannedErrorDirectly(project, authStatus);
-            } else if (authStatus != null && authStatus.getStatus() == AuthStateEnum.APP_DISABLED_ERROR.getValue()) {
-                notifyAppDisabledErrorDirectly(project, authStatus);
-            } else if (authStatus != null && authStatus.getStatus() != AuthStateEnum.LOGIN.getValue()) {
-                notifyNeedLoginDirectly(project);
-            } else if (authStatus != null && authStatus.getWhitelist() != null && authStatus.getWhitelist() != AuthWhitelistStatusEnum.PASS.getValue()) {
-                if (authStatus.getWhitelist() == AuthWhitelistStatusEnum.NOT_WHITELIST.getValue()) {
-                    notifyNeedWhitelistDirectly(project, authStatus);
-                } else if (authStatus.getWhitelist() == AuthWhitelistStatusEnum.NO_LICENCE.getValue()) {
-                    notifyRequireLicenseDirectly(project, authStatus);
-                }
-            }
+            //暂时不做提示
+//            AuthStatus authStatus = UserAuthService.getInstance().getState(project);
+//            if (authStatus != null && authStatus.getStatus() == AuthStateEnum.NETWORK_ERROR.getValue()) {
+//                notifyNetworkErrorDirectly(project, authStatus);
+//            } else if (authStatus != null && authStatus.getStatus() == AuthStateEnum.IP_BANNED_ERROR.getValue() && StringUtils.isNotBlank(authStatus.getOrgName())) {
+//                notifyIpBannedErrorDirectly(project, authStatus);
+//            } else if (authStatus != null && authStatus.getStatus() == AuthStateEnum.APP_DISABLED_ERROR.getValue()) {
+//                notifyAppDisabledErrorDirectly(project, authStatus);
+//            } else if (authStatus != null && authStatus.getStatus() != AuthStateEnum.LOGIN.getValue()) {
+//                notifyNeedLoginDirectly(project);
+//            } else if (authStatus != null && authStatus.getWhitelist() != null && authStatus.getWhitelist() != AuthWhitelistStatusEnum.PASS.getValue()) {
+//                if (authStatus.getWhitelist() == AuthWhitelistStatusEnum.NOT_WHITELIST.getValue()) {
+//                    notifyNeedWhitelistDirectly(project, authStatus);
+//                } else if (authStatus.getWhitelist() == AuthWhitelistStatusEnum.NO_LICENCE.getValue()) {
+//                    notifyRequireLicenseDirectly(project, authStatus);
+//                }
+//            }
 
         }
     }

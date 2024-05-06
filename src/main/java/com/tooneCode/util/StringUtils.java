@@ -33,9 +33,6 @@ public class StringUtils {
     }
 
     public static List<String> replaceHeadTabs(@NotNull List<String> lines, boolean useTabs, int tabWidth) {
-        if (lines == null) {
-            //$$$reportNull$$$0(5);
-        }
 
         return lines.stream().map((line) -> {
             return replaceHeadTabs(line, useTabs, tabWidth);
@@ -53,9 +50,6 @@ public class StringUtils {
     }
 
     public static int countHeadWhitespaceLength(@NotNull String text) {
-        if (text == null) {
-            //$$$reportNull$$$0(4);
-        }
 
         int length = text.length();
 
@@ -95,4 +89,39 @@ public class StringUtils {
         return org.apache.commons.lang3.StringUtils.isBlank(lineContent) || lineContent.endsWith(";") || lineContent.endsWith("{") || lineContent.endsWith("*/") || lineContent.startsWith("//");
     }
 
+    public static String extractClassNameFromFullPath(String fullPath) {
+        if (fullPath == null) {
+            return null;
+        } else {
+            return !fullPath.contains(".") ? fullPath : fullPath.substring(fullPath.lastIndexOf(".") + 1);
+        }
+    }
+
+    public static boolean matchCopyContent(String source, String target) {
+        if (source != null && target != null) {
+            String sourceTrim = source.trim();
+            String targetTrim = target.trim();
+            if (sourceTrim.equals(targetTrim)) {
+                return true;
+            } else {
+                String[] sourceLines = sourceTrim.split("\\r?\\n");
+                String[] targetLines = targetTrim.split("\\r?\\n");
+                if (sourceLines.length != targetLines.length) {
+                    return false;
+                } else {
+                    for (int i = 0; i < sourceLines.length; ++i) {
+                        String sourceLine = sourceLines[i];
+                        String targetLine = targetLines[i];
+                        if (!sourceLine.trim().equals(targetLine.trim())) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        } else {
+            return false;
+        }
+    }
 }

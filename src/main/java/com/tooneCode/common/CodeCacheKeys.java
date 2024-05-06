@@ -7,8 +7,11 @@ import java.util.Map;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.KeyWithDefaultValue;
 import com.tooneCode.core.model.model.AuthStatus;
+import com.tooneCode.core.model.model.GlobalConfig;
+import com.tooneCode.core.model.model.GlobalEndpointConfig;
 import com.tooneCode.editor.model.CodeEditorInlayList;
 import com.tooneCode.editor.model.InlayCompletionRequest;
+import com.tooneCode.listeners.CodeCommandListener;
 import com.tooneCode.services.model.TextChangeStat;
 
 public class CodeCacheKeys {
@@ -24,12 +27,12 @@ public class CodeCacheKeys {
     public static final Key<String> KEY_COPY_PASTE;
 
     public static final Key<List<TextChangeStat>> KEY_TEXT_CHANGE_STAT;
-    //    public static final Key<CosyCommandListener.CommandEditorState> COMMAND_STATE_KEY;
+    public static final Key<CodeCommandListener.CommandEditorState> COMMAND_STATE_KEY;
     public static final Key<InlayCompletionRequest> KEY_COMPLETION_LATEST_REQUEST;
     public static final Key<InlayCompletionRequest> KEY_COMPLETION_LATEST_PROJECT_REQUEST;
     public static final Key<AuthStatus> KEY_AUTH_STATUS;
-//    public static final Key<GlobalConfig> KEY_GLOBAL_CONFIG;
-//    public static final Key<GlobalEndpointConfig> KEY_ENDPOINT_CONFIG;
+    public static final Key<GlobalConfig> KEY_GLOBAL_CONFIG;
+    public static final Key<GlobalEndpointConfig> KEY_ENDPOINT_CONFIG;
 
 
     public CodeCacheKeys() {
@@ -45,13 +48,13 @@ public class CodeCacheKeys {
         KEY_COPY_PASTE = Key.create("code.CopyPaste");
         KEY_SELECT_LOOKUP_ITEM = Key.create("code.selectLookupItem");
 
-//        COMMAND_STATE_KEY = Key.create("code.commandState");
+        COMMAND_STATE_KEY = Key.create("code.commandState");
         KEY_COMPLETION_LATEST_REQUEST = Key.create("code.completionLatestRequest");
         KEY_COMPLETION_LATEST_PROJECT_REQUEST = Key.create("code.completionLatestEditor");
         KEY_AUTH_STATUS = Key.create("code.authStatus");
         KEY_TEXT_CHANGE_STAT = Key.create("code.textChangeStat");
-//        KEY_GLOBAL_CONFIG = Key.create("code.globalConfig");
-//        KEY_ENDPOINT_CONFIG = Key.create("code.globalEndpointConfig");
+        KEY_GLOBAL_CONFIG = Key.create("code.globalConfig");
+        KEY_ENDPOINT_CONFIG = Key.create("code.globalEndpointConfig");
 
     }
 }

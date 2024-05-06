@@ -3,12 +3,13 @@ package com.tooneCode.services.impl;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.tooneCode.TooneCodeApp;
-import com.tooneCode.common.BuildFeature;
-import com.tooneCode.common.CodeBundle;
-import com.tooneCode.common.CodeConfig;
+import com.tooneCode.common.*;
 import com.tooneCode.constants.I18NConstant;
 import com.tooneCode.core.TooneCoder;
+import com.tooneCode.core.model.model.AuthStateEnum;
 import com.tooneCode.core.model.model.AuthStatus;
+import com.tooneCode.core.model.model.AuthWhitelistStatusEnum;
+import com.tooneCode.core.model.model.LoginStartResult;
 import com.tooneCode.core.model.params.LoginParams;
 import com.tooneCode.services.UserAuthService;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -34,12 +35,16 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import com.tooneCode.ui.config.CodePersistentSetting;
+import com.tooneCode.ui.notifications.*;
+import com.tooneCode.util.LoginUtil;
 import com.tooneCode.util.ProcessUtils;
+import com.tooneCode.util.ThreadUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 @Service
-public class UserAuthServiceImpl implements UserAuthService {
+public final class UserAuthServiceImpl implements UserAuthService {
     private static Logger log = Logger.getInstance(UserAuthServiceImpl.class);
     private static final long REQUEST_TIMEOUT;
     private static final long CACHE_MINUTE_LIMIT = 5L;
@@ -75,7 +80,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         ProgressManager.getInstance().run(new Task.Modal(project, CodeBundle.message("task.progress.login.title", new Object[0]), true) {
             public void run(@NotNull ProgressIndicator progressIndicator) {
 //目前不需要登录，直接True
-                UserAuthServiceImpl.this.notifyLoginResult(project, notifyComponent, AuthStatus.ERROR_LOGIN, true, I18NConstant.ERROR_NOTIFY_CONTENT);
+                UserAuthServiceImpl.this.notifyLoginResult(project, notifyComponent, AuthStatus.ERROR_LOGIN, true, null);
 
 //                if (!loginParams.validate()) {
 //                    UserAuthServiceImpl.this.notifyLoginResult(project, notifyComponent, AuthStatus.NOT_LOGIN, false, CodeBundle.message("notifications.auth.login.info.invalidate", new Object[0]));
@@ -166,13 +171,13 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     public AuthStatus getState(Project project) {
-        if (TooneCoderINSTANCE.checkCosy(project)) {
-            return TooneCoderINSTANCE.getLanguageService(project).authStatus(REQUEST_TIMEOUT, 2);
+        if (TooneCoder.INSTANCE.checkCosy(project)) {
+            return TooneCoder.INSTANCE.getLanguageService(project).authStatus(REQUEST_TIMEOUT, 2);
         } else {
             ThreadUtil.execute(() -> {
-                if (TooneCoderINSTANCE.checkAndWaitCosyState((ProgressIndicator) null, project)) {
+                if (TooneCoder.INSTANCE.checkAndWaitCosyState((ProgressIndicator) null, project)) {
                     try {
-                        AuthStatus authStatus = TooneCoderINSTANCE.getLanguageService(project).authStatus(10000L);
+                        AuthStatus authStatus = TooneCoder.INSTANCE.getLanguageService(project).authStatus(10000L);
                         SwingUtilities.invokeAndWait(() -> {
                             ((AuthLoginNotifier) project.getMessageBus().syncPublisher(AuthLoginNotifier.AUTH_LOGIN_NOTIFICATION)).notifyLoginAuth(authStatus);
                         });
@@ -193,7 +198,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             NotificationFactory.showWarnNotification(project, I18NConstant.LOGIN_MSG_GET_FAILED);
             return false;
         } else {
-            CosyCacheKeys.KEY_AUTH_STATUS.set(ApplicationManager.getApplication(), authStatus);
+            CodeCacheKeys.KEY_AUTH_STATUS.set(ApplicationManager.getApplication(), authStatus);
             if (authStatus.getStatus() == AuthStateEnum.NETWORK_ERROR.getValue()) {
                 GrantAuthorNotification.notifyNetworkErrorDirectly(project, authStatus);
                 return false;
@@ -226,13 +231,6 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     private AuthStatus checkLoginAuthState(@NotNull ProgressIndicator progressIndicator, @NotNull Project project, LoginStartResult loginStartResult) {
-        if (progressIndicator == null) {
-            $$$reportNull$$$0(0);
-        }
-
-        if (project == null) {
-            $$$reportNull$$$0(1);
-        }
 
         if (StringUtils.isNotBlank(loginStartResult.getUrl())) {
             StringSelection selection = new StringSelection(loginStartResult.getUrl());
@@ -341,7 +339,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     private void checkIfCloseLocalModel() {
-        CosySetting setting = CosyPersistentSetting.getInstance().getState();
+        CodeSetting setting = CodePersistentSetting.getInstance().getState();
         if (setting != null && !setting.isManualOpenLocalModel()) {
             setting.getParameter().getLocal().setEnable(false);
         }
@@ -367,7 +365,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         try {
             SwingUtilities.invokeAndWait(() -> {
-                CosyCacheKeys.KEY_AUTH_STATUS.set(ApplicationManager.getApplication(), authStatus);
+                CodeCacheKeys.KEY_AUTH_STATUS.set(ApplicationManager.getApplication(), authStatus);
                 ((AuthLogoutNotifier) project.getMessageBus().syncPublisher(AuthLogoutNotifier.AUTH_LOGOUT_NOTIFICATION)).notifyLogout(authStatus);
             });
         } catch (Exception var7) {

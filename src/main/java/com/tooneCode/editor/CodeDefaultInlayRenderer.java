@@ -47,21 +47,6 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
                                     @NotNull InlayCompletionRequest request, @NotNull List<String> lines, int lineStartIndex,
                                     int totalLineCount, int lineMaxLength) {
         super();
-        if (item == null) {
-            //$$$reportNull$$$0(0);
-        }
-
-        if (editor == null) {
-            //$$$reportNull$$$0(1);
-        }
-
-        if (request == null) {
-            //$$$reportNull$$$0(2);
-        }
-
-        if (lines == null) {
-            //$$$reportNull$$$0(3);
-        }
 
         this.cachedWidth = -1;
         this.cachedHeight = -1;

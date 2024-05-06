@@ -1,8 +1,5 @@
 package com.tooneCode.completion.action;
 
-import com.intellij.openapi.editor.actionSystem.EditorAction;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Caret;
@@ -14,10 +11,10 @@ import com.tooneCode.ui.config.CodePersistentSetting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CodeApplyInlayAction extends BaseAcceptAction {
-    private static final Logger LOG = Logger.getInstance(CodeApplyInlayAction.class);
+public class CodeApplyInlayByLineAction extends BaseAcceptAction {
+    private static final Logger LOG = Logger.getInstance(CodeApplyInlayByLineAction.class);
 
-    public CodeApplyInlayAction() {
+    public CodeApplyInlayByLineAction() {
         super(new ApplyInlaysHandler());
     }
 
@@ -26,17 +23,18 @@ public class CodeApplyInlayAction extends BaseAcceptAction {
         }
 
         protected boolean isEnabledForCaret(@NotNull Editor editor, @NotNull Caret caret, DataContext dataContext) {
-            return CodeApplyInlayAction.isSupported(editor);
+            return CodeApplyInlayByLineAction.isSupported(editor);
         }
 
         public boolean executeInCommand(@NotNull Editor editor, DataContext dataContext) {
+
             return false;
         }
 
         protected void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
 
-            CodeApplyInlayAction.LOG.info("do apply inline completion");
-            CodeInlayManager.getInstance().applyCompletion(editor, (Integer) null);
+            CodeApplyInlayByLineAction.LOG.info("do apply inline completion by line");
+            CodeInlayManager.getInstance().applyCompletionByLine(editor);
             CodeSetting setting = CodePersistentSetting.getInstance().getState();
             if (setting != null) {
                 setting.setShowInlineAcceptTips(false);
@@ -45,3 +43,4 @@ public class CodeApplyInlayAction extends BaseAcceptAction {
         }
     }
 }
+

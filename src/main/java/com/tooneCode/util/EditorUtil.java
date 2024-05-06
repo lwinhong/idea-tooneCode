@@ -2,6 +2,8 @@ package com.tooneCode.util;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.EditorSettings;
+import com.intellij.openapi.editor.actions.EditorActionUtil;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -159,4 +161,107 @@ public class EditorUtil {
 
         return null;
     }
+
+    public static int indentLine(Project project, @NotNull Editor editor, int lineNumber, int indent, int caretOffset) {
+
+        return indentLine(project, editor, lineNumber, indent, caretOffset, EditorActionUtil.shouldUseSmartTabs(project, editor));
+    }
+
+    public static int indentLine(Project project, @NotNull Editor editor, int lineNumber, int indent, int caretOffset, boolean shouldUseSmartTabs) {
+
+        EditorSettings editorSettings = editor.getSettings();
+        int tabSize = editorSettings.getTabSize(project);
+        var document = editor.getDocument();
+        CharSequence text = document.getImmutableCharSequence();
+        int spacesEnd = 0;
+        int lineStart = 0;
+        int lineEnd = 0;
+        int tabsEnd = 0;
+        int c;
+        if (lineNumber < document.getLineCount()) {
+            lineStart = document.getLineStartOffset(lineNumber);
+            lineEnd = document.getLineEndOffset(lineNumber);
+            spacesEnd = lineStart;
+
+            boolean inTabs;
+            for (inTabs = true; spacesEnd <= lineEnd && spacesEnd != lineEnd; ++spacesEnd) {
+                c = text.charAt(spacesEnd);
+                if (c != 9) {
+                    if (inTabs) {
+                        inTabs = false;
+                        tabsEnd = spacesEnd;
+                    }
+
+                    if (c != 32) {
+                        break;
+                    }
+                }
+            }
+
+            if (inTabs) {
+                tabsEnd = lineEnd;
+            }
+        }
+
+        int newCaretOffset = caretOffset;
+        if (caretOffset >= lineStart && caretOffset < lineEnd && spacesEnd == lineEnd) {
+            spacesEnd = caretOffset;
+            tabsEnd = Math.min(spacesEnd, tabsEnd);
+        }
+
+        c = getSpaceWidthInColumns(text, lineStart, spacesEnd, tabSize);
+        tabsEnd = getSpaceWidthInColumns(text, lineStart, tabsEnd, tabSize);
+        int newLength = c + indent;
+        if (newLength < 0) {
+            newLength = 0;
+        }
+
+        tabsEnd += indent;
+        if (tabsEnd < 0) {
+            tabsEnd = 0;
+        }
+
+        if (!shouldUseSmartTabs) {
+            tabsEnd = newLength;
+        }
+
+        StringBuilder buf = new StringBuilder(newLength);
+        int newSpacesEnd = 0;
+
+        while (true) {
+            while (newSpacesEnd < newLength) {
+                if (tabSize > 0 && editorSettings.isUseTabCharacter(project) && newSpacesEnd + tabSize <= tabsEnd) {
+                    buf.append('\t');
+                    newSpacesEnd += tabSize;
+                } else {
+                    buf.append(' ');
+                    ++newSpacesEnd;
+                }
+            }
+
+            newSpacesEnd = lineStart + buf.length();
+            if (caretOffset >= spacesEnd) {
+                newCaretOffset = caretOffset + (buf.length() - spacesEnd - lineStart);
+            } else if (caretOffset >= lineStart && caretOffset > newSpacesEnd) {
+                newCaretOffset = newSpacesEnd;
+            }
+
+            return newCaretOffset;
+        }
+    }
+
+    private static int getSpaceWidthInColumns(CharSequence seq, int startOffset, int endOffset, int tabSize) {
+        int result = 0;
+
+        for (int i = startOffset; i < endOffset; ++i) {
+            if (seq.charAt(i) == '\t') {
+                result = (result / tabSize + 1) * tabSize;
+            } else {
+                ++result;
+            }
+        }
+
+        return result;
+    }
+
 }

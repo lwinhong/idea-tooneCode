@@ -37,8 +37,8 @@ public class CodeLookupListener implements LookupListener {
         if (!event.isCanceledExplicitly()) {
             if (event.getItem() != null && event.getItem().getObject() instanceof CodeCompletionItem) {
                 CodeCompletionItem item = (CodeCompletionItem) event.getItem().getObject();
-                Command command = item.getOriginItem().getCommand();
-                log.debug(String.format("Item is %s, cmd is %s", item.getOriginItem().getLabel(), command.toString()));
+                //Command command = item.getOriginItem().getCommand();
+                //log.debug(String.format("Item is %s, cmd is %s", item.getOriginItem().getLabel(), command.toString()));
                 ApplicationManager.getApplication().invokeLater(() -> {
                     if (event.getLookup() != null && event.getLookup().getProject() != null && TooneCoder.INSTANCE.getLanguageService(event.getLookup().getProject()) != null) {
                         TooneCoder.INSTANCE.getLanguageService(event.getLookup().getProject()).itemSelected(item);

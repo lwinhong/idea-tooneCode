@@ -4,6 +4,7 @@ import com.tooneCode.completion.model.CompletionRenderType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import lombok.Generated;
@@ -21,6 +22,46 @@ public class CodeEditorInlayItem {
     private int rankIndex;
     private String batchId;
     private boolean accepted = false;
+
+    public String refactorByAcceptLine() {
+        if (this.chunks != null && !this.chunks.isEmpty()) {
+            EditorInlayItemChunk chunk = (EditorInlayItemChunk) this.chunks.get(0);
+            if (chunk.getCompletionLines() != null && !chunk.getCompletionLines().isEmpty()) {
+                String line = (String) chunk.getCompletionLines().get(0);
+                if (CompletionRenderType.Inline == chunk.getType()) {
+                    this.chunks.remove(0);
+                } else if (CompletionRenderType.Block == chunk.getType()) {
+                    chunk.getCompletionLines().remove(0);
+                }
+
+                this.totalLineCount = 0;
+                StringBuilder sb = new StringBuilder();
+                Iterator var4 = this.chunks.iterator();
+
+                while (var4.hasNext()) {
+                    EditorInlayItemChunk c = (EditorInlayItemChunk) var4.next();
+                    Iterator var6 = c.getCompletionLines().iterator();
+
+                    while (var6.hasNext()) {
+                        String line1 = (String) var6.next();
+                        ++this.totalLineCount;
+                        sb.append(line1).append("\n");
+                    }
+                }
+
+                if (sb.length() > 0) {
+                    sb.deleteCharAt(sb.length() - 1);
+                }
+
+                this.content = sb.toString();
+                return line;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     public void addChunk(CompletionRenderType type, List<String> completionLines) {
         if (this.chunks == null) {
@@ -295,9 +336,7 @@ public class CodeEditorInlayItem {
     public CodeEditorInlayItem(String requestId, String cacheId, int editorOffset, String content,
                                List<EditorInlayItemChunk> chunks, int totalLineCount, boolean rendered,
                                long firstDisplayTimeMs, long displayTimeMs, int rankIndex, String batchId
-            , boolean accepted)
-
-    {
+            , boolean accepted) {
         this.requestId = requestId;
         this.cacheId = cacheId;
         this.editorOffset = editorOffset;

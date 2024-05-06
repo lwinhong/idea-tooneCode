@@ -69,7 +69,7 @@ public final class CompletionUtil {
             result = textEdit.getNewText();
         }
 
-        if (item != null && result.isEmpty()) {
+        if (item != null && (result == null || result.isEmpty())) {
             result = item.getInsertText();
         }
 

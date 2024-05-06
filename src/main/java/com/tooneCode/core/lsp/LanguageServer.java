@@ -58,12 +58,12 @@ public interface LanguageServer {
 
     @JsonNotification("statistics/compute")
     default void itemSelected(ItemSelectedParams params) {
-        throw new UnsupportedOperationException();
+
     }
 
     @JsonNotification("statistics/general")
     default void telemetry(GeneralStatisticsParams params) {
-        throw new UnsupportedOperationException();
+
     }
 
     @JsonRequest("config/getGlobal")

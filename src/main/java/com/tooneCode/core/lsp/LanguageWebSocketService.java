@@ -88,20 +88,23 @@ public class LanguageWebSocketService {
                     @Override
                     public CompletableFuture<Either<List<CompletionItem>, CompletionList>> completion(CompletionParams position) {
                         return CompletableFuture.supplyAsync(() -> {
-                            Either<List<CompletionItem>, CompletionList> list = Either.forLeft(new ArrayList<>() {
-                                {
-                                    CompletionItem item = new CompletionItem();
-                                    item.setLabel("test");
-                                    item.setKind(CompletionItemKind.Text);
-                                    item.setDetail("test");
-                                    item.setDocumentation("test");
-                                    item.setInsertText("test");
-                                    item.setInsertTextFormat(InsertTextFormat.PlainText);
-                                    //Either.forLeft(new TextEdit(new Range(new Position(0, 0), new Position(0, 0)))
-                                    var edit = new TextEdit();
-                                    item.setTextEdit(Either.forLeft(edit));
-                                }
-                            });
+                            var items = new ArrayList<CompletionItem>();
+                            CompletionItem item = new CompletionItem();
+                            item.setLabel("test");
+                            item.setKind(CompletionItemKind.Text);
+                            item.setDetail("test");
+                            item.setDocumentation("test");
+                            item.setInsertText("test");
+                            item.setInsertTextFormat(InsertTextFormat.PlainText);
+                            //Either.forLeft(new TextEdit(new Range(new Position(0, 0), new Position(0, 0)))
+                            var edit = new TextEdit();
+                            edit.setRange(new Range(new Position(position.getPosition().getLine(), position.getPosition().getCharacter()),
+                                    new Position(position.getPosition().getLine(), position.getPosition().getCharacter() + 5)));
+                            item.setTextEdit(Either.forLeft(edit));
+
+                            items.add(item);
+
+                            Either<List<CompletionItem>, CompletionList> list = Either.forLeft(items);
                             return list;
                         });
                     }
@@ -398,15 +401,6 @@ public class LanguageWebSocketService {
 
     public List<CompletionItem> completion(CompletionParams params, long timeout) {
         List<CompletionItem> result = null;
-        result = new ArrayList<>();
-        CompletionItem item = new CompletionItem();
-        item.setInsertText("exampleKeyword");
-        item.setLabel("Example Keyword");
-
-        // 可以添加额外的详细信息
-        item.setKind(CompletionItemKind.Keyword);
-        item.setDocumentation("More documentation for the keyword.");
-        result.add(item);
         try {
             String var10001 = params.getRequestId();
             log.info("tongyi trigger completion:" + var10001 + " local:" + params.getUseLocalModel() + " remote:" + params.getUseRemoteModel());
@@ -460,7 +454,7 @@ public class LanguageWebSocketService {
         List<Object> arguments = item.getOriginItem().getCommand().getArguments();
         if (arguments.size() > 0) {
             Gson gson = new Gson();
-            ItemSelectedParams params = (ItemSelectedParams) gson.fromJson(arguments.get(0).toString(), ItemSelectedParams.class);
+            ItemSelectedParams params = gson.fromJson(arguments.get(0).toString(), ItemSelectedParams.class);
             this.server.itemSelected(params);
         }
 

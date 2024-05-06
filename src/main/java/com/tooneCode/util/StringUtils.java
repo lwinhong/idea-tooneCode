@@ -124,4 +124,20 @@ public class StringUtils {
             return false;
         }
     }
+
+    public static boolean isTabSpace(char c, boolean withNewline) {
+        return c == ' ' || c == '\t' || withNewline && c == '\n';
+    }
+
+    public static boolean isTabsSpaces(String text, boolean withNewlines) {
+        for (int i = 0; i < text.length(); ++i) {
+            char c = text.charAt(i);
+            if (!isTabSpace(c, withNewlines)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

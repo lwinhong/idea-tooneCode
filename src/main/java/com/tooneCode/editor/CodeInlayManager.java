@@ -39,6 +39,8 @@ public interface CodeInlayManager extends Disposable {
 
     boolean hasCompletionInlays(@NotNull Editor editor);
 
+    boolean applyCompletionByLine(@NotNull Editor editor);
+
     int countCompletionInlays(@NotNull Editor editor, @NotNull TextRange searchRange, boolean inlineInlays,
                               boolean afterLineEndInlays, boolean blockInlays, boolean matchInLeadingWhitespace);
 
@@ -47,4 +49,6 @@ public interface CodeInlayManager extends Disposable {
     void renderInlayCompletionItem(InlayCompletionRequest request, CodeEditorInlayItem item);
 
     void applyCompletion(@NotNull Project project, @NotNull Editor editor, @NotNull CodeEditorInlayItem inlayItem, Integer lineCount);
+
+    void toggleInlayCompletion(@NotNull Editor editor, int direction, int maxCount);
 }

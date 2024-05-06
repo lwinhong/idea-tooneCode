@@ -42,15 +42,10 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
 
     @Override
     public void dispose() {
-
     }
 
     @RequiresEdt
     public boolean isAvailable(@NotNull Editor editor) {
-        if (editor == null) {
-            //$$$reportNull$$$0(0);
-        }
-
         if (editor.isDisposed()) {
             return false;
         } else {
@@ -68,10 +63,6 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     }
 
     private boolean isAvailableFile(@NotNull Editor editor) {
-        if (editor == null) {
-            //$$$reportNull$$$0(1);
-        }
-
         Project project = editor.getProject();
         if (project == null) {
             return false;
@@ -84,19 +75,11 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
 
     @Override
     public void disposeInlays(@NotNull Editor editor, InlayDisposeEventEnum disposeAction) {
-        if (editor == null) {
-            //$$$reportNull$$$0(9);
-        }
-
         this.disposeInlays(editor, disposeAction, (String) null);
     }
 
     @Override
     public void disposeInlays(@NotNull Editor editor, InlayDisposeEventEnum disposeAction, String commandName) {
-        if (editor == null) {
-
-            //$$$reportNull$$$0(9);
-        }
         List<CodeInlayRenderer> renderers = this.collectInlays(editor, 0, editor.getDocument().getTextLength());
         this.clearInlays(renderers);
         var inlayList = (CodeEditorInlayList) CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(editor);
@@ -136,10 +119,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     }
 
     private void clearInlays(List<CodeInlayRenderer> renderers) {
-        var var2 = renderers.iterator();
-
-        while (var2.hasNext()) {
-            CodeInlayRenderer renderer = var2.next();
+        for (CodeInlayRenderer renderer : renderers) {
             Inlay<CodeInlayRenderer> inlay = renderer.getInlay();
             if (inlay != null) {
                 Disposer.dispose(inlay);
@@ -153,48 +133,20 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     }
 
     private boolean isProcessing(@NotNull Editor editor) {
-        if (editor == null) {
-            //$$$reportNull$$$0(20);
-        }
-
         return (Boolean) CodeCacheKeys.KEY_COMPLETION_PROCESSING.get(editor);
     }
 
     public void editorChanged(@NotNull CompletionTriggerConfig config, @NotNull Editor editor) {
-        if (config == null) {
-            //$$$reportNull$$$0(2);
-        }
-
-        if (editor == null) {
-            //$$$reportNull$$$0(3);
-        }
-
         this.editorChanged(config, editor, editor.getCaretModel().getOffset(), CompletionTriggerModeEnum.AUTO);
     }
 
     public void editorChanged(@NotNull CompletionTriggerConfig config, @NotNull Editor editor,
                               CompletionTriggerModeEnum triggerMode) {
-        if (config == null) {
-            //$$$reportNull$$$0(4);
-        }
-
-        if (editor == null) {
-            //$$$reportNull$$$0(5);
-        }
-
         this.editorChanged(config, editor, editor.getCaretModel().getOffset(), triggerMode);
     }
 
     public void editorChanged(@NotNull CompletionTriggerConfig config, @NotNull Editor editor, int offset,
                               CompletionTriggerModeEnum triggerMode) {
-        if (config == null) {
-            //$$$reportNull$$$0(6);
-        }
-
-        if (editor == null) {
-            //$$$reportNull$$$0(7);
-        }
-
         Project project = editor.getProject();
         if (TooneCoder.INSTANCE.checkCosy(project, true)) {
             SwingUtilities.invokeLater(() -> {
@@ -205,10 +157,6 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     }
 
     public boolean hasCompletionInlays(@NotNull Editor editor) {
-        if (editor == null) {
-            //$$$reportNull$$$0(11);
-        }
-
         if (!this.isAvailable(editor)) {
             return false;
         } else {
@@ -217,14 +165,6 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     }
 
     public int countCompletionInlays(@NotNull Editor editor, @NotNull TextRange searchRange, boolean inlineInlays, boolean afterLineEndInlays, boolean blockInlays, boolean matchInLeadingWhitespace) {
-        if (editor == null) {
-            //$$$reportNull$$$0(12);
-        }
-
-        if (searchRange == null) {
-            //$$$reportNull$$$0(13);
-        }
-
         if (!this.isAvailable(editor)) {
             return 0;
         } else {
@@ -268,10 +208,6 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
 
     @RequiresEdt
     public boolean applyCompletion(@NotNull Editor editor, Integer lineCount) {
-        if (editor == null) {
-            //$$$reportNull$$$0(15);
-        }
-
         if (editor.isDisposed()) {
             LOGGER.warn("editor already disposed");
             return false;
@@ -307,18 +243,6 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
 
     @RequiresEdt
     public void applyCompletion(@NotNull Project project, @NotNull Editor editor, @NotNull CodeEditorInlayItem inlayItem, Integer lineCount) {
-        if (project == null) {
-            //$$$reportNull$$$0(16);
-        }
-
-        if (editor == null) {
-            //$$$reportNull$$$0(17);
-        }
-
-        if (inlayItem == null) {
-            //$$$reportNull$$$0(18);
-        }
-
         WriteCommandAction.runWriteCommandAction(project, "Apply Tongyi Inline Suggestion", "TONGYI", () -> {
             if (!project.isDisposed()) {
                 String content = null;
@@ -355,6 +279,114 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
                         lineCount == null ? inlayItem.getTotalLineCount() : lineCount);
             }
         }, new PsiFile[0]);
+    }
+
+    public boolean applyCompletionByLine(@NotNull Editor editor) {
+        if (editor.isDisposed()) {
+            LOGGER.warn("editor already disposed");
+            return false;
+        } else {
+            Project project = editor.getProject();
+            if (project != null && !project.isDisposed()) {
+                if (this.isProcessing(editor)) {
+                    LOGGER.warn("can't apply inlays while processing");
+                    return false;
+                } else {
+                    synchronized (CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS) {
+                        CodeEditorInlayList list = CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(editor);
+                        if (list == null) {
+                            return false;
+                        } else {
+                            TelemetryService.getInstance().updateTimestamp(TimestampEnum.ACCEPT_TIMESTAMP_TYPE.getType(), System.currentTimeMillis());
+                            List<CodeInlayRenderer> renderers = this.collectInlays(editor, 0, editor.getDocument().getTextLength());
+                            this.clearInlays(renderers);
+                            CodeEditorInlayItem inlayItem = list.getCurrentInlayItem();
+                            if (inlayItem != null) {
+                                String line = inlayItem.refactorByAcceptLine();
+                                if (StringUtils.isNotBlank(line)) {
+                                    line = this.getCompletionInsertContent(inlayItem, editor, line);
+                                    this.insertInlayContent(editor, line);
+                                    int startLineNumber = editor.getCaretModel().getLogicalPosition().line;
+                                    String filePath = EditorUtil.getEditorFilePath(editor);
+                                    TelemetryService.getInstance().telemetryTextChange(new TextChangeContext(editor.getProject(), filePath, line, startLineNumber, true, LanguageUtil.getLanguageByFilePath(filePath), "completion"));
+                                    TelemetryService.getInstance().applyCompletion(editor, inlayItem, 1);
+                                    if (inlayItem.getTotalLineCount() > 0) {
+                                        InlayCompletionRequest oldRequest = CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
+                                        inlayItem.setEditorOffset(editor.getCaretModel().getOffset());
+                                        this.renderInlayCompletionItem(oldRequest, inlayItem);
+                                    } else {
+                                        this.disposeInlays(editor, InlayDisposeEventEnum.ACCEPTED);
+                                    }
+
+                                    inlayItem.setAccepted(true);
+                                }
+                            }
+
+                            return true;
+                        }
+                    }
+                }
+            } else {
+                LOGGER.warn("project disposed or null: " + project);
+                return false;
+            }
+        }
+    }
+
+    private String getCompletionInsertContent(CodeEditorInlayItem inlayItem, Editor editor, String content) {
+        if (inlayItem.isAccepted() && !content.startsWith("\n")) {
+            String linePrefix = CompletionUtil.getCursorPrefix(editor, editor.getCaretModel().getOffset());
+            String lineSuffix = CompletionUtil.getCursorSuffix(editor, editor.getCaretModel().getOffset());
+            if (StringUtils.isNotBlank(linePrefix) && StringUtils.isBlank(lineSuffix)) {
+                content = "\n" + content;
+            }
+        }
+
+        return content;
+    }
+
+    private void insertInlayContent(@NotNull Editor editor, String content) {
+
+        WriteCommandAction.runWriteCommandAction(editor.getProject(), "Apply Tongyi Inline Suggestion", "TONGYI", () -> {
+            String code = content;
+            Document document = editor.getDocument();
+            if (document instanceof DocumentImpl && !((DocumentImpl) document).acceptsSlashR()) {
+                code = StringUtils.remove(code, '\r');
+            }
+
+            code = StringUtils.stripEnd(code, " \t\n");
+            int caretOffset = code.indexOf("<|cursor|>");
+            if (caretOffset < 0) {
+                caretOffset = code.length();
+            } else {
+                code = code.replace("<|cursor|>", "");
+            }
+
+            int startOffset = editor.getCaretModel().getOffset();
+            document.insertString(startOffset, code);
+            editor.getCaretModel().moveToOffset(editor.getCaretModel().getOffset() + caretOffset);
+        }, new PsiFile[0]);
+    }
+
+    @RequiresEdt
+    public void toggleInlayCompletion(@NotNull Editor editor, int direction, int maxCount) {
+
+        CodeEditorInlayList list = CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(editor);
+        InlayCompletionRequest oldRequest = CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
+        if (list != null && !list.isEmpty() && oldRequest != null) {
+            this.disposeInlays(editor, InlayDisposeEventEnum.TOGGLE_COMPLETION);
+            if (TooneCoder.INSTANCE.checkCosy(editor.getProject(), true)) {
+                if (maxCount > list.size()) {
+                    InlayPreviewRequest.build().toggle(editor, oldRequest);
+                } else {
+                    CodeEditorInlayItem item = list.select(list.getSelectIndex() + direction);
+                    if (item != null) {
+                        this.renderInlayCompletionItem(oldRequest, item);
+                    }
+                }
+
+            }
+        }
     }
 
     public void renderInlayCompletionItem(InlayCompletionRequest request, CodeEditorInlayItem item) {

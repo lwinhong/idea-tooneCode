@@ -4,7 +4,8 @@ import com.alibaba.fastjson2.JSON;
 import com.google.gson.Gson;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
-import  java.util.function.Consumer;
+
+import java.util.function.Consumer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -18,21 +19,27 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.intellij.openapi.project.Project;
+import com.tooneCode.common.CodeCacheKeys;
 import com.tooneCode.common.CodeConfig;
 import com.tooneCode.constants.Constants;
 import com.tooneCode.completion.model.CodeCompletionItem;
 import com.tooneCode.core.model.CompletionParams;
 import com.tooneCode.core.model.model.*;
 import com.tooneCode.core.model.params.*;
+import com.tooneCode.editor.model.InlayCompletionRequest;
 import com.tooneCode.ui.config.ReportStatistic;
 import com.tooneCode.ui.statusbar.CodeStatusBarWidget;
 import com.tooneCode.util.ApplicationUtil;
 import com.tooneCode.util.Debouncer;
+import com.tooneCode.util.ProjectUtils;
 import lombok.Generated;
 import org.eclipse.aether.deployment.DeploymentException;
 import org.eclipse.lsp4j.*;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.lsp4j.services.WorkspaceService;
+
+import javax.swing.*;
 
 public class LanguageWebSocketService {
     private static final Logger log = Logger.getInstance(LanguageWebSocketService.class);
@@ -60,6 +67,22 @@ public class LanguageWebSocketService {
 //        CosyWebSocketClient webSocketClient = new CosyWebSocketClient(new URI("ws://127.0.0.1:" + port));
 //        return new LanguageWebSocketService(webSocketClient, webSocketClient.getClient(), webSocketClient.getServer());
         return new LanguageWebSocketService();
+    }
+
+    private InlayCompletionRequest getInlayCompletionRequest() {
+        InlayCompletionRequest req = null;
+        Editor editor = com.tooneCode.util.EditorUtil.getActiveEditor();
+        if (editor == null) {
+            log.warn("Cannot get active editor, try get by project");
+            Project project = ProjectUtils.getActiveProject();
+            if (project != null) {
+                req = CodeCacheKeys.KEY_COMPLETION_LATEST_PROJECT_REQUEST.get(project);
+            }
+        } else {
+            req = CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
+        }
+
+        return req;
     }
 
     public void connect() throws DeploymentException, IOException {
@@ -99,11 +122,21 @@ public class LanguageWebSocketService {
                             //Either.forLeft(new TextEdit(new Range(new Position(0, 0), new Position(0, 0)))
                             var edit = new TextEdit();
                             edit.setRange(new Range(new Position(position.getPosition().getLine(), position.getPosition().getCharacter()),
-                                    new Position(position.getPosition().getLine(), position.getPosition().getCharacter() + 5)));
+                                    new Position(position.getPosition().getLine(), position.getPosition().getCharacter() + 4)));
                             item.setTextEdit(Either.forLeft(edit));
                             items.add(item);
 
+
                             Either<List<CompletionItem>, CompletionList> list = Either.forLeft(items);
+                            if (position.getUseRemoteModel()) {
+                                SwingUtilities.invokeLater(() -> {
+                                    InlayCompletionRequest req = getInlayCompletionRequest();
+                                    if (!req.isCanceled()) {
+                                        req.getCollector().onCollect(item);
+                                        req.getCollector().onComplete();
+                                    }
+                                });
+                            }
                             return list;
                         });
                     }

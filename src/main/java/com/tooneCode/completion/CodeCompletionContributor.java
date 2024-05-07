@@ -43,7 +43,9 @@ public class CodeCompletionContributor extends CompletionContributor {
     }
 
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result) {
-
+        if (parameters != null) {
+            return;
+        }
         if (parameters.getEditor().getProject() != null) {
             CodeSetting setting = CodePersistentSetting.getInstance().getState();
             if (setting != null && !setting.getParameter().getLocal().getEnable()) {
@@ -86,8 +88,12 @@ public class CodeCompletionContributor extends CompletionContributor {
 
                                 if (items != null && !items.isEmpty()) {
                                     log.debug(items.toString());
-                                    result = result.withPrefixMatcher((new CodePrefixMatcher(originMatcher)).cloneWithPrefix(originMatcher.getPrefix()))
-                                            .withRelevanceSorter(CompletionSorter.defaultSorter(parameters, originMatcher).weigh(new CodeLookupElementWeigher()));
+                                    result = result.withPrefixMatcher((new CodePrefixMatcher(originMatcher))
+                                            .cloneWithPrefix(originMatcher.getPrefix()));
+
+                                    var sort = CompletionSorter.defaultSorter(parameters, originMatcher);
+                                    result = result.withRelevanceSorter(sort
+                                            .weigh(new CodeLookupElementWeigher()));
                                     result.restartCompletionOnAnyPrefixChange();
                                     result.addAllElements(this.createCompletions(context, items));
                                     this.duplicateOtherItems(parameters, result, items);
@@ -101,11 +107,9 @@ public class CodeCompletionContributor extends CompletionContributor {
     }
 
     private void duplicateOtherItems(CompletionParameters params, @Nonnull CompletionResultSet result, List<CompletionItem> items) {
-        Set<String> completionItems = new HashSet();
-        Iterator var5 = items.iterator();
+        Set<String> completionItems = new HashSet<>();
 
-        while (var5.hasNext()) {
-            CompletionItem item = (CompletionItem) var5.next();
+        for (CompletionItem item : items) {
             String completionText = CompletionUtil.getCompletionText(item);
             completionItems.add(completionText);
         }

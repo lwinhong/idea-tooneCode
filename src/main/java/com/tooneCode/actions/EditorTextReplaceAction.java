@@ -1,10 +1,13 @@
 package com.tooneCode.actions;
 
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * description:  替换选中文本action
  */
-public class EditorTextReplaceAction extends AnAction {
+public class EditorTextReplaceAction extends AnAction implements DumbAware {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         try {

@@ -1,5 +1,5 @@
 package com.tooneCode.completion.action;
 
 
-public interface LingmaAction {
+public interface CodeAction {
 }

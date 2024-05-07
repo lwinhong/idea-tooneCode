@@ -53,7 +53,7 @@ public class DefaultInlayCompletionCollector implements InlayCompletionCollector
                 } else {
                     String content = item.getContent();
                     synchronized (CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS) {
-                        InlayCompletionRequest req = (InlayCompletionRequest) CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(this.editor);
+                        InlayCompletionRequest req = CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(this.editor);
                         if (req != null && !req.isCanceled()) {
                             String[] parts = StringUtils.splitByWholeSeparator(content, "<|cursor|>");
                             if (parts.length != 0 && this.generateLen <= parts[0].length()) {

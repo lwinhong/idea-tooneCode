@@ -1,5 +1,9 @@
 package com.tooneCode.util;
 
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorSettings;
@@ -12,6 +16,7 @@ import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
 import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import org.apache.commons.io.FilenameUtils;
@@ -264,4 +269,13 @@ public class EditorUtil {
         return result;
     }
 
+    public static Editor getActiveEditor() {
+        if (!ApplicationManager.getApplication().isDispatchThread()) {
+            return null;
+        } else {
+            Component focusOwner = IdeFocusManager.getGlobalInstance().getFocusOwner();
+            DataContext dataContext = DataManager.getInstance().getDataContext(focusOwner);
+            return ApplicationManager.getApplication().isDisposed() ? null : (Editor) CommonDataKeys.EDITOR.getData(dataContext);
+        }
+    }
 }

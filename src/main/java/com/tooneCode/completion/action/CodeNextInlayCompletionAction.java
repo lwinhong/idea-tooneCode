@@ -11,7 +11,7 @@ import com.tooneCode.editor.CodeInlayManager;
 import com.tooneCode.ui.config.CodePersistentSetting;
 import org.jetbrains.annotations.NotNull;
 
-public class CodeNextInlayCompletionAction extends BaseCodeInsightAction implements DumbAware, LingmaAction {
+public class CodeNextInlayCompletionAction extends BaseCodeInsightAction implements DumbAware, CodeAction {
     public CodeNextInlayCompletionAction() {
         super(false);
     }

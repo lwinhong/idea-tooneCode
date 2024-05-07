@@ -1,36 +1,48 @@
 package com.tooneCode.editor;
 
+
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.Inlay;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.JBColor;
-import com.tooneCode.editor.model.CodeEditorInlayItem;
-import com.tooneCode.editor.model.InlayCompletionRequest;
-import com.tooneCode.util.FontUtil;
-import com.tooneCode.util.KeyboardUtil;
-import com.tooneCode.util.ReflectUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.apache.commons.lang3.StringUtils;
+import com.intellij.util.ui.GraphicsUtil;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.tooneCode.common.CodeBundle;
+import com.tooneCode.common.CodeSetting;
+import com.tooneCode.editor.model.CodeEditorInlayItem;
+import com.tooneCode.editor.model.InlayCompletionRequest;
+import com.tooneCode.ui.config.CodePersistentSetting;
+import com.tooneCode.util.FontUtil;
+import com.tooneCode.util.KeyboardUtil;
+import com.tooneCode.util.ReflectUtil;
+import com.tooneCode.util.RenderUtil;
 import lombok.Generated;
-
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
-
     private static final String INLAY_TEXT_WITHOUT_BACKGROUND_FIELD = "INLAY_TEXT_WITHOUT_BACKGROUND";
     private static final TextAttributes DEFAULT_INLAY_TEXT_THEME = new TextAttributes();
     private static final int TOOLTIPS_OFFSET = 16;
-    private static final String SHORTCUT_TOOLTIPS = "Tips: Partial accept";//多语言//CosyBundle.message("completion.apply.partial.tooltips", new Object[0]);
+    private static final String ACCEPT_SBY_LINE_TOOLTIPS = CodeBundle.message("completion.apply.partial.tooltips");
     private final @NotNull List<String> lines;
     private final List<String> tooltipTexts;
     private final @NotNull String content;
@@ -43,11 +55,8 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
     private CodeEditorInlayItem item;
     private long lastUpdateDisplayTimeLength;
 
-    public CodeDefaultInlayRenderer(@NotNull CodeEditorInlayItem item, @NotNull Editor editor,
-                                    @NotNull InlayCompletionRequest request, @NotNull List<String> lines, int lineStartIndex,
-                                    int totalLineCount, int lineMaxLength) {
+    public CodeDefaultInlayRenderer(@NotNull CodeEditorInlayItem item, @NotNull Editor editor, @NotNull InlayCompletionRequest request, @NotNull List<String> lines, int lineStartIndex, int totalLineCount, int lineMaxLength) {
         super();
-
         this.cachedWidth = -1;
         this.cachedHeight = -1;
         this.lastUpdateDisplayTimeLength = 0L;
@@ -60,43 +69,79 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
         this.tooltipTexts = this.createTooltipText(lineStartIndex);
     }
 
-    @Override
-    public @NotNull List<String> getContentLines() {
-
-        return this.lines;
+    public int calcHeightInPixels(@NotNull Inlay inlay) {
+        return this.cachedHeight < 0 ? (this.cachedHeight = inlay.getEditor().getLineHeight() * this.lines.size()) : this.cachedHeight;
     }
 
-    public @Nullable Inlay<CodeInlayRenderer> getInlay() {
-        return this.inlay;
-    }
+    public void paint(@NotNull Inlay inlay, @NotNull Graphics g, @NotNull Rectangle targetRegion, @NotNull TextAttributes textAttributes) {
 
-    public void setInlay(@NotNull Inlay<CodeInlayRenderer> inlay) {
-        this.inlay = inlay;
-    }
+        Editor editor = inlay.getEditor();
+        if (!editor.isDisposed()) {
+            Rectangle region = targetRegion;
+            if (!this.content.trim().isEmpty() && !this.lines.isEmpty()) {
+                Rectangle clipBounds = g.getClipBounds();
+                Graphics2D g2 = (Graphics2D) g.create();
+                GraphicsUtil.setupAAPainting(g2);
+                String var10001 = this.content;
+                Font font = FontUtil.getFont(editor, var10001 + StringUtils.join(new List[]{this.tooltipTexts}));
+                g2.setFont(font);
+                FontMetrics metrics = FontUtil.fontMetrics(editor, font);
+                double lineHeight = (double) editor.getLineHeight();
+                double fontBaseline = Math.ceil(font.createGlyphVector(metrics.getFontRenderContext(), "lAba").getVisualBounds().getHeight());
+                double linePadding = (lineHeight - fontBaseline) / 2.0;
+                double offsetX = region.getX();
+                double offsetY = region.getY() + fontBaseline + linePadding;
+                int lineOffset = 0;
+                g2.setClip((Shape) (clipBounds != null && !clipBounds.equals(region) ? region.createIntersection(clipBounds) : region));
 
-    public @NotNull TextAttributes getTextAttributes() {
-        TextAttributes var10000 = this.textAttributes;
-        if (var10000 == null) {
-            //$$$reportNull$$$0(16);
+                for (int i = 0; i < this.lines.size(); ++i) {
+                    String line = (String) this.lines.get(i);
+                    RenderUtil.renderBackground(g2, this.textAttributes, offsetX, region.getY() + (double) lineOffset, region.getWidth(), lineHeight);
+                    g2.setColor(this.textAttributes.getForegroundColor());
+                    g2.drawString(line, (float) offsetX, (float) (offsetY + (double) lineOffset));
+                    if (i < this.tooltipTexts.size()) {
+                        String tooltipText = (String) this.tooltipTexts.get(i);
+                        if (tooltipText != null) {
+                            g2.drawString(tooltipText, (float) (this.lineMaxLength + 16), (float) (offsetY + (double) lineOffset));
+                        }
+                    }
+
+                    if (editor instanceof EditorImpl) {
+                        RenderUtil.renderEffects(g2, offsetX, offsetY + (double) lineOffset, (double) metrics.stringWidth(line), ((EditorImpl) editor).getCharHeight(), ((EditorImpl) editor).getDescent(), this.textAttributes, font);
+                    }
+
+                    lineOffset = (int) ((double) lineOffset + lineHeight);
+                }
+
+                g2.dispose();
+                this.item.setRendered(true);
+                if (this.item.getFirstDisplayTimeMs() == 0L) {
+                    this.item.setFirstDisplayTimeMs(System.currentTimeMillis());
+                }
+
+                if (!this.item.isAccepted() && (this.lastUpdateDisplayTimeLength == 0L || this.lastUpdateDisplayTimeLength < (long) this.item.getContent().length())) {
+                    this.lastUpdateDisplayTimeLength = (long) this.item.getContent().length();
+                    this.item.setDisplayTimeMs(System.currentTimeMillis());
+                }
+
+            }
         }
-
-        return var10000;
     }
 
-    @Override
+    public @Nullable @NonNls String getContextMenuGroupId(@NotNull Inlay inlay) {
+        return "cosy.inlayContextMenu";
+    }
+
     public int calcWidthInPixels(@NotNull Inlay inlay) {
-        if (inlay == null) {
-            //$$$reportNull$$$0(10);
-        }
 
         if (this.cachedWidth < 0) {
-            if (this.totalLineCount == 1) {
+            if (this.totalLineCount <= 1) {
                 this.cachedWidth = FontUtil.calculateWidth(inlay.getEditor(), this.content, this.lines);
             } else {
-                String shortcutText = KeyboardUtil.getShortcutText("SelectCodePartInlayAction", "");
-                String tips = String.format("%s %s", shortcutText, SHORTCUT_TOOLTIPS);
+                String shortcutText = KeyboardUtil.getShortcutText("ApplyCosyInlayByLineCompletion", "");
+                String tips = String.format("%s %s", shortcutText, ACCEPT_SBY_LINE_TOOLTIPS);
                 String maxLine = null;
-                var var5 = this.tooltipTexts.iterator();
+                Iterator var5 = this.tooltipTexts.iterator();
 
                 while (true) {
                     String tip;
@@ -109,7 +154,7 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
                             return this.cachedWidth;
                         }
 
-                        tip = var5.next();
+                        tip = (String) var5.next();
                     } while (maxLine != null && tip.length() <= maxLine.length());
 
                     maxLine = tip;
@@ -120,47 +165,7 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
         return this.cachedWidth;
     }
 
-    private List<String> processLines(InlayCompletionRequest request, List<String> lines) {
-        lines = com.tooneCode.util.StringUtils.replaceHeadTabs(lines, false, request.getTabWidth());
-        lines = lines.stream().map((line) -> {
-            return line.replace("<|cursor|>", "");
-        }).collect(Collectors.toList());
-        return lines;
-    }
-
-    private List<String> createTooltipText(int lineStartIndex) {
-        List<String> tooltips = new ArrayList();
-//        CosySetting setting = CosyPersistentSetting.getInstance().getState();
-//        if (setting != null && this.totalLineCount > 1 && SystemInfo.isMac) {
-//            String shortcutText = KeyboardUtil.getShortcutText("SelectCosyPartInlayAction", "");
-//            if (StringUtils.isBlank(shortcutText)) {
-//                return tooltips;
-//            } else {
-//                String shortcutIcon = shortcutText.substring(0, shortcutText.length() - 1);
-//
-//                for (int i = 0; i < this.lines.size(); ++i) {
-//                    if (lineStartIndex + i < 9) {
-//                        if (lineStartIndex + i == 0 && setting.isShowInlinePartialAcceptTips()) {
-//                            tooltips.add(String.format("%s%d %s", shortcutIcon, lineStartIndex + i + 1, SHORTCUT_TOOLTIPS));
-//                        } else {
-//                            tooltips.add(String.format("%s%d", shortcutIcon, lineStartIndex + i + 1));
-//                        }
-//                    }
-//                }
-//
-//                return tooltips;
-//            }
-//        } else {
-//            return tooltips;
-//        }
-        return tooltips;
-    }
-
     private static TextAttributes getEdtorTextAttributes(@NotNull Editor editor) {
-        if (editor == null) {
-            //$$$reportNull$$$0(11);
-        }
-
         EditorColorsScheme scheme = editor.getColorsScheme();
         TextAttributes themeAttributes = null;
 
@@ -181,9 +186,9 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
             return themeAttributes;
         } else {
             TextAttributes customAttributes = themeAttributes != null ? themeAttributes.clone() : new TextAttributes();
-            if (userColor != null) {
-                //customAttributes.setForegroundColor(userColor);
-            }
+//            if (userColor != null) {
+//                customAttributes.setForegroundColor(userColor);
+//            }
 
             if (customAttributes.getForegroundColor() == null) {
                 customAttributes.setForegroundColor(JBColor.GRAY);
@@ -193,9 +198,56 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
         }
     }
 
+    public @NotNull List<String> getContentLines() {
+        return this.lines;
+    }
+
+    public @Nullable Inlay<CodeInlayRenderer> getInlay() {
+        return this.inlay;
+    }
+
+    public void setInlay(@NotNull Inlay<CodeInlayRenderer> inlay) {
+        this.inlay = inlay;
+    }
+
+    private List<String> createTooltipText(int lineStartIndex) {
+        List<String> tooltips = new ArrayList<>();
+        CodeSetting setting = CodePersistentSetting.getInstance().getState();
+        if (setting != null && this.totalLineCount > 1) {
+            String shortcutText = KeyboardUtil.getShortcutText("ApplyCosyInlayByLineCompletion", "");
+            if (StringUtils.isBlank(shortcutText)) {
+                return tooltips;
+            } else {
+                for (int i = 0; i < this.lines.size(); ++i) {
+                    if (lineStartIndex + i == 0) {
+                        tooltips.add(String.format("%s %s", shortcutText, ACCEPT_SBY_LINE_TOOLTIPS));
+                        break;
+                    }
+                }
+
+                return tooltips;
+            }
+        } else {
+            return tooltips;
+        }
+    }
+
+    private List<String> processLines(InlayCompletionRequest request, List<String> lines) {
+        lines = com.tooneCode.util.StringUtils.replaceHeadTabs(lines, false, request.getTabWidth());
+        lines = lines.stream().map((line) -> {
+            return line.replace("<|cursor|>", "");
+        }).collect(Collectors.toList());
+        return lines;
+    }
+
     @Generated
     public @NotNull List<String> getLines() {
         return this.lines;
+    }
+
+    @Generated
+    public List<String> getTooltipTexts() {
+        return this.tooltipTexts;
     }
 
     @Generated
@@ -204,8 +256,8 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
     }
 
     @Generated
-    public List<String> getTooltipTexts() {
-        return this.tooltipTexts;
+    public @NotNull TextAttributes getTextAttributes() {
+        return this.textAttributes;
     }
 
     @Generated
@@ -264,8 +316,8 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
     }
 
     @Generated
-    protected boolean canEqual(Object other) {
-        return other instanceof CodeDefaultInlayRenderer;
+    public void setLastUpdateDisplayTimeLength(long lastUpdateDisplayTimeLength) {
+        this.lastUpdateDisplayTimeLength = lastUpdateDisplayTimeLength;
     }
 
     @Generated
@@ -379,8 +431,12 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
     }
 
     @Generated
+    protected boolean canEqual(Object other) {
+        return other instanceof CodeDefaultInlayRenderer;
+    }
+
+    @Generated
     public int hashCode() {
-        //int PRIME = true;
         int result = 1;
         Object $lines = this.getLines();
         result = result * 59 + ($lines == null ? 43 : $lines.hashCode());
@@ -405,16 +461,12 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
 
     @Generated
     public String toString() {
-        var var10000 = this.getLines();
-        return "CodeDefaultInlayRenderer(lines=" + var10000 + ", tooltipTexts=" + this.getTooltipTexts()
-                + ", content=" + this.getContent() + ", textAttributes=" + this.getTextAttributes()
-                + ", inlay=" + this.getInlay() + ", cachedWidth=" + this.getCachedWidth() + ", cachedHeight="
-                + this.getCachedHeight() + ", lineMaxLength=" + this.getLineMaxLength() + ", totalLineCount="
-                + this.getTotalLineCount() + ", item=" + this.getItem() + ", lastUpdateDisplayTimeLength="
-                + this.getLastUpdateDisplayTimeLength() + ")";
+        List var10000 = this.getLines();
+        return "CosyDefaultInlayRenderer(lines=" + var10000 + ", tooltipTexts=" + this.getTooltipTexts() + ", content=" + this.getContent() + ", textAttributes=" + this.getTextAttributes() + ", inlay=" + this.getInlay() + ", cachedWidth=" + this.getCachedWidth() + ", cachedHeight=" + this.getCachedHeight() + ", lineMaxLength=" + this.getLineMaxLength() + ", totalLineCount=" + this.getTotalLineCount() + ", item=" + this.getItem() + ", lastUpdateDisplayTimeLength=" + this.getLastUpdateDisplayTimeLength() + ")";
     }
 
     static {
         DEFAULT_INLAY_TEXT_THEME.setForegroundColor(new JBColor(new Color(8026746), new Color(8026746)));
     }
+
 }

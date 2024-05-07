@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 import com.tooneCode.editor.CodeInlayManager;
 import org.jetbrains.annotations.NotNull;
 
-public class BaseAcceptAction extends EditorAction implements DumbAware, LingmaAction {
+public class BaseAcceptAction extends EditorAction implements DumbAware, CodeAction {
     private static final Logger LOG = Logger.getInstance(CodeApplyInlayAction.class);
 
     public BaseAcceptAction(EditorActionHandler defaultHandler) {

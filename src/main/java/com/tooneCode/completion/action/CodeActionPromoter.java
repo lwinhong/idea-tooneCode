@@ -18,7 +18,7 @@ public class CodeActionPromoter implements ActionPromoter {
         if (this.isValidEditor((Editor) CommonDataKeys.EDITOR.getData(dataContext))) {
             return null;
         } else if (actions.stream().noneMatch((action) -> {
-            return action instanceof LingmaAction && action instanceof EditorAction;
+            return action instanceof CodeAction && action instanceof EditorAction;
         })) {
             return null;
         } else {
@@ -39,7 +39,7 @@ public class CodeActionPromoter implements ActionPromoter {
     }
 
     private boolean isLingmaAction(AnAction action) {
-        return action instanceof LingmaAction && action instanceof EditorAction;
+        return action instanceof CodeAction && action instanceof EditorAction;
     }
 
     private boolean isValidEditor(Editor editor) {

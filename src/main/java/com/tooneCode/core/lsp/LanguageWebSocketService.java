@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.google.gson.Gson;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.util.Consumer;
+import  java.util.function.Consumer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -101,7 +101,6 @@ public class LanguageWebSocketService {
                             edit.setRange(new Range(new Position(position.getPosition().getLine(), position.getPosition().getCharacter()),
                                     new Position(position.getPosition().getLine(), position.getPosition().getCharacter() + 5)));
                             item.setTextEdit(Either.forLeft(edit));
-
                             items.add(item);
 
                             Either<List<CompletionItem>, CompletionList> list = Either.forLeft(items);
@@ -389,7 +388,7 @@ public class LanguageWebSocketService {
     public void aysncCompletionInlayWithDebouncer(Editor editor, CompletionParams params, long delayTime, long timeout, Consumer<CompletionParams> consumer) {
         this.inlayCompletionDebouncer.debounce(params.getRequestId(), () -> {
             if (consumer != null) {
-                consumer.consume(params);
+                consumer.accept(params);
             }
 
             CodeStatusBarWidget.setStatusBarGenerating(editor.getProject(), true, false);
@@ -451,12 +450,12 @@ public class LanguageWebSocketService {
     }
 
     public void itemSelected(CodeCompletionItem item) {
-        List<Object> arguments = item.getOriginItem().getCommand().getArguments();
-        if (arguments.size() > 0) {
-            Gson gson = new Gson();
-            ItemSelectedParams params = gson.fromJson(arguments.get(0).toString(), ItemSelectedParams.class);
-            this.server.itemSelected(params);
-        }
+//        List<Object> arguments = item.getOriginItem().getCommand().getArguments();
+//        if (arguments.size() > 0) {
+//            Gson gson = new Gson();
+//            ItemSelectedParams params = gson.fromJson(arguments.get(0).toString(), ItemSelectedParams.class);
+//            this.server.itemSelected(params);
+//        }
 
     }
 

@@ -396,7 +396,7 @@ public final class TelemetryServiceImpl implements TelemetryService {
     }
 
     public void triggerCompletion(CompletionTriggerModeEnum triggerMode, Editor editor, CompletionParams params) {
-        Map<String, String> data = new HashMap();
+        Map<String, String> data = new HashMap<>();
         data.put("triggerMode", triggerMode.getName());
         data.put("useLocalModel", String.valueOf(params.getUseLocalModel()));
         data.put("useRemoteModel", String.valueOf(params.getUseRemoteModel()));

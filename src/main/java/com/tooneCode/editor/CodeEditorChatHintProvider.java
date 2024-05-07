@@ -46,6 +46,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import icons.IconUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -110,7 +111,7 @@ public class CodeEditorChatHintProvider implements InlayHintsProvider<ChatHintSe
                                 int column = offset - startOffset;
                                 List<InlayPresentation> presentations = new SmartList();
                                 presentations.add(factory.textSpacePlaceholder(column, true));
-                                //presentations.add(factory.smallScaledIcon(LingmaIcons.QuickLogoIcon));
+                                presentations.add(factory.smallScaledIcon(IconUtil.pluginIcon));
                                 presentations.add(factory.smallScaledIcon(Actions.FindAndShowNextMatchesSmall));
                                 presentations.add(factory.textSpacePlaceholder(1, true));
                                 SequencePresentation shiftedPresentation = new SequencePresentation(presentations);

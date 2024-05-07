@@ -1,10 +1,13 @@
 package com.tooneCode.toolWindow.cef;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.intellij.ide.DataManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.jcef.*;
 import com.tooneCode.services.CodeProjectServiceImpl;
+import com.tooneCode.util.LanguageUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.cef.browser.CefBrowser;
 import com.alibaba.fastjson2.JSON;
 
@@ -68,16 +71,27 @@ public class CodeCefManager implements ICodeCefManager {
         //页面也idea通讯就用这一个口（data用json，key：value包装）
         var executeData = JSON.parseObject(data, Map.class);
         var type = executeData.get("type").toString();
-        var value = executeData.get("value").toString();
+
         switch (type) {
             case "editCode":
                 EventQueue.invokeLater(() -> {
+                    var value = executeData.get("value").toString();
                     CodeProjectServiceImpl.getInstance(this._project).InsertCode(value);
                 });
                 break;
             case "openNew":
                 EventQueue.invokeLater(() -> {
-                    CodeProjectServiceImpl.getInstance(this._project).NewEditor(value);
+//                    String ext = LanguageUtil.guessExtensionByMarkdownLanguage(markdownLanguage);
+//                    if (StringUtils.isBlank(ext) && questionCodeWithExt != null) {
+//                        ext = questionCodeWithExt.getExt();
+//                    }
+//
+//                    String sourceFilePath = null;
+//                    if (questionCodeWithExt != null) {
+//                        sourceFilePath = questionCodeWithExt.getFilePath();
+//                    }
+
+                    CodeProjectServiceImpl.getInstance(this._project).NewEditor(executeData);
                 });
                 break;
         }

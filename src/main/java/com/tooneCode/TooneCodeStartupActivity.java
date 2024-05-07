@@ -3,9 +3,7 @@ package com.tooneCode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.startup.StartupActivity;
 import com.intellij.ide.util.RunOnceUtil;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.startup.StartupActivity;
 import com.tooneCode.update.TooneCodePluginUpdateChecker;
 import org.jetbrains.annotations.NotNull;
 

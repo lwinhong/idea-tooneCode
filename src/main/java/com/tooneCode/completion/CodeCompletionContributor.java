@@ -145,13 +145,6 @@ public class CodeCompletionContributor extends CompletionContributor {
             }
         }).withInsertHandler(new InsertHandler<LookupElement>() {
             public void handleInsert(@NotNull InsertionContext insertionContext, @NotNull LookupElement element) {
-//                if (insertionContext == null) {
-//                    $$$reportNull$$$0(0);
-//                }
-//
-//                if (element == null) {
-//                    $$$reportNull$$$0(1);
-//                }
 
                 int tail = insertionContext.getTailOffset();
                 CodeCompletionItem lookupElement = (CodeCompletionItem) element.getObject();

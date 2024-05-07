@@ -35,10 +35,10 @@ public class ChatQuestionManager {
     }
 
     static {
-        register(I18NConstant.ACTION_TRIGGER_EXPLAIN_CODE, "TriggerCosyExplainCodeGenerationAction");
-        register(I18NConstant.ACTION_TRIGGER_TESTCASE_GENERATION, "TriggerCosyTestcaseGenerationAction");
-        register(I18NConstant.ACTION_TRIGGER_CODE_GENERATE_COMMENT, "TriggerCosyCodeGenerateCommentGenerationAction", false, true);
-        register(I18NConstant.ACTION_TRIGGER_OPTIMIZE_CODE, "TriggerCosyOptimizeCodeGenerationAction");
+        register("提问", "tooneCode.actions.code.CodeGenerateAskAction");
+        register("生成注释", "tooneCode.actions.code.CodeGenerateAddCommentsAction");
+        register("解析代码", "tooneCode.actions.code.CodeGenerateAddExplainAction", false, true);
+        register("生成测试", "tooneCode.actions.code.CodeGenerateAddTestsAction");
     }
 
     public static class ChatQuestion {

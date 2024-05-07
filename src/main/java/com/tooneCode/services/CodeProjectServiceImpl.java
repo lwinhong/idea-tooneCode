@@ -1,5 +1,6 @@
 package com.tooneCode.services;
 
+import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -8,6 +9,8 @@ import com.tooneCode.toolWindow.ICodeToolWindow;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.event.InputEvent;
+import java.util.Map;
 import java.util.Objects;
 
 @Service(Service.Level.PROJECT)
@@ -25,8 +28,9 @@ public final class CodeProjectServiceImpl implements ICodeProjectService {
 
     /**
      * 获取当前project服务实例
+     *
      * @param project project
-     * @return  当前project服务实例
+     * @return 当前project服务实例
      */
     public static ICodeProjectService getInstance(Project project) {
         return project.getService(CodeProjectServiceImpl.class);
@@ -40,9 +44,10 @@ public final class CodeProjectServiceImpl implements ICodeProjectService {
     }
 
     @Override
-    public void NewEditor(String code) {
+    public void NewEditor(Map data) {
         var action = ActionManager.getInstance().getAction("tooneCode.actions.CreateEditorAction");
-        var event = buildAnActionEvent(action, "CreateEditorAction", code);
+        var event = buildAnActionEvent(action, "CreateEditorAction", data);
+
         action.actionPerformed(event);
     }
 
@@ -56,7 +61,7 @@ public final class CodeProjectServiceImpl implements ICodeProjectService {
         this.codeToolWindow = toolWindow;
     }
 
-    private AnActionEvent buildAnActionEvent(AnAction action, String place, String code) {
+    private AnActionEvent buildAnActionEvent(AnAction action, String place, Object data) {
         return AnActionEvent.createFromAnAction(action, null, place,
                 new CodeDataContext() {
                     @Override
@@ -68,7 +73,7 @@ public final class CodeProjectServiceImpl implements ICodeProjectService {
                             return project;
                         }
                         if (Objects.equals(dataId, "code")) {
-                            return code;
+                            return data;
                         }
                         return null;
                     }

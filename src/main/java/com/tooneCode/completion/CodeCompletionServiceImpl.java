@@ -6,7 +6,7 @@ import com.intellij.openapi.components.Service;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.Consumer;
+import  java.util.function.Consumer;
 import com.tooneCode.common.CodeCacheKeys;
 import com.tooneCode.completion.model.CompletionRenderType;
 import com.tooneCode.core.TooneCoder;

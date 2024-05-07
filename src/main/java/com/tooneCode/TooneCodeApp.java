@@ -6,10 +6,18 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.ui.jcef.JBCefApp;
+import com.jetbrains.cef.JCefAppConfig;
+import com.tooneCode.common.CodeSetting;
 import com.tooneCode.editor.CodeEditorActionHandler;
 import com.tooneCode.listeners.CodeVirtualFileListener;
+import com.tooneCode.ui.config.CodePersistentSetting;
+import org.cef.CefSettings;
 
+import java.awt.*;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TooneCodeApp {
@@ -37,6 +45,22 @@ public class TooneCodeApp {
 //        LingmaPluginUpdateChecker.delayCheckUpdate();
         VirtualFileManager.getInstance().addVirtualFileListener(new CodeVirtualFileListener());
         overrideEditorActions();
+
+        CodeSetting setting = CodePersistentSetting.getInstance().getState();
+        if (JBCefApp.isSupported()) {
+            try {
+                JCefAppConfig config = JCefAppConfig.getInstance();
+                CefSettings cefSettings = config.getCefSettings();
+                cefSettings.user_agent = "Mozilla/5.0 (Android 6.0)";
+                Color bgColor = EditorColorsManager.getInstance().getGlobalScheme().getDefaultBackground();
+                Objects.requireNonNull(cefSettings);
+                //cefSettings.background_color = new CefSettings.ColorType(bgColor.getAlpha(), bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+            } catch (Exception var5) {
+                Exception e = var5;
+                log.warn("Unsupported JBCefBrowser:" + e.getMessage());
+            }
+
+        }
     }
 
     private static void overrideEditorActions() {

@@ -2,7 +2,7 @@ package com.tooneCode.completion;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.Consumer;
+import  java.util.function.Consumer;
 
 import java.util.List;
 

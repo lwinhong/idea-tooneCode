@@ -1,15 +1,24 @@
 package com.tooneCode.completion;
 
-import com.intellij.codeInsight.completion.*;
-import com.intellij.codeInsight.lookup.*;
+import com.intellij.codeInsight.completion.CompletionContributor;
+import com.intellij.codeInsight.completion.CompletionParameters;
+import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.codeInsight.completion.CompletionSorter;
+import com.intellij.codeInsight.completion.InsertHandler;
+import com.intellij.codeInsight.completion.InsertionContext;
+import com.intellij.codeInsight.completion.PrefixMatcher;
+import com.intellij.codeInsight.lookup.Lookup;
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.codeInsight.lookup.LookupElementPresentation;
+import com.intellij.codeInsight.lookup.LookupElementRenderer;
+import com.intellij.codeInsight.lookup.LookupEx;
+import com.intellij.codeInsight.lookup.LookupManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterProcessor;
-import com.intellij.psi.PsiFile;
 import com.tooneCode.common.CodeBundle;
 import com.tooneCode.common.CodeSetting;
 import com.tooneCode.completion.model.CodeCompletionItem;
@@ -19,28 +28,35 @@ import com.tooneCode.core.TooneCoder;
 import com.tooneCode.core.model.CompletionParams;
 import com.tooneCode.listeners.CodeLookupListener;
 import com.tooneCode.ui.config.CodePersistentSetting;
+import com.tooneCode.util.CompletionUtil;
 import com.tooneCode.util.DocumentUtils;
 import icons.CommonIcons;
-import org.eclipse.lsp4j.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import com.tooneCode.util.CompletionUtil;
-import com.tooneCode.util.StringUtils;
 
-import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
 
-public class CodeCompletionContributor extends CompletionContributor {
-    private static final Logger log = Logger.getInstance(CodeCompletionContributor.class);
+import org.eclipse.lsp4j.CompletionItem;
+import org.eclipse.lsp4j.Position;
+import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.TextDocumentIdentifier;
+import org.eclipse.lsp4j.TextEdit;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public class PythonCodeCompletionContributor extends CompletionContributor {
+    private static final Logger log = Logger.getInstance(PythonCodeCompletionContributor.class);
     private static final long COMPLETION_TIMEOUT = 500L;
     private static final String PLACEHOLDER_PATTERN_STR = "(\\$\\d)|(\\$\\{\\d\\:([a-z0-9_]+)\\})";
     private static final Pattern DEFAULT_PLACEHOLDER_PATTERN = Pattern.compile("\\$\\{\\d\\:([a-z0-9_]+)\\}");
     private static final Pattern DOLLAR_ZERO_PATTERN = Pattern.compile("\\$0");
-
-    public CodeCompletionContributor() {
-    }
 
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result) {
         if (true) {
@@ -62,8 +78,6 @@ public class CodeCompletionContributor extends CompletionContributor {
                         this.addCosyLookupListener(parameters);
                         PrefixMatcher originMatcher = result.getPrefixMatcher();
                         CompletionParams completionParams = new CompletionParams();
-                        completionParams.setUseLocalModel(true);
-                        completionParams.setUseRemoteModel(false);
                         String filePath = parameters.getOriginalFile().getVirtualFile().getPath();
                         String fileContent = parameters.getEditor().getDocument().getText();
                         if (fileContent.length() >= 5000000) {
@@ -89,13 +103,11 @@ public class CodeCompletionContributor extends CompletionContributor {
                                 }
 
                                 if (items != null && !items.isEmpty()) {
-                                    log.debug(items.toString());
-                                    result = result.withPrefixMatcher((new CodePrefixMatcher(originMatcher))
-                                            .cloneWithPrefix(originMatcher.getPrefix()));
+                                    if (log.isDebugEnabled()) {
+                                        log.debug(items.toString());
+                                    }
 
-                                    var sort = CompletionSorter.defaultSorter(parameters, originMatcher);
-                                    result = result.withRelevanceSorter(sort
-                                            .weigh(new CodeLookupElementWeigher()));
+                                    result = result.withPrefixMatcher((new CodePrefixMatcher(originMatcher)).cloneWithPrefix(originMatcher.getPrefix())).withRelevanceSorter(CompletionSorter.defaultSorter(parameters, originMatcher).weigh(new CodeLookupElementWeigher()));
                                     result.restartCompletionOnAnyPrefixChange();
                                     result.addAllElements(this.createCompletions(context, items));
                                     this.duplicateOtherItems(parameters, result, items);
@@ -109,31 +121,58 @@ public class CodeCompletionContributor extends CompletionContributor {
     }
 
     private void duplicateOtherItems(CompletionParameters params, @Nonnull CompletionResultSet result, List<CompletionItem> items) {
-        Set<String> completionItems = new HashSet<>();
+        Set<String> completionItems = new HashSet();
+        Iterator var5 = items.iterator();
 
-        for (CompletionItem item : items) {
+        while (var5.hasNext()) {
+            CompletionItem item = (CompletionItem) var5.next();
             String completionText = CompletionUtil.getCompletionText(item);
             completionItems.add(completionText);
         }
 
-        result.runRemainingContributors(params, (itemx) -> {
-            String lookupString = itemx.getLookupElement().getLookupString();
-            if (!completionItems.contains(lookupString.trim())) {
-                result.passResult(itemx);
-            } else {
-                log.info("filter other completion item:" + lookupString);
-            }
+        try {
+            result.runRemainingContributors(params, (itemx) -> {
+                String lookupString = itemx.getLookupElement().getLookupString();
+                if (!completionItems.contains(lookupString.trim())) {
+                    result.passResult(itemx);
+                } else {
+                    log.info("filter other completion item:" + lookupString);
+                }
 
-        }, true);
+            }, true);
+        } catch (Exception var8) {
+            Exception e = var8;
+            log.warn("fail to run remaining contributors, caused by " + e.getMessage());
+        }
+
     }
 
     private ArrayList<LookupElement> createCompletions(CompletionContext context, List<CompletionItem> items) {
-        ArrayList<LookupElement> elements = new ArrayList<>();
+        ArrayList<LookupElement> elements = new ArrayList();
         int limit = this.getCompletionLimit(context);
+        String prefix = context.getPrefix();
         LookupEx lookupEx = LookupManager.getActiveLookup(context.getParameters().getEditor());
 
         for (int i = 0; i < items.size() && elements.size() < limit; ++i) {
-            CompletionItem item = items.get(i);
+            CompletionItem item = (CompletionItem) items.get(i);
+            String newText = CompletionUtil.getCompletionText(item);
+            if (prefix != null && !"".equals(prefix.trim()) && !newText.trim().startsWith(prefix)) {
+                int cutStart;
+                for (cutStart = newText.length(); cutStart > 0; --cutStart) {
+                    String head = newText.substring(0, cutStart);
+                    if (prefix.toLowerCase(Locale.ROOT).trim().endsWith(head.toLowerCase(Locale.ROOT))) {
+                        break;
+                    }
+                }
+
+                newText = prefix + newText.substring(cutStart);
+            }
+
+            if (newText.startsWith(".")) {
+                newText = newText.substring(1);
+            }
+
+            CompletionUtil.setCompletionText(item, newText);
             LookupElement lookupElement = this.createLookupElement(context, i, item, lookupEx);
             elements.add(lookupElement);
         }
@@ -147,73 +186,30 @@ public class CodeCompletionContributor extends CompletionContributor {
         LookupElementBuilder lookupElementBuilder = LookupElementBuilder.create(cosyItem, completionText).withRenderer(new LookupElementRenderer<LookupElement>() {
             public void renderElement(LookupElement element, LookupElementPresentation presentation) {
                 CodeCompletionItem lookupElement = (CodeCompletionItem) element.getObject();
-                CodeCompletionContributor.this.generateLookupElementPresentation(presentation, lookupElement.getOriginItem().getLabel());
+                PythonCodeCompletionContributor.this.generateLookupElementPresentation(presentation, lookupElement.getOriginItem().getLabel());
             }
         }).withInsertHandler(new InsertHandler<LookupElement>() {
             public void handleInsert(@NotNull InsertionContext insertionContext, @NotNull LookupElement element) {
-
-                int tail = insertionContext.getTailOffset();
-                CodeCompletionItem lookupElement = (CodeCompletionItem) element.getObject();
-                TextEdit textEdit = (TextEdit) lookupElement.getOriginItem().getTextEdit().getLeft();
-                Range lookupElementRange = textEdit.getRange();
-                String newText = CompletionUtil.getCompletionText(lookupElement.getOriginItem());
                 Document document = insertionContext.getDocument();
                 if (document != null) {
+                    int tail = insertionContext.getTailOffset();
+                    CodeCompletionItem lookupElement = (CodeCompletionItem) element.getObject();
+                    TextEdit textEdit = (TextEdit) lookupElement.getOriginItem().getTextEdit().getLeft();
+                    Range lookupElementRange = textEdit.getRange();
+                    String newText = CompletionUtil.getCompletionText(lookupElement.getOriginItem());
                     String prefix = context.getPrefix();
                     int startPivot = document.getLineStartOffset(lookupElementRange.getStart().getLine()) + lookupElementRange.getStart().getCharacter();
                     int endPivot = document.getLineStartOffset(lookupElementRange.getEnd().getLine()) + lookupElementRange.getEnd().getCharacter();
-                    String startLineContent = DocumentUtils.getCompleteLine(document, lookupElementRange.getStart().getLine());
+                    DocumentUtils.getCompleteLine(document, lookupElementRange.getStart().getLine());
 
                     try {
-                        document.deleteString(tail - newText.length() + prefix.length(), tail);
-                        document.deleteString(startPivot, endPivot);
                         int caretPivot = 0;
-                        if (newText.endsWith("\n}")) {
-                            String leadingWhitespaces = StringUtils.countLeadingLength(startLineContent, StringUtils.TAB_SPACE_PATTERN);
-                            String tabContent = StringUtils.tabContent(leadingWhitespaces);
-                            StringBuilder sb = new StringBuilder();
-                            if (newText.endsWith("\n$0\n}")) {
-                                sb.append(newText, 0, newText.length() - 4).append(leadingWhitespaces).append(tabContent).append("$0\n").append(leadingWhitespaces).append("}");
-                                newText = sb.toString();
-                            } else {
-                                int endCutLength = 1;
-                                if (newText.length() > 2 && newText.charAt(newText.length() - 2) == '\n') {
-                                    endCutLength = 2;
-                                }
-
-                                int beforeLength = newText.length() - endCutLength;
-                                sb.append(newText, 0, newText.length() - endCutLength).append(leadingWhitespaces).append(tabContent).append("\n").append(leadingWhitespaces).append("}");
-                                newText = sb.toString();
-                                caretPivot = startPivot + beforeLength + leadingWhitespaces.length() + tabContent.length();
-                            }
-                        }
-
-                        document.insertString(startPivot, newText);
-                        insertionContext.setTailOffset(startPivot + newText.length());
-                        insertionContext.getOffsetMap().addOffset(CompletionInitializationContext.START_OFFSET, startPivot);
-                        int tailOffset = insertionContext.getTailOffset();
-                        int lineEndOffset = document.getLineEndOffset(lookupElementRange.getEnd().getLine());
-                        boolean isEndMatch = tailOffset == lineEndOffset;
-                        boolean isBeginWithAt = startLineContent.trim().startsWith("@");
-                        boolean isBeginWithLoopSymbol = startLineContent.trim().startsWith("for ") || startLineContent.trim().startsWith("for(");
-                        boolean isBeginWithIf = startLineContent.trim().startsWith("if ") || startLineContent.trim().startsWith("if(");
-                        boolean isContainingStream = startLineContent.trim().contains("stream()") || startLineContent.trim().contains("parallelStream()");
-                        boolean dollarIsReplaced = CodeCompletionContributor.this.replaceDollarZeroAndMoveCaret(insertionContext, true);
+                        boolean dollarIsReplaced = PythonCodeCompletionContributor.this.replaceDollarZeroAndMoveCaret(insertionContext, true);
                         if (!dollarIsReplaced && caretPivot > 0) {
                             insertionContext.getEditor().getCaretModel().moveToOffset(caretPivot);
                         }
-
-                        if (!dollarIsReplaced && isEndMatch && newText.endsWith(")") && !isBeginWithAt && !isBeginWithLoopSymbol && !isBeginWithIf && !isContainingStream) {
-                            SmartEnterProcessor javaSmartEnterProcessor = new SmartEnterProcessor() {
-                                @Override
-                                public boolean process(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile psiFile) {
-                                    return false;
-                                }
-                            };
-                            javaSmartEnterProcessor.process(insertionContext.getProject(), insertionContext.getEditor(), insertionContext.getFile());
-                        }
-                    } catch (RuntimeException var23) {
-                        RuntimeException re = var23;
+                    } catch (RuntimeException var15) {
+                        RuntimeException re = var15;
                         Logger.getInstance(this.getClass()).warn("Error inserting new suffix. End = " + tail + ", old suffix length = " + lookupElement.getCursorSuffix() + ", new suffix length = " + lookupElement.getCursorSuffix(), re);
                     }
 
@@ -242,7 +238,6 @@ public class CodeCompletionContributor extends CompletionContributor {
             }
         }
 
-        insertionContext.commitDocument();
         insertionContext.commitDocument();
     }
 
@@ -283,7 +278,7 @@ public class CodeCompletionContributor extends CompletionContributor {
     }
 
     private void generateLookupElementPresentation(LookupElementPresentation presentation, String insertionText) {
-        presentation.setTypeText(CodeBundle.message("local.completion.flag.text", new Object[0]));
+        presentation.setTypeText(CodeBundle.message("local.completion.flag.text"));
         presentation.setItemTextBold(false);
         presentation.setItemText(insertionText);
         presentation.setIcon(CommonIcons.AI);

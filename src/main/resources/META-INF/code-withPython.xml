@@ -1,0 +1,11 @@
+<idea-plugin>
+    <vendor>tooneCode</vendor>
+    <depends>com.intellij.modules.lang</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor id="CodeCompletionContributor"
+                                implementationClass="com.tooneCode.completion.PythonCodeCompletionContributor"
+                                language="Python" order="first"/>
+        <codeInsight.inlayProvider language="Python"
+                                   implementationClass="com.tooneCode.editor.CodeEditorChatHintProvider"/>
+    </extensions>
+</idea-plugin>

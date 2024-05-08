@@ -94,7 +94,7 @@ public class InlayCompletionHintFactory {
         String prevShortcut = KeyboardUtil.getShortcutText("ShowCosyPrevInlayCompletionAction");
         String acceptShortcut = KeyboardUtil.getShortcutText("ApplyCosyInlayCompletion");
         String disposeShortcut = KeyboardUtil.getShortcutText("DisposeCosyInlayCompletionAction");
-        String triggerShortcut = KeyboardUtil.getShortcutText("TriggerInlayCompletionAction");
+        String triggerShortcut = KeyboardUtil.getShortcutText("CodeTriggerInlayCompletionAction");
         int applyShortcut = KeyboardUtil.getShortcutKeyCode("ApplyCosyInlayCompletion");
         if (applyShortcut == 9) {
             acceptShortcut = "Tab";
@@ -105,7 +105,8 @@ public class InlayCompletionHintFactory {
             disposeShortcut = "Esc";
         }
 
-        return String.format("Accept:%s Prev/Next:%s/%s Cancel:%s Trigger:%s", acceptShortcut, prevShortcut, nextShortcut, disposeShortcut, triggerShortcut);
+        return String.format("Accept:%s Prev/Next:%s/%s Cancel:%s Trigger:%s", acceptShortcut,
+                prevShortcut, nextShortcut, disposeShortcut, triggerShortcut);
     }
 
     public static class ChatHintJComponent extends JComponent {

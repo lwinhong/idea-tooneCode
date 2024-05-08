@@ -1,7 +1,5 @@
 <idea-plugin>
-    <vendor>tongyi-lingma</vendor>
-    <!--    <vendor email="lihua.llh@alibaba-inc.com" url="https://developer.aliyun.com/tool/cosy?channel=idea_vendor">Alibaba Cloud AI Coding Assistant</vendor>-->
-
+    <vendor>tooneCode</vendor>
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.tooneCode.intellij">

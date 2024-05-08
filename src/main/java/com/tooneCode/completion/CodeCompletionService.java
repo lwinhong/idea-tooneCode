@@ -15,12 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface CodeCompletionService {
     static @NotNull CodeCompletionService getInstance() {
-        CodeCompletionService var10000 = ApplicationManager.getApplication().getService(CodeCompletionServiceImpl.class);
-        if (var10000 == null) {
-            //$$$reportNull$$$0(0);
-        }
-
-        return var10000;
+        return ApplicationManager.getApplication().getService(CodeCompletionServiceImpl.class);
     }
 
     void cancelInlayCompletions(Project var1);

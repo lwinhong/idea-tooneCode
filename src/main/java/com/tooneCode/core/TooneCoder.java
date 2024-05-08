@@ -5,7 +5,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.util.ProgressIndicatorUtils;
 import com.intellij.openapi.project.Project;
-import com.tooneCode.common.CodeBundle;
 import com.tooneCode.common.CodeConfig;
 import com.tooneCode.common.CodeSetting;
 import com.tooneCode.constants.Constants;
@@ -22,14 +21,12 @@ import com.tooneCode.ui.config.CodePersistentSetting;
 import com.tooneCode.ui.notifications.GrantAuthorNotification;
 import com.tooneCode.util.*;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
 import org.eclipse.lsp4j.WorkspaceFolder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,7 +76,7 @@ public class TooneCoder {
                 return new AtomicBoolean(false);
             });
             if (startingState.get()) {
-                log.warn("Project " + project.getName() + " is starting cosy, ignore repeat starting");
+                log.warn("Project " + project.getName() + " is starting Code, ignore repeat starting");
                 listeners.forEach(CodeStartupListener::onCancelled);
             } else {
                 synchronized (startingState) {
@@ -95,7 +92,7 @@ public class TooneCoder {
                 }
             }
         } else {
-            log.warn("Project is not defined when Cosy is starting");
+            log.warn("Project is not defined when Code is starting");
             listeners.forEach(CodeStartupListener::onCancelled);
         }
     }
@@ -118,14 +115,14 @@ public class TooneCoder {
             try {
                 log.info("check.cosy.version.state");
                 BinaryManager.INSTANCE.checkBinary(false);
-                log.info("starting to startup cosy");
+                log.info("starting to startup Code");
                 log.info("start.cosy.process.state");
                 if (INSTANCE.startup(project, params, listeners, false)) {
-                    log.info("succeed to startup cosy");
+                    log.info("succeed to startup Code");
                     GrantAuthorNotification.notifyNeedLogin(project, false);
                     this.cosyStartRetryTimes = 0;
                 } else {
-                    log.info("failed to startup cosy");
+                    log.info("failed to startup Code");
                     GrantAuthorNotification.notifyError(project);
                     listeners.forEach(CodeStartupListener::onFailed);
                 }
@@ -153,15 +150,15 @@ public class TooneCoder {
                 }
 
                 if (this.cosyStartRetryTimes == 3) {
-                    log.warn(String.format("Init Cosy language service error, reached maximum retry times (%d)", this.cosyStartRetryTimes));
+                    log.warn(String.format("Init Code language service error, reached maximum retry times (%d)", this.cosyStartRetryTimes));
                     return false;
                 } else {
-                    boolean isInitSuccess = this.initCosyLanguageService(project, homeDir, debugMode);
+                    boolean isInitSuccess = this.initCodeLanguageService(project, homeDir, debugMode);
                     if (!isInitSuccess) {
-                        log.warn("Cosy init failed");
+                        log.warn("Code init failed");
                         return true;
                     } else {
-                        LanguageWebSocketService languageService = (LanguageWebSocketService) this.languageServiceMap.get(project.getLocationHash());
+                        LanguageWebSocketService languageService = this.languageServiceMap.get(project.getLocationHash());
                         if (languageService.getServer() == null) {
                             log.warn("The server of language service is null");
                             return false;
@@ -172,7 +169,7 @@ public class TooneCoder {
                                 InitializeResultExt latestInitializeResult = future.get(10000L, TimeUnit.MILLISECONDS);
                                 if (latestInitializeResult != null) {
                                     if (log.isDebugEnabled()) {
-                                        log.debug("get cosy initialize result" + JsonUtil.toJson(latestInitializeResult));
+                                        log.debug("get Code initialize result" + JsonUtil.toJson(latestInitializeResult));
                                     }
 
                                     FeatureService.getInstance().updateFeatures(latestInitializeResult.getExperimental());
@@ -193,12 +190,12 @@ public class TooneCoder {
                 }
             }
         } catch (TimeoutException var11) {
-            log.warn("startup cosy timeout");
+            log.warn("startup Code timeout");
             listeners.forEach(CodeStartupListener::onTimeout);
             return true;
         } catch (Exception var12) {
             Exception e = var12;
-            log.error("startup cosy failed.", e);
+            log.error("startup Code failed.", e);
             return false;
         }
     }
@@ -219,21 +216,21 @@ public class TooneCoder {
         params.setMaxCandidateNum(maxCandidateNumChanged);
     }
 
-    private boolean initCosyLanguageService(Project project, File homeDir, boolean debugMode) throws IOException {
+    private boolean initCodeLanguageService(Project project, File homeDir, boolean debugMode) throws IOException {
         // todo 这里可以判断服务是否可用
         //return true;
         File infoFile = new File(homeDir, ".info");
         if (infoFile.exists()) {
-            log.info(".info exists, start to connect Cosy server");
-            return this.connectCosyServer(project, homeDir, debugMode);
+            log.info(".info exists, start to connect Code server");
+            return this.connectCodeServer(project, homeDir, debugMode);
         } else {
-            log.info(".info not exist, start to create Cosy process");
+            log.info(".info not exist, start to create Code process");
             infoFile.mkdirs();
-            return this.startCosy(project, homeDir, debugMode);
+            return this.startCode(project, homeDir, debugMode);
         }
     }
 
-    private boolean startCosy(Project project, File homeDir, boolean debugMode) throws IOException {
+    private boolean startCode(Project project, File homeDir, boolean debugMode) throws IOException {
         ++this.cosyStartRetryTimes;
         if (this.cosyStartRetryTimes >= 3) {
             return false;
@@ -243,19 +240,19 @@ public class TooneCoder {
             }
 
             if (!this.binaryRunner.run(debugMode)) {
-                log.warn("Cosy binary run failed");
+                log.warn("Code binary run failed");
                 return false;
             } else {
-                return this.connectCosyServer(project, homeDir, debugMode);
+                return this.connectCodeServer(project, homeDir, debugMode);
             }
         }
     }
 
-    private boolean connectCosyServer(Project project, File homeDir, boolean debugMode) throws IOException {
+    private boolean connectCodeServer(Project project, File homeDir, boolean debugMode) throws IOException {
         new File(homeDir, ".info");
         Pair<Integer, Long> infoPair = this.readCosyInfoFile(1);
         if (infoPair == null) {
-            log.warn("Cannot read from .info, connect to Cosy server failed");
+            log.warn("Cannot read from .info, connect to Code server failed");
             return false;
         } else {
             Integer port = (Integer) infoPair.first;
@@ -273,7 +270,7 @@ public class TooneCoder {
                     Exception e = var10;
                     log.warn("Connect to Cosy server error, try to kill process and restart", e);
                     INSTANCE.killProcessAndDeleteInfoFile(pid);
-                    return this.startCosy(project, homeDir, debugMode);
+                    return this.startCode(project, homeDir, debugMode);
                 }
             } else {
                 log.warn("Cannot get port and pid from .info file, connect failed");
@@ -487,45 +484,43 @@ public class TooneCoder {
     }
 
     private Pair<Integer, Long> checkInfoFile(@NotNull File infoFile) {
-        if (infoFile == null) {
-            //$$$reportNull$$$0(0);
-        }
-
-        if (!infoFile.exists()) {
-            log.info(".info file not exist, wait 100ms and retry");
-        } else {
-            try {
-                String rawText = FileUtils.readFileToString(infoFile, StandardCharsets.UTF_8);
-                if (rawText != null && !rawText.isEmpty()) {
-                    String[] lines = rawText.split("\r\n|\n");
-                    if (lines.length != 2) {
-                        log.warn(".info file is empty or has more or less than 2 lines:" + rawText);
-                        return null;
-                    }
-
-                    Long port = com.tooneCode.util.StringUtils.getNumberFromString(lines[0]);
-                    Long pid = com.tooneCode.util.StringUtils.getNumberFromString(lines[1]);
-                    log.info("Read.info file get port:" + port + ", pid:" + pid);
-                    if (port != null && pid != null) {
-                        return new Pair(port.intValue(), pid);
-                    }
-
-                    log.warn("Cannot get port and pid from.info file, check failed");
-                    return null;
-                }
-
-                log.warn(".info file is empty, check failed");
-                return null;
-            } catch (IOException var6) {
-                IOException e = var6;
-                log.warn("Parsing .info file encountered Exception", e);
-            } catch (Throwable var7) {
-                Throwable throwable = var7;
-                log.warn("Check info file encountered Throwable", throwable);
-            }
-        }
 
         return null;
+//        if (!infoFile.exists()) {
+//            log.info(".info file not exist, wait 100ms and retry");
+//        } else {
+//            try {
+//                String rawText = FileUtils.readFileToString(infoFile, StandardCharsets.UTF_8);
+//                if (rawText != null && !rawText.isEmpty()) {
+//                    String[] lines = rawText.split("\r\n|\n");
+//                    if (lines.length != 2) {
+//                        log.warn(".info file is empty or has more or less than 2 lines:" + rawText);
+//                        return null;
+//                    }
+//
+//                    Long port = com.tooneCode.util.StringUtils.getNumberFromString(lines[0]);
+//                    Long pid = com.tooneCode.util.StringUtils.getNumberFromString(lines[1]);
+//                    log.info("Read.info file get port:" + port + ", pid:" + pid);
+//                    if (port != null && pid != null) {
+//                        return new Pair(port.intValue(), pid);
+//                    }
+//
+//                    log.warn("Cannot get port and pid from.info file, check failed");
+//                    return null;
+//                }
+//
+//                log.warn(".info file is empty, check failed");
+//                return null;
+//            } catch (IOException var6) {
+//                IOException e = var6;
+//                log.warn("Parsing .info file encountered Exception", e);
+//            } catch (Throwable var7) {
+//                Throwable throwable = var7;
+//                log.warn("Check info file encountered Throwable", throwable);
+//            }
+//        }
+//
+//        return null;
     }
 
     private List<LanguageWebSocketService> getAllLanguageServices() {

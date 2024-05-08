@@ -19,6 +19,7 @@ public class CompletionParams extends TextDocumentPositionParams {
     private RemoteModelParams remoteModelParams;
     private CompletionContextParams completionContextParams;
 
+
     public CompletionParams() {
     }
 
@@ -28,19 +29,10 @@ public class CompletionParams extends TextDocumentPositionParams {
 
     public CompletionParams(@NotNull String fileContent, @NonNull TextDocumentIdentifier textDocument, @NonNull Position position) {
         super(textDocument, position);
-        if (fileContent == null) {
-            //$$$reportNull$$$0(0);
-        }
-
         this.fileContent = fileContent;
     }
 
     public CompletionParams(@NotNull String fileContent) {
-        if (fileContent == null) {
-            //$$$reportNull$$$0(0);
-        }
-
-//        this(textDocument, position);
         this.fileContent = fileContent;
     }
 

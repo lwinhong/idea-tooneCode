@@ -45,7 +45,7 @@ public class DefaultInlayCompletionCollector implements InlayCompletionCollector
         CodeStatusBarWidget.setStatusBarGenerating(this.editor.getProject(), true, false);
         LOGGER.debug(this.request.getParams().getRequestId() + " flow onNext");
         this.tooltipsDebouncer.shutdown();
-        WriteCommandAction.runWriteCommandAction(this.editor.getProject(), "Async Render TooneCode Suggestion", "TONGYI", () -> {
+        WriteCommandAction.runWriteCommandAction(this.editor.getProject(), "Async Render TooneCode Suggestion", "TooneCode", () -> {
             if (this.editor.getProject() != null && !this.editor.getProject().isDisposed()) {
                 CodeEditorInlayItem item = CodeCompletionService.getInstance().convertInlayItem(this.request, completionItem, "");
                 if (item == null) {
@@ -59,7 +59,7 @@ public class DefaultInlayCompletionCollector implements InlayCompletionCollector
                             if (parts.length != 0 && this.generateLen <= parts[0].length()) {
                                 this.generateLen = parts[0].length();
                                 this.generateTrimLen = parts[0].trim().length();
-                                CodeEditorInlayList list = (CodeEditorInlayList) CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(this.editor);
+                                CodeEditorInlayList list = CodeCacheKeys.KEY_COMPLETION_INLAY_ITEMS.get(this.editor);
                                 if (list == null) {
                                     list = new CodeEditorInlayList();
                                 }
@@ -92,15 +92,17 @@ public class DefaultInlayCompletionCollector implements InlayCompletionCollector
             if (this.generateTrimLen > 0) {
                 CodeSetting setting = com.tooneCode.ui.config.CodePersistentSetting.getInstance().getState();
                 if (setting == null || setting.isShowInlineAcceptTips() || setting.isShowInlineNextTips() && setting.isShowInlinePrevTips() || setting.isShowInlineTriggerTips()) {
-                    this.tooltipsDebouncer.debounce(() -> {
-                        SwingUtilities.invokeLater(() -> {
-                            if (this.editor.getProject() != null && !this.editor.getProject().isDisposed() && !this.editor.isDisposed()) {
-                                Point pos = EditorUtil.getEditorCaretPosition(this.editor);
-                                LOGGER.debug("Inline hint position:" + pos);
-                                InlayCompletionHintFactory.showHintAtCaret(this.editor);
-                            }
-                        });
-                    }, 2000L, TimeUnit.MILLISECONDS);
+                    // 在延迟2000毫秒后显示提示（自动提示如果用户没有任何超作就提示）
+                    // 这个逻辑没有任何问题，后面有需要在放开吧再
+//                    this.tooltipsDebouncer.debounce(() -> {
+//                        SwingUtilities.invokeLater(() -> {
+//                            if (this.editor.getProject() != null && !this.editor.getProject().isDisposed() && !this.editor.isDisposed()) {
+//                                Point pos = EditorUtil.getEditorCaretPosition(this.editor);
+//                                LOGGER.debug("Inline hint position:" + pos);
+//                                InlayCompletionHintFactory.showHintAtCaret(this.editor);
+//                            }
+//                        });
+//                    }, 2000L, TimeUnit.MILLISECONDS);
                 }
             }
         }

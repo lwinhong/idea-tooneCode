@@ -2,6 +2,7 @@ package com.tooneCode.services.model;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.TextRange;
+import com.tooneCode.util.LanguageUtil;
 import lombok.Generated;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,10 @@ public class Measurements {
     Integer documentLength;
     Integer caretCharOffset;
     Long completionDelayMs;
+    String prefixCode;
+    String suffixCode;
+    String fileName;
+    String language;
 
     public static Measurements build(@NonNull Editor editor) {
         if (editor == null) {
@@ -28,6 +33,8 @@ public class Measurements {
             if (StringUtils.isEmpty(text)) {
                 return measurements;
             } else {
+                measurements.setFileName(editor.getVirtualFile().getName());
+                measurements.setLanguage(LanguageUtil.getLanguageByFilePath(editor.getVirtualFile().getPath()));
                 measurements.setCaretCharOffset(caretOffset);
                 String prefix;
                 if (text.length() > measurements.getCaretCharOffset()) {
@@ -36,6 +43,7 @@ public class Measurements {
                     if (!prefix.isEmpty()) {
                         measurements.setCharTrimAfterCaret(prefix.charAt(0));
                     }
+                    measurements.setSuffixCode(prefix);
                 }
 
                 if (measurements.getCaretCharOffset() > 1) {
@@ -44,6 +52,7 @@ public class Measurements {
                     if (!prefix.isEmpty()) {
                         measurements.setCharTrimBeforeCaret(prefix.charAt(prefix.length() - 1));
                     }
+                    measurements.setPrefixCode(prefix);
                 }
 
                 measurements.setDocumentLength(text.length());
@@ -148,6 +157,40 @@ public class Measurements {
     @Generated
     public void setCompletionDelayMs(Long completionDelayMs) {
         this.completionDelayMs = completionDelayMs;
+    }
+
+    @Generated
+    public void setPrefixCode(String prefixCode) {
+        this.prefixCode = prefixCode;
+    }
+
+    public String getPrefixCode() {
+        return this.prefixCode;
+    }
+
+    public String getSuffixCode() {
+        return this.suffixCode;
+    }
+
+    public String getLanguage() {
+        return this.language;
+    }
+
+    public String getFileName() {
+        return this.fileName;
+    }
+
+    @Generated
+    public void setSuffixCode(String suffixCode) {
+        this.suffixCode = suffixCode;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Generated

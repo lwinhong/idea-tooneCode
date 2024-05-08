@@ -50,8 +50,7 @@ public class CodeConfigurable implements SearchableConfigurable, UnnamedConfigur
     }
 
     public @NotNull String getId() {
-        String var10000 = CodeConfig.PLUGIN_NAME;
-        return var10000;
+        return CodeConfig.PLUGIN_NAME;
     }
 
     public @Nls(

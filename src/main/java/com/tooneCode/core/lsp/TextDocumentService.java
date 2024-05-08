@@ -86,6 +86,8 @@ public interface TextDocumentService {
         throw new UnsupportedOperationException();
     }
 
+    void cancelInlayCompletion();
+
     @JsonRequest(
             value = "completionItem/resolve",
             useSegment = false

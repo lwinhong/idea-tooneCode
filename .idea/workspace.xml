@@ -4,22 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="实现从聊天代码中直接插入文件">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeDefaultInlayRendererbak.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/util/RenderUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/CreateEditorAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/CreateEditorAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/EditorTextReplaceAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/EditorTextReplaceAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateBaseAction.java" afterDir="false" />
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="完善demo 版的自动提示">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/PythonCodeCompletionContributor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/ApiTokenUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/LanguageWebSocketService_bak.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/impl/LanguageClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/impl/LanguageServerImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/impl/TextDocumentServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/code-withGolang.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/code-withPython.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/messageBundle_en_US.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/messageBundle_zh_CN.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionContributor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionContributor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/BaseAcceptAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/BaseAcceptAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeActionPromoter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeActionPromoter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeNextInlayCompletionAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeNextInlayCompletionAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodePrevInlayCompletionAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodePrevInlayCompletionAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/LingmaAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeSelectPartInlayAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeSelectPartInlayAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/TooneCoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/TooneCoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApiManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/ICodeGenerateApiCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/ICodeGenerateApiCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/LanguageServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/LanguageServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/LanguageWebSocketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/LanguageWebSocketService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeDefaultInlayRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeDefaultInlayRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/TextDocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/TextDocumentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/CompletionParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/CompletionParams.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/DefaultInlayCompletionCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/DefaultInlayCompletionCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/util/EditorUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/util/EditorUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayCompletionHintFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayCompletionHintFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayPreviewRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayPreviewRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/model/Measurements.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/model/Measurements.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/CodeConfigurable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/CodeConfigurable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/CodePersistentSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/CodePersistentSetting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/code-withJava.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/code-withJava.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/icons/pluginIcon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icons/pluginIcon.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,45 +115,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Run Plugin.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.idea-tooneCode [:CodeGenerateApi.main()].executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.idea-tooneCode [setupDependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.idea-toonecode [setupDependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.构建 idea-tooneCode.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CodeGenerateApiTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.CodeGenerateApiTest.run.executor&quot;: &quot;Debug&quot;,
-    &quot;Kotlin 脚本(测试版).build.gradle.kts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
-    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode/src/main/resources/icons&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.17721522&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Run Plugin.executor": "Debug",
+    "Gradle.idea-tooneCode [:CodeGenerateApi.main()].executor": "Debug",
+    "Gradle.idea-tooneCode [setupDependencies].executor": "Run",
+    "Gradle.idea-toonecode [setupDependencies].executor": "Run",
+    "Gradle.构建 idea-tooneCode.executor": "Run",
+    "JUnit.CodeGenerateApiTest.executor": "Debug",
+    "JUnit.CodeGenerateApiTest.run.executor": "Debug",
+    "Kotlin 脚本(测试版).build.gradle.kts.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
+    "create.test.in.the.same.root": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/liyk/idea-plugin/idea-tooneCode/src/main/resources/META-INF",
+    "project.structure.last.edited": "SDK",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.17721522",
+    "settings.editor.selected.configurable": "preferences.editor"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件&quot;: [
-      &quot;JavaFX&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件": [
+      "JavaFX"
     ],
-    &quot;kotlin-gradle-user-dirs&quot;: [
-      &quot;C:\\Users\\Administrator\\.gradle&quot;
+    "kotlin-gradle-user-dirs": [
+      "C:\\Users\\Administrator\\.gradle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.tooneCode.services." />
       <recent name="com.tooneCode.services" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\liyk\idea-plugin\idea-tooneCode\src\main\resources\META-INF" />
+      <recent name="D:\liyk\idea-plugin\idea-tooneCode\src\main\resources" />
       <recent name="D:\liyk\idea-plugin\idea-tooneCode\src\main\resources\icons" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -150,6 +172,7 @@
       <recent name="com.tooneCode.core.api" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.tooneCode.core.lsp" />
       <recent name="com.tooneCode.editor" />
     </key>
   </component>
@@ -319,7 +342,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715060906263</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="完善demo 版的自动提示">
+      <option name="closed" value="true" />
+      <created>1715071019863</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1715071019863</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,7 +390,8 @@
     <MESSAGE value="完善" />
     <MESSAGE value="action 完善" />
     <MESSAGE value="实现从聊天代码中直接插入文件" />
-    <option name="LAST_COMMIT_MESSAGE" value="实现从聊天代码中直接插入文件" />
+    <MESSAGE value="完善demo 版的自动提示" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善demo 版的自动提示" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -380,18 +412,13 @@
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java</url>
-          <line>47</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/services/impl/UserAuthServiceImpl.java</url>
           <line>230</line>
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/CodePersistentSetting.java</url>
-          <line>35</line>
+          <line>36</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -450,39 +477,29 @@
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/LanguageWebSocketService.java</url>
-          <line>486</line>
-          <option name="timeStamp" value="187" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeEditorActionHandler.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="202" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeEditorActionHandler.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="203" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/services/model/Measurements.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="208" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionContributor.java</url>
-          <line>129</line>
-          <option name="timeStamp" value="230" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionContributor.java</url>
-          <line>89</line>
+          <line>91</line>
           <option name="timeStamp" value="232" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeInlayManagerImpl.java</url>
           <line>373</line>
           <option name="timeStamp" value="238" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/TooneCoder.java</url>
+          <line>492</line>
+          <option name="timeStamp" value="255" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/TooneCoder.java</url>
+          <line>493</line>
+          <option name="timeStamp" value="257" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/ApiTokenUtil.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="262" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/model/AuthStatus.java</url>
@@ -493,6 +510,10 @@
           </properties>
           <option name="timeStamp" value="134" />
         </line-breakpoint>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="281" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

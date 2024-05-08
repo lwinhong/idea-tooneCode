@@ -29,7 +29,6 @@ public final class CodeCompletionServiceImpl implements CodeCompletionService {
     private static final long INLAY_COMPLETION_TIMEOUT = 1000L;
 
     public CodeCompletionServiceImpl() {
-
     }
 
     public void cancelInlayCompletions(Project project) {

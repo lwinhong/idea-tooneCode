@@ -1,0 +1,9 @@
+<idea-plugin>
+    <vendor>tooneCode</vendor>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.inlayProvider language="GO"
+                                   implementationClass="com.tooneCode.editor.CodeEditorChatHintProvider"/>
+    </extensions>
+</idea-plugin>

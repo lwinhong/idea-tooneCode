@@ -4,6 +4,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.tooneCode.common.CodeSetting;
+import com.tooneCode.core.model.params.ChangeUserSettingParams;
 import com.tooneCode.editor.enums.CompletionTriggerModeEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,11 +67,11 @@ public final class CodePersistentSetting implements PersistentStateComponent<Cod
                 return false;
             }
 
-//            ChangeUserSettingParams.CloudModelAutoTrigger autoTrigger = settings.getParameter().getCloud().getAutoTrigger();
-//            if (triggerMode != null && CompletionTriggerModeEnum.AUTO.getName().equals(triggerMode.getName()) && (autoTrigger == null || autoTrigger.getEnable() == null || !autoTrigger.getEnable())) {
-//                log.warn("ignore invoke cloud completion request, auto trigger is disabled");
-//                return false;
-//            }
+            ChangeUserSettingParams.CloudModelAutoTrigger autoTrigger = settings.getParameter().getCloud().getAutoTrigger();
+            if (triggerMode != null && CompletionTriggerModeEnum.AUTO.getName().equals(triggerMode.getName()) && (autoTrigger == null || autoTrigger.getEnable() == null || !autoTrigger.getEnable())) {
+                log.warn("ignore invoke cloud completion request, auto trigger is disabled");
+                return false;
+            }
         }
 
         return true;

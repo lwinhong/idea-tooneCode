@@ -67,8 +67,8 @@ public class InlayPreviewRequest {
             int offset = editor.getCaretModel().getOffset();
             Document document = editor.getDocument();
             String lineSuffixCode = document.getText(TextRange.create(offset, document.getLineEndOffset(document.getLineNumber(offset))));
-            String modelLevel = modelTrigger != null ? ((ChangeUserSettingParams.AbstractModelTrigger) modelTrigger).getModelLevel() : ModelPowerLevelEnum.LARGE.getLabel();
-            String generateLength = modelTrigger != null ? ((ChangeUserSettingParams.AbstractModelTrigger) modelTrigger).getGenerateLength() : CompletionGenerateLengthLevelEnum.LEVEL_1.getLabel();
+            String modelLevel = modelTrigger != null ? (modelTrigger).getModelLevel() : ModelPowerLevelEnum.LARGE.getLabel();
+            String generateLength = modelTrigger != null ? (modelTrigger).getGenerateLength() : CompletionGenerateLengthLevelEnum.LEVEL_1.getLabel();
             boolean isComment = false;
             PsiElement element = PsiUtils.getCaratElement(editor);
             if (element != null && PsiUtils.isCommentElement(element, editor)) {
@@ -105,7 +105,7 @@ public class InlayPreviewRequest {
             params.setCompletionContextParams(new CompletionContextParams(isComment,
                     config.getTriggerEvent() == null ? null : config.getTriggerEvent().getName(), measurements));
             synchronized (CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST) {
-                InlayCompletionRequest oldRequest = (InlayCompletionRequest) CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
+                InlayCompletionRequest oldRequest = CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
                 if (oldRequest != null) {
                     oldRequest.cancel();
                     Disposer.dispose(oldRequest);

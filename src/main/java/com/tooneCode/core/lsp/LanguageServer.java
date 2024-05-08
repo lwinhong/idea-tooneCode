@@ -17,12 +17,7 @@ public interface LanguageServer {
 
     @JsonNotification
     default void initialized(InitializedParams params) {
-        this.initialized();
-    }
 
-    /** @deprecated */
-    @Deprecated
-    default void initialized() {
     }
 
     @JsonRequest

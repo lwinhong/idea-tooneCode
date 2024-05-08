@@ -3,8 +3,23 @@ package com.tooneCode.core.lsp;
 import com.alibaba.fastjson2.JSON;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
-
-import java.util.function.Consumer;
+import com.tooneCode.common.CodeConfig;
+import com.tooneCode.completion.model.CodeCompletionItem;
+import com.tooneCode.constants.Constants;
+import com.tooneCode.core.lsp.impl.LanguageClientImpl;
+import com.tooneCode.core.lsp.impl.LanguageServerImpl;
+import com.tooneCode.core.model.CompletionParams;
+import com.tooneCode.core.model.model.*;
+import com.tooneCode.core.model.params.*;
+import com.tooneCode.ui.config.ReportStatistic;
+import com.tooneCode.ui.statusbar.CodeStatusBarWidget;
+import com.tooneCode.util.ApplicationUtil;
+import com.tooneCode.util.Debouncer;
+import lombok.Generated;
+import org.eclipse.aether.deployment.DeploymentException;
+import org.eclipse.lsp4j.CompletionItem;
+import org.eclipse.lsp4j.CompletionList;
+import org.eclipse.lsp4j.jsonrpc.messages.Either;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -12,36 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import com.intellij.openapi.project.Project;
-import com.tooneCode.common.CodeCacheKeys;
-import com.tooneCode.common.CodeConfig;
-import com.tooneCode.constants.Constants;
-import com.tooneCode.completion.model.CodeCompletionItem;
-import com.tooneCode.core.lsp.impl.LanguageClientImpl;
-import com.tooneCode.core.lsp.impl.LanguageServerImpl;
-import com.tooneCode.core.model.CompletionParams;
-import com.tooneCode.core.model.model.*;
-import com.tooneCode.core.model.params.*;
-import com.tooneCode.editor.model.InlayCompletionRequest;
-import com.tooneCode.ui.config.ReportStatistic;
-import com.tooneCode.ui.statusbar.CodeStatusBarWidget;
-import com.tooneCode.util.ApplicationUtil;
-import com.tooneCode.util.Debouncer;
-import com.tooneCode.util.ProjectUtils;
-import lombok.Generated;
-import org.eclipse.aether.deployment.DeploymentException;
-import org.eclipse.lsp4j.*;
-import org.eclipse.lsp4j.jsonrpc.messages.Either;
+import java.util.concurrent.*;
+import java.util.function.Consumer;
 
 
-public class LanguageWebSocketService {
-    private static final Logger log = Logger.getInstance(LanguageWebSocketService.class);
+public class LanguageWebSocketService_bak {
+    private static final Logger log = Logger.getInstance(LanguageWebSocketService_bak.class);
     LanguageClient client;
     LanguageServer server;
     //CosyWebSocketClient webSocketClient;
@@ -49,13 +40,13 @@ public class LanguageWebSocketService {
     private final Debouncer completionDebouncer;
     private final Debouncer inlayCompletionDebouncer;
 
-    private LanguageWebSocketService() {
+    private LanguageWebSocketService_bak() {
         this.completionDebouncer = new Debouncer();
         this.inlayCompletionDebouncer = new Debouncer();
     }
 
-    public static LanguageWebSocketService createService(int port) throws URISyntaxException {
-        return new LanguageWebSocketService();
+    public static LanguageWebSocketService_bak createService(int port) throws URISyntaxException {
+        return new LanguageWebSocketService_bak();
     }
 
     public void connect() throws DeploymentException, IOException {
@@ -64,7 +55,6 @@ public class LanguageWebSocketService {
     }
 
     public void cancelInlayCompletion() {
-        //this.server.getTextDocumentService().cancelInlayCompletion();
         this.inlayCompletionDebouncer.shutdown();
     }
 
@@ -123,8 +113,6 @@ public class LanguageWebSocketService {
     }
 
     public void aysncCompletionInlayWithDebouncer(Editor editor, CompletionParams params, long delayTime, long timeout, Consumer<CompletionParams> consumer) {
-        this.server.getTextDocumentService().cancelInlayCompletion();
-
         this.inlayCompletionDebouncer.debounce(params.getRequestId(), () -> {
             if (consumer != null) {
                 consumer.accept(params);
@@ -143,12 +131,12 @@ public class LanguageWebSocketService {
             String var10001 = params.getRequestId();
             log.info("tongyi trigger completion:" + var10001 + " local:" + params.getUseLocalModel() + " remote:" + params.getUseRemoteModel());
             CompletableFuture<Either<List<CompletionItem>, CompletionList>> future = this.server.getTextDocumentService().completion(params);
-            Either<List<CompletionItem>, CompletionList> either = future.get(timeout, TimeUnit.MILLISECONDS);
-            CompletionList list = either.getRight();
+            Either<List<CompletionItem>, CompletionList> either = (Either) future.get(timeout, TimeUnit.MILLISECONDS);
+            CompletionList list = (CompletionList) either.getRight();
             if (list != null) {
                 result = list.getItems();
             } else {
-                result = either.getLeft();
+                result = (List) either.getLeft();
             }
         } catch (InterruptedException var8) {
             log.warn("cosy completion request interrupted");

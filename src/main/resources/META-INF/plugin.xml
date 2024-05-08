@@ -118,9 +118,15 @@
             <keyboard-shortcut first-keystroke="alt TAB" keymap="$default"/>
         </action>
         <!-- 触发TooneCode的提示 -->
-        <action id="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
+        <action id="CodeTriggerInlayCompletionAction"
                 class="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
-                text="CodeTriggerInlayCompletionAction"/>
+                text="CodeTriggerInlayCompletionAction">
+            <keyboard-shortcut first-keystroke="alt P" keymap="$default" replace-all="true"/>
+            <keyboard-shortcut first-keystroke="alt P" keymap="Mac OS X" replace-all="true"/>
+            <keyboard-shortcut first-keystroke="alt P" keymap="Mac OS X 10.5+" replace-all="true"/>
+            <override-text place="MainMenu" text="Trigger TooneCode Inline Completion"/>
+        </action>
+
         <!-- Esc退出当前inlay 提示 -->
         <action id="DisposeCosyInlayCompletionAction" class="com.tooneCode.completion.action.CodeEscapeInlaysAction"
         >

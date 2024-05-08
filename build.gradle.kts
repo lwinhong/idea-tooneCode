@@ -58,6 +58,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:okhttp-sse:4.12.0")
     implementation("org.apache.commons:commons-collections4:4.5.0-M1")
+//    implementation("io.jsonwebtoken:jjwt-api:0.12.5")
+//    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
+//    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
 }
 
 

@@ -44,7 +44,7 @@ public class CodeSetting {
         this.manualOpenLocalModel = false;
         this.upgradeStrategy = UpgradeChecklEnum.AUTO_INSTALL.getLabel();
         this.loginMode = LoginModeEnum.ALIYUN_ACCOUNT.getLabel();
-        this.recentQueries = new HashMap();
+        this.recentQueries = new HashMap<>();
         this.init();
     }
 
@@ -79,7 +79,8 @@ public class CodeSetting {
         parameter.getCloud().setManualTrigger(new ChangeUserSettingParams.CloudModelManualTrigger());
         parameter.getCloud().getAutoTrigger().setEnable(true);
         parameter.getCloud().getAutoTrigger().setModelLevel(ModelPowerLevelEnum.LARGE.getLabel());
-        parameter.getCloud().getAutoTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LEVEL_1.getLabel());
+        //parameter.getCloud().getAutoTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LEVEL_1.getLabel());
+        parameter.getCloud().getAutoTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LINE_LEVEL.getLabel());
         parameter.getCloud().getManualTrigger().setModelLevel(ModelPowerLevelEnum.LARGE.getLabel());
         parameter.getCloud().getManualTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LEVEL_2.getLabel());
         parameter.getCloud().setDisableLanguages(new ArrayList(List.of("plaintext")));

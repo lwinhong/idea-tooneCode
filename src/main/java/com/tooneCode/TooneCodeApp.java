@@ -36,7 +36,7 @@ public class TooneCodeApp {
     }
 
     public static void doInit() {
-        log.info("start to do init lingma app");
+        log.info("start to do init toonecoder app");
 //        PluginInstaller.addStateListener(new CosyPluginStateListener());
 //        (new Thread(() -> {
 //            log.info("Check binary when app starting...");
@@ -55,6 +55,7 @@ public class TooneCodeApp {
                 Color bgColor = EditorColorsManager.getInstance().getGlobalScheme().getDefaultBackground();
                 Objects.requireNonNull(cefSettings);
                 //cefSettings.background_color = new CefSettings.ColorType(bgColor.getAlpha(), bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+
             } catch (Exception var5) {
                 Exception e = var5;
                 log.warn("Unsupported JBCefBrowser:" + e.getMessage());

@@ -27,7 +27,10 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
-    <depends optional="true" config-file="code-withJava.xml">com.intellij.modules.java</depends>
+    <depends optional="true" config-file="cosy-withJava.xml">com.intellij.modules.java</depends>
+    <depends optional="true" config-file="cosy-withPython.xml">com.intellij.modules.python</depends>
+    <depends optional="true" config-file="cosy-withGolang.xml">com.intellij.modules.goland</depends>
+    <depends optional="true" config-file="cosy-withJavaScript.xml">com.intellij.modules.webstorm</depends>
 
     <projectListeners>
         <listener class="com.tooneCode.listeners.CodeLookupManagerListener"
@@ -40,7 +43,7 @@
     </projectListeners>
     <applicationListeners>
         <listener topic="com.intellij.openapi.project.ProjectManagerListener"
-                  class="com.tooneCode.listeners.MultiLangCosyProjectManagerListener"/>
+                  class="com.tooneCode.listeners.MultiLangCodeProjectManagerListener"/>
     </applicationListeners>
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
@@ -54,7 +57,7 @@
         <postStartupActivity implementation="com.tooneCode.listeners.ProjectActivityListener"/>
         <statusBarWidgetFactory id="com.tooneCode.intellij.status"
                                 implementation="com.tooneCode.ui.statusbar.CodeStatusBarWidgetFactory"/>
-        <applicationConfigurable instance="com.tooneCode.ui.config.CodeConfigurable"/>
+        <applicationConfigurable instance="com.tooneCode.ui.config.CodeConfigurable" displayName="TooneCode"/>
         <actionPromoter order="last" implementation="com.tooneCode.completion.action.CodeActionPromoter"/>
     </extensions>
     <actions>
@@ -118,7 +121,7 @@
             <keyboard-shortcut first-keystroke="alt TAB" keymap="$default"/>
         </action>
         <!-- 触发TooneCode的提示 -->
-        <action id="CodeTriggerInlayCompletionAction"
+        <action id="TriggerInlayCompletionAction"
                 class="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
                 text="CodeTriggerInlayCompletionAction">
             <keyboard-shortcut first-keystroke="alt P" keymap="$default" replace-all="true"/>
@@ -160,8 +163,13 @@
                 class="com.tooneCode.ui.statusbar.CodeStatusInfoDisplayAction" popup="true"/>
         <action id="CosyOpenSettingsAction"
                 class="com.tooneCode.ui.action.OpenSettingsAction" popup="true"/>
+        <action id="CodeCompletionEnabledToggleAction"
+                class="com.tooneCode.completion.action.CodeCompletionEnabledToggleAction"/>
         <group id="cosyStatusBarPopupNoLoginGroup">
+            <reference id="CodeCompletionEnabledToggleAction"/>
             <reference id="CosyOpenSettingsAction"/>
         </group>
+
+
     </actions>
 </idea-plugin>

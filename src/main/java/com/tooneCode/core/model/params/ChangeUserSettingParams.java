@@ -476,7 +476,7 @@ public class ChangeUserSettingParams extends BaseUserSetting {
     }
 
     public static class LocalModelParam extends BaseUserSetting {
-        Boolean enable;
+        Boolean enable = Boolean.FALSE;
         String inferenceMode;
         Integer maxCandidateNum;
 
@@ -486,7 +486,7 @@ public class ChangeUserSettingParams extends BaseUserSetting {
 
         @Generated
         public Boolean getEnable() {
-            return true;// || this.enable;
+            return this.enable;
         }
 
         @Generated

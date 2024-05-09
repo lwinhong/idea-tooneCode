@@ -94,7 +94,7 @@ public class InlayCompletionHintFactory {
         String prevShortcut = KeyboardUtil.getShortcutText("ShowCosyPrevInlayCompletionAction");
         String acceptShortcut = KeyboardUtil.getShortcutText("ApplyCosyInlayCompletion");
         String disposeShortcut = KeyboardUtil.getShortcutText("DisposeCosyInlayCompletionAction");
-        String triggerShortcut = KeyboardUtil.getShortcutText("CodeTriggerInlayCompletionAction");
+        String triggerShortcut = KeyboardUtil.getShortcutText("TriggerInlayCompletionAction");
         int applyShortcut = KeyboardUtil.getShortcutKeyCode("ApplyCosyInlayCompletion");
         if (applyShortcut == 9) {
             acceptShortcut = "Tab";

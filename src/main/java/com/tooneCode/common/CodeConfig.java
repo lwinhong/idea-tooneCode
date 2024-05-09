@@ -35,7 +35,7 @@ public class CodeConfig {
     }
 
     static {
-        PLUGIN_NAME = "同望AI编码助手";//I18NConstant.COSY_PLUGIN_NAME;
+        PLUGIN_NAME = "同望编码助手";//I18NConstant.COSY_PLUGIN_NAME;
         SYSTEM_ARCH = getSystemArch();
         PLATFORM_NAME = getPlatformName();
         COSY_EXECUTABLE_NAME = getExecutableName();

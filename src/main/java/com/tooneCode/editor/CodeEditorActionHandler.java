@@ -45,7 +45,7 @@ public class CodeEditorActionHandler extends EditorActionHandler {
             LOG.info("allow action:" + this.action + " accept:" + applyShortcut + " dispose:" + disposeShortcut);
             ActionManager actionManager;
             AnAction action;
-            if (acceptActions.containsKey(applyShortcut) && ((Set) acceptActions.get(applyShortcut)).contains(this.action)) {
+            if (acceptActions.containsKey(applyShortcut) && (acceptActions.get(applyShortcut)).contains(this.action)) {
                 LOG.info("do insert inlay:" + this.action);
                 actionManager = ActionManager.getInstance();
                 action = actionManager.getAction("ApplyCosyInlayCompletion");

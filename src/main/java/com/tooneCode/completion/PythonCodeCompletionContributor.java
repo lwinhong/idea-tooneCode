@@ -59,11 +59,6 @@ public class PythonCodeCompletionContributor extends CompletionContributor {
     private static final Pattern DOLLAR_ZERO_PATTERN = Pattern.compile("\\$0");
 
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result) {
-        if (true) {
-            //这里直接返回了。以下逻辑是实现自动完成的，逻辑没有问题。
-            //有inlay了感觉这个可有可无，后面服务器够强大可以放开
-            return;
-        }
         if (parameters.getEditor().getProject() != null) {
             CodeSetting setting = CodePersistentSetting.getInstance().getState();
             if (setting != null && !setting.getParameter().getLocal().getEnable()) {

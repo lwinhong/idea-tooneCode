@@ -90,7 +90,7 @@ public class CodeStatusBarWidget extends EditorBasedStatusBarPopup {
         if (status != null) {
             CodeCacheKeys.KEY_AUTH_STATUS.set(ApplicationManager.getApplication(), status);
         } else {
-            status = (AuthStatus) CodeCacheKeys.KEY_AUTH_STATUS.get(ApplicationManager.getApplication());
+            status = CodeCacheKeys.KEY_AUTH_STATUS.get(ApplicationManager.getApplication());
         }
 
         boolean loggedIn = status != null && status.getStatus() != null && AuthStateEnum.LOGIN.getValue() == status.getStatus();
@@ -99,13 +99,14 @@ public class CodeStatusBarWidget extends EditorBasedStatusBarPopup {
         if (!(defaultGroup instanceof ActionGroup)) {
             return null;
         } else {
-            ActionGroup group;
+            ActionGroup group = null;
             if (withStatusItem) {
                 DefaultActionGroup statusGroup = new DefaultActionGroup();
-                statusGroup.add(new CodeStatusInfoDisplayAction());
-                statusGroup.addSeparator();
-                this.appendCompletionActionPopup(statusGroup);
-                statusGroup.addSeparator();
+                //以下是登录相关，先屏蔽
+//                statusGroup.add(new CodeStatusInfoDisplayAction());
+//                statusGroup.addSeparator();
+//                this.appendCompletionActionPopup(statusGroup);
+//                statusGroup.addSeparator();
                 statusGroup.addAll(new AnAction[]{defaultGroup});
                 group = statusGroup;
             } else {

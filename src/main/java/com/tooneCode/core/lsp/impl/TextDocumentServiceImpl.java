@@ -33,33 +33,43 @@ public class TextDocumentServiceImpl implements TextDocumentService {
     }
 
     @Override
-    public CompletableFuture<Either<List<CompletionItem>, CompletionList>> completion(CompletionParams position) {
+    public CompletableFuture<Either<List<CompletionItem>, CompletionList>> completion(CompletionParams params) {
         cancelInlayCompletion();
-
-        Map<String, Object> requestData = getRequestData(position);
-        var request = lastResponse = CodeGenerateApiManager.codeGenerateRequest(requestData);
+        var items = new ArrayList<CompletionItem>();
+        var generateLength = params.getRemoteModelParams().getGenerateLength();
+        var requestData = getRequestData(params);
+        requestData.put("generateLength", generateLength);
+        var request = lastResponse = CodeGenerateApiManager.codeGenerateRequest(requestData, (response) -> {
+            if ("line".equals(generateLength)) {
+                if (response.endsWith("\n") && StringUtils.isNotEmpty(response.trim())) {
+                    lastResponse.cancel();
+                    return false;
+                }
+            }
+            return true;
+        });
         if (request == null)
-            return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(Either.forLeft(items));
 
-        var code = request.getResult();
+        String code = request.getResult();
         if (StringUtils.isBlank(code)) {
-            return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(Either.forLeft(items));
         }
+        String finalCode = code.trim();
         return CompletableFuture.supplyAsync(() -> {
-            var items = new ArrayList<CompletionItem>();
             CompletionItem item = new CompletionItem();
-            item.setLabel(code);
+            item.setLabel(finalCode);
             item.setKind(CompletionItemKind.Text);
-            item.setDetail(code);
-            item.setDocumentation(code);
-            item.setInsertText(code);
+            item.setDetail(finalCode);
+            item.setDocumentation(finalCode);
+            item.setInsertText(finalCode);
             item.setInsertTextFormat(InsertTextFormat.PlainText);
             var edit = new TextEdit();
 
-            var p = position.getPosition();
+            var position = params.getPosition();
 
-            edit.setRange(new Range(new Position(p.getLine(), p.getCharacter()),
-                    new Position(p.getLine(), p.getCharacter() + 4)));
+            edit.setRange(new Range(new Position(position.getLine(), position.getCharacter()),
+                    new Position(position.getLine(), position.getCharacter() + 4)));
             item.setTextEdit(Either.forLeft(edit));
             items.add(item);
 
@@ -80,7 +90,7 @@ public class TextDocumentServiceImpl implements TextDocumentService {
         requestData.put("filePath", measurements.getFileName());
         requestData.put("stream", Boolean.TRUE);
         requestData.put("requestId", position.getRequestId());
-        requestData.put("max_length ", 256);
+        requestData.put("max_length ", 200);
         requestData.put("lang", measurements.getLanguage());
         return requestData;
     }

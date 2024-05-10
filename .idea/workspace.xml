@@ -4,24 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="inlay模式，接入服务">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/action/CodeCompletionEnabledToggleAction.java" afterDir="false" />
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="修改设置配置页面和相关实现">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/TooneCodeApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/TooneCodeApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/common/CodeConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/common/CodeConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/common/CodeSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/common/CodeSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionContributor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/CodeCompletionContributor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/PythonCodeCompletionContributor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/completion/PythonCodeCompletionContributor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/params/ChangeUserSettingParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/params/ChangeUserSettingParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeEditorActionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/CodeEditorActionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayCompletionHintFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayCompletionHintFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayPreviewRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayPreviewRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/listeners/MultiLangCosyProjectManagerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/listeners/MultiLangCodeProjectManagerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/ConfigMainForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/ConfigMainForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/statusbar/CodeStatusBarWidget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/statusbar/CodeStatusBarWidget.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messageBundle_zh_CN.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messageBundle_zh_CN.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApiManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/ICodeGenerateApiCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/ICodeGenerateApiCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/impl/TextDocumentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/impl/TextDocumentServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -340,7 +328,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715172590969</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="修改设置配置页面和相关实现">
+      <option name="closed" value="true" />
+      <created>1715240689417</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1715240689417</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -382,7 +378,8 @@
     <MESSAGE value="实现从聊天代码中直接插入文件" />
     <MESSAGE value="完善demo 版的自动提示" />
     <MESSAGE value="inlay模式，接入服务" />
-    <option name="LAST_COMMIT_MESSAGE" value="inlay模式，接入服务" />
+    <MESSAGE value="修改设置配置页面和相关实现" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改设置配置页面和相关实现" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -483,24 +480,34 @@
           <option name="timeStamp" value="289" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/LanguageWebSocketService.java</url>
-          <line>125</line>
-          <option name="timeStamp" value="298" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/CodeConfigurable.java</url>
           <line>212</line>
           <option name="timeStamp" value="304" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/params/ChangeUserSettingParams.java</url>
-          <line>154</line>
-          <option name="timeStamp" value="315" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/ui/config/ConfigMainForm.java</url>
           <line>942</line>
           <option name="timeStamp" value="316" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/lsp/impl/TextDocumentServiceImpl.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="326" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayPreviewRequest.java</url>
+          <line>130</line>
+          <option name="timeStamp" value="327" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayPreviewRequest.java</url>
+          <line>73</line>
+          <option name="timeStamp" value="328" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayPreviewRequest.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="329" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/model/AuthStatus.java</url>

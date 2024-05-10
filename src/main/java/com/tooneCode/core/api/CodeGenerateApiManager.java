@@ -16,11 +16,11 @@ public class CodeGenerateApiManager {
     private CodeGenerateApiManager() {
     }
 
-    public static CodeGenerateResponse codeGenerateRequest(Map<String, Object> postData) {
+    public static CodeGenerateResponse codeGenerateRequest(Map<String, Object> postData, ICodeGenerateApiCallBack callBack) {
         var requestApi = new CodeGenerateApi();
         try {
             var json = JSON.toJSONString(postData);
-            return requestApi.run(json);
+            return requestApi.run(json, callBack);
         } catch (Exception e) {
             return null;
         }

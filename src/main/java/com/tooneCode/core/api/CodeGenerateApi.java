@@ -28,7 +28,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
     public CodeGenerateApi() {
     }
 
-    public CodeGenerateResponse run(String requestJson) throws Exception {
+    public CodeGenerateResponse run(String requestJson, ICodeGenerateApiCallBack callBack) throws Exception {
         var completableFuture = CompletableFuture.supplyAsync(() -> {
             // 创建请求体
             requestBody = new RealRequestBody(requestJson);
@@ -44,7 +44,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
                     .build();
 
             var eventLatch = new CountDownLatch(1);
-            var listener = eventSourceListener = new CodeEventSourceListener(eventLatch);
+            var listener = eventSourceListener = new CodeEventSourceListener(eventLatch, callBack);
             realEventSource = new RealEventSource(request, eventSourceListener);
             try {
                 realEventSource.connect(client);
@@ -53,6 +53,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
             } catch (InterruptedException e) {
                 // 处理中断异常
             }
+
             return listener.getResult();
         });
 
@@ -86,10 +87,13 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
 
     static class CodeEventSourceListener extends EventSourceListener implements Disposable {
         private CountDownLatch eventLatch;
+        private ICodeGenerateApiCallBack callBack;
         private StringBuilder sb = new StringBuilder();
 
-        public CodeEventSourceListener(CountDownLatch eventLatch) {
+        public CodeEventSourceListener(CountDownLatch eventLatch, ICodeGenerateApiCallBack callBack) {
             this.eventLatch = eventLatch;
+            this.callBack = callBack;
+
         }
 
         @Override
@@ -100,7 +104,13 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
         @Override
         public void onEvent(@NotNull EventSource eventSource, String id, String type, @NotNull String data) {
             sb.append(data);
+            if (callBack != null) {
+                if (!callBack.SetEventSource(sb.toString())) {
+                    eventSource.cancel();
+                }
+            }
             System.out.println("onEvent:" + sb.toString());
+
         }
 
         @Override
@@ -130,6 +140,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
             CountDown();
             sb = null;
             eventLatch = null;
+            callBack = null;
         }
     }
 

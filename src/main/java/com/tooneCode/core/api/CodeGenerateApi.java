@@ -32,15 +32,14 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
         var completableFuture = CompletableFuture.supplyAsync(() -> {
             // 创建请求体
             requestBody = new RealRequestBody(requestJson);
-            OkHttpClient client = new OkHttpClient.Builder()
+            var client = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                     .build();
 
-            request = new Request.Builder()
-                    .url(CodeGenerateApiManager.chatApi)
+            request = CodeGenerateApiManager.AddHeaders(new Request.Builder())
+                    .url(CodeGenerateApiManager.ONLINE_CODE_API)
                     .post(requestBody)
-                    .addHeader("Accept", "text/event-stream;")
                     .build();
 
             var eventLatch = new CountDownLatch(1);
@@ -103,7 +102,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
 
         @Override
         public void onEvent(@NotNull EventSource eventSource, String id, String type, @NotNull String data) {
-            sb.append(data);
+            sb.append(CodeGenerateApiManager.responseTextHandler(data));
             if (callBack != null) {
                 if (!callBack.SetEventSource(sb.toString())) {
                     eventSource.cancel();
@@ -111,6 +110,17 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
             }
             System.out.println("onEvent:" + sb.toString());
 
+//            if ("done".equals(type)) {
+//
+//            } else if ("data".equals(type)) {
+//                sb.append(CodeGenerateApiManager.responseTextHandler(data));
+//                if (callBack != null) {
+//                    if (!callBack.SetEventSource(sb.toString())) {
+//                        eventSource.cancel();
+//                    }
+//                }
+//                System.out.println("onEvent:" + sb.toString());
+//            }
         }
 
         @Override
@@ -123,7 +133,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
         public void onFailure(@NotNull EventSource eventSource, Throwable t, Response response) {
             eventSource.cancel();
             CountDown();
-            System.out.println("onFailure:");
+            System.out.println("onFailure:" + t);
         }
 
         public String getResult() {

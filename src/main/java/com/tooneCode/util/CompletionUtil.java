@@ -92,17 +92,10 @@ public final class CompletionUtil {
     }
 
     public static boolean isValidDocumentChange(@NotNull Document document, int newOffset, int previousOffset) {
-        if (document == null) {
-            //$$$reportNull$$$0(0);
-        }
-
         return isValidDocumentChange(document, newOffset, previousOffset, (PsiElement) null);
     }
 
     public static boolean isValidDocumentChange(@NotNull Document document, int newOffset, int previousOffset, PsiElement element) {
-        if (document == null) {
-            //$$$reportNull$$$0(1);
-        }
 
         if (newOffset >= 0 && previousOffset <= newOffset) {
             String lastChangeText = (String) document.getUserData(CodeCacheKeys.KEY_LAST_CHANGE_TEXT);
@@ -144,10 +137,6 @@ public final class CompletionUtil {
     }
 
     private static boolean isValidReturnType(@NotNull Document document, String addedText, int newOffset) {
-        if (document == null) {
-            //$$$reportNull$$$0(2);
-        }
-
         addedText = addedText.replace("*", "");
         if (addedText.trim().isEmpty() && addedText.contains("\n")) {
             int line = document.getLineNumber(newOffset);
@@ -166,9 +155,6 @@ public final class CompletionUtil {
     }
 
     public static boolean isAllowMustEmptyLineSuffix(@NotNull Document document, String addedText, int caretOffset) {
-        if (document == null) {
-            //$$$reportNull$$$0(3);
-        }
 
         if (!FORBIDDEN_NOT_EMPTY_LINE_SUFFIX.contains(addedText)) {
             return true;
@@ -187,9 +173,6 @@ public final class CompletionUtil {
     }
 
     public static boolean isValidMiddleLinePosition(@NotNull Document document, int offset) {
-        if (document == null) {
-            //$$$reportNull$$$0(4);
-        }
 
         int lineIndex = document.getLineNumber(offset);
         TextRange lineRange = TextRange.create(document.getLineStartOffset(lineIndex), document.getLineEndOffset(lineIndex));
@@ -202,13 +185,6 @@ public final class CompletionUtil {
     public static int getInlayChunkMaxLength(@NotNull Editor editor,
                                              @NotNull InlayCompletionRequest request,
                                              CodeEditorInlayItem item) {
-        if (editor == null) {
-            //$$$reportNull$$$0(5);
-        }
-
-        if (request == null) {
-            //$$$reportNull$$$0(6);
-        }
 
         int maxLength = 0;
 
@@ -230,13 +206,6 @@ public final class CompletionUtil {
     }
 
     public static int getInlayChunkMaxPixelLength(@NotNull Editor editor, @NotNull InlayCompletionRequest request, CodeEditorInlayItem item) {
-        if (editor == null) {
-            //$$$reportNull$$$0(7);
-        }
-
-        if (request == null) {
-            //$$$reportNull$$$0(8);
-        }
 
         FontMetrics metrics = FontUtil.fontMetrics(editor, FontUtil.getFont(editor, item.getContent()));
         int maxLength = 0;

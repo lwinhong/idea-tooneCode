@@ -23,7 +23,7 @@ public class CodeActionPromoter implements ActionPromoter {
             return null;
         } else {
             LOG.debug("promote actions:" + actions);
-            ArrayList<AnAction> result = new ArrayList(actions);
+            ArrayList<AnAction> result = new ArrayList<>(actions);
             result.sort((a, b) -> {
                 boolean aOk = this.isLingmaAction(a);
                 boolean bOk = this.isLingmaAction(b);

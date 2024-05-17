@@ -390,6 +390,9 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     }
 
     public void renderInlayCompletionItem(InlayCompletionRequest request, CodeEditorInlayItem item) {
+        if (request == null)
+            return;
+
         Editor editor = request.getEditor();
         InlayModel inlayModel = editor.getInlayModel();
         ArrayList<Inlay<CodeInlayRenderer>> insertedInlays = new ArrayList<>();

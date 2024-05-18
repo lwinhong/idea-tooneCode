@@ -51,7 +51,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class CodeEditorChatHintProvider implements InlayHintsProvider<ChatHintSettings> {
-    private static final String CODE_LENS_ID = "Lingma";
+
     private static final SettingsKey<ChatHintSettings> KEY = new SettingsKey("TooneCode");
 
     public CodeEditorChatHintProvider() {

@@ -102,7 +102,8 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
                     if (i < this.tooltipTexts.size()) {
                         String tooltipText = (String) this.tooltipTexts.get(i);
                         if (tooltipText != null) {
-                            g2.drawString(tooltipText, (float) (this.lineMaxLength + 16), (float) (offsetY + (double) lineOffset));
+                            //绘制Ctrl+向下箭头，逐行补全提示。 还未完全实现，这个提示先屏蔽
+                            //g2.drawString(tooltipText, (float) (this.lineMaxLength + 16), (float) (offsetY + (double) lineOffset));
                         }
                     }
 

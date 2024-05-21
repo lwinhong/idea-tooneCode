@@ -11,6 +11,9 @@ import com.tooneCode.editor.CodeInlayManager;
 import com.tooneCode.ui.config.CodePersistentSetting;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 多inlay的时候，切换下一个inlay
+ */
 public class CodeNextInlayCompletionAction extends BaseCodeInsightAction implements DumbAware, CodeAction {
     public CodeNextInlayCompletionAction() {
         super(false);

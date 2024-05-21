@@ -28,6 +28,7 @@ public class CodeGenerateResponse implements Disposable {
             return result.get(timeout, TimeUnit.SECONDS);
         } catch (Exception e) {
             log.error(e);
+            cancel();
             return null;
         }
     }

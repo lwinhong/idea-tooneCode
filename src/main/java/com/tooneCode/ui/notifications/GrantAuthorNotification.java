@@ -2,7 +2,6 @@ package com.tooneCode.ui.notifications;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.swing.JComponent;
 
 import com.intellij.ide.BrowserUtil;
 import com.intellij.notification.Notification;
@@ -12,12 +11,9 @@ import com.intellij.openapi.project.Project;
 import com.tooneCode.common.CodeBundle;
 import com.tooneCode.common.CodeSetting;
 import com.tooneCode.constants.I18NConstant;
-import com.tooneCode.constants.LingmaUrls;
+import com.tooneCode.constants.TooneCodeUrls;
 import com.tooneCode.core.TooneCoder;
-import com.tooneCode.core.model.model.AuthStateEnum;
 import com.tooneCode.core.model.model.AuthStatus;
-import com.tooneCode.core.model.model.AuthWhitelistStatusEnum;
-import com.tooneCode.services.UserAuthService;
 import com.tooneCode.ui.config.CodePersistentSetting;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nls;
@@ -66,7 +62,7 @@ public class GrantAuthorNotification {
             Notification notification = NotificationFactory.createInfoStickyNotification(I18NConstant.COSY_PLUGIN_NAME, message);
             if (notification != null) {
                 if (StringUtils.isBlank(authStatus.getOrgId())) {
-                    notification.addAction(new GotoUrlNotificationAction(CodeBundle.message("notifications.action.button.learn", new Object[0]), LingmaUrls.EXPR_APPLY_URL.getRealUrl()));
+                    notification.addAction(new GotoUrlNotificationAction(CodeBundle.message("notifications.action.button.learn", new Object[0]), TooneCodeUrls.EXPR_APPLY_URL.getRealUrl()));
                 }
 
                 notification.addAction(new DismissLoginNotificationAction(CodeBundle.message("notifications.action.button.dismiss", new Object[0])));
@@ -81,7 +77,7 @@ public class GrantAuthorNotification {
             String message = CodeBundle.message("notifications.auth.network.error", new Object[0]);
             Notification notification = NotificationFactory.createInfoStickyNotification(I18NConstant.COSY_PLUGIN_NAME, message);
             if (notification != null) {
-                notification.addAction(new GotoUrlNotificationAction(CodeBundle.message("notifications.action.button.learn", new Object[0]), LingmaUrls.NETWORK_ERROR_URL.getRealUrl()));
+                notification.addAction(new GotoUrlNotificationAction(CodeBundle.message("notifications.action.button.learn", new Object[0]), TooneCodeUrls.NETWORK_ERROR_URL.getRealUrl()));
                 notification.addAction(new DismissLoginNotificationAction(CodeBundle.message("notifications.action.button.dismiss", new Object[0])));
                 notification.notify(project);
             }

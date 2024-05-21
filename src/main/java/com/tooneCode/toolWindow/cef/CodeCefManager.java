@@ -1,13 +1,15 @@
 package com.tooneCode.toolWindow.cef;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.intellij.ide.DataManager;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.colors.EditorColors;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.jcef.*;
 import com.tooneCode.services.CodeProjectServiceImpl;
-import com.tooneCode.util.LanguageUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.cef.browser.CefBrowser;
 import com.alibaba.fastjson2.JSON;
 
@@ -15,6 +17,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.intellij.openapi.editor.colors.EditorColorsListener;
 
 public class CodeCefManager implements ICodeCefManager {
     private Project _project;
@@ -25,6 +29,48 @@ public class CodeCefManager implements ICodeCefManager {
     public CodeCefManager(Project project, ToolWindow toolWindow) {
         this._project = project;
         this._toolWindow = toolWindow;
+        EditorColorListener();
+    }
+
+    private void EditorColorListener() {
+        ApplicationManager.getApplication().getMessageBus().connect().subscribe(EditorColorsManager.TOPIC, new EditorColorsListener() {
+            public void globalSchemeChange(EditorColorsScheme scheme) {
+                EventQueue.invokeLater(() -> {
+                    SendMessage4ThemeChanged(scheme);
+                });
+            }
+        });
+    }
+
+    private void SendMessage4ThemeChanged(EditorColorsScheme scheme) {
+        if (scheme == null)
+            scheme = EditorColorsManager.getInstance().getGlobalScheme();
+
+        SendMessageToPage("changeTheme", scheme.getName(), null);
+        SendMessageToPage("colorChanged", JSON.toJSONString(getColorMap(scheme)), null);
+    }
+
+    private Map<String, String> getColorMap(EditorColorsScheme scheme) {
+        if (scheme == null)
+            scheme = EditorColorsManager.getInstance().getGlobalScheme();
+
+        Color foreColor = scheme.getDefaultForeground();
+        Color backColor = scheme.getDefaultBackground();
+
+        Color borderColor = scheme.getColor(EditorColors.TEARLINE_COLOR);
+
+        if (_toolWindow != null) {
+            backColor = _toolWindow.getComponent().getBackground();
+        }
+        Color finalBackColor = backColor;
+
+        return new HashMap<>() {
+            {
+                put("foreColor", String.format("#%06X", (0xFFFFFF & foreColor.getRGB())));
+                put("backColor", String.format("#%06X", (0xFFFFFF & finalBackColor.getRGB())));
+                put("borderColor", String.format("#%06X", (0xFFFFFF & borderColor.getRGB())));
+            }
+        };
     }
 
     public JComponent GetCodeCefComponent() {
@@ -120,6 +166,9 @@ public class CodeCefManager implements ICodeCefManager {
      * 页面加载完成
      */
     public void onLoadEnd() {
+        EventQueue.invokeLater(() -> {
+            SendMessage4ThemeChanged(null);
+        });
         //注入和cef交互的接口
         var inject = "window.ideaCodeInstance = function(data,successCallback,errorCallback) { "
                 + _jsQuery.inject("data", "successCallback", "errorCallback")

@@ -49,10 +49,15 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
                 realEventSource.connect(client);
                 // await() 方法被调用来阻塞当前线程，直到 CountDownLatch 的计数变为0。
                 eventLatch.await();
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 // 处理中断异常
+                System.err.println("onEvent:" + e);
+                try {
+                    realEventSource.cancel();
+                } catch (Exception e1) {
+                    System.err.println("onEvent-cancel:" + e1);
+                }
             }
-
             return listener.getResult();
         });
 

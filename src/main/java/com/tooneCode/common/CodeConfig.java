@@ -24,9 +24,9 @@ public class CodeConfig {
     public static final String COSY_EXECUTABLE_NAME;
     public static final String CONFIG_FILE_NAME = "config.json";
     public static final String ENV_FILE_NAME = "env.json";
-    public static final String CONFIG_BINARY_VERSION = "cosy.core.version";
+    public static final String CONFIG_BINARY_VERSION = "code.core.version";
     public static final int MAX_COMPLETION_COUNT = 4;
-    public static final String COSY_BINARY_RESOURCE = "/binaries/lingma.zip";
+    public static final String COSY_BINARY_RESOURCE = "/binaries/toone.zip";
     public static final String IDE_VERSION;
     public static final String IDE_NAME;
     private static final Properties FEATURES_CONFIG;
@@ -62,7 +62,7 @@ public class CodeConfig {
             platform = "darwin";
         } else {
             if (!SystemInfo.isLinux) {
-                throw new RuntimeException("Cosy only supports platform Windows, macOS, Linux");
+                throw new RuntimeException("code only supports platform Windows, macOS, Linux");
             }
 
             platform = "linux";

@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 
 public final class ConfigManager {
     private static final Logger LOG = Logger.getInstance(ConfigManager.class);
-    private static final String CONFIG_CACHE_NAME = "COSY_CONFIG";
+    private static final String CONFIG_CACHE_NAME = "CODE_CONFIG";
     public static final ConfigManager INSTANCE = new ConfigManager();
     private static final ConfigInfo DEFAULT_CONFIG = new ConfigInfo();
     Cache<String, ConfigInfo> configCache;
@@ -24,7 +24,7 @@ public final class ConfigManager {
     }
 
     public synchronized ConfigInfo getConfig() {
-        ConfigInfo cacheConfig = (ConfigInfo)this.configCache.getIfPresent("COSY_CONFIG");
+        ConfigInfo cacheConfig = (ConfigInfo)this.configCache.getIfPresent("CODE_CONFIG");
         if (cacheConfig != null) {
             return cacheConfig;
         } else {
@@ -41,7 +41,7 @@ public final class ConfigManager {
                         return DEFAULT_CONFIG;
                     } else {
                         ConfigInfo config = new ConfigInfo(data);
-                        this.configCache.put("COSY_CONFIG", config);
+                        this.configCache.put("CODE_CONFIG", config);
                         return config;
                     }
                 } catch (Exception var8) {

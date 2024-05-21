@@ -65,7 +65,7 @@ public class CodeCompletionItem {
     }
 
     public String toString() {
-        return "CosyCompletionItem{index=" + this.index + ", originItem=" + this.originItem + ", cursorPrefix='" + this.cursorPrefix + "', cursorSuffix='" + this.cursorSuffix + "'}";
+        return "CodeCompletionItem{index=" + this.index + ", originItem=" + this.originItem + ", cursorPrefix='" + this.cursorPrefix + "', cursorSuffix='" + this.cursorSuffix + "'}";
     }
 }
 

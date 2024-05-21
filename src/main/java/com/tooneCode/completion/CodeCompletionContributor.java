@@ -32,6 +32,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 自动完成生成器。同ide自带提示一样下拉，这里将获取的数据插入到下拉选择中
+ */
 public class CodeCompletionContributor extends CompletionContributor {
     private static final Logger log = Logger.getInstance(CodeCompletionContributor.class);
     private static final long COMPLETION_TIMEOUT = 500L;
@@ -44,6 +47,7 @@ public class CodeCompletionContributor extends CompletionContributor {
 
     public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result) {
         if (parameters.getEditor().getProject() != null) {
+            //判断配置的开关是否开启
             CodeSetting setting = CodePersistentSetting.getInstance().getState();
             if (setting != null && !setting.getParameter().getLocal().getEnable()) {
                 log.info("ignore completion, the switch closed");

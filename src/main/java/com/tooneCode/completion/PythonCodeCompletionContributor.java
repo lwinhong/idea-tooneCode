@@ -116,11 +116,9 @@ public class PythonCodeCompletionContributor extends CompletionContributor {
     }
 
     private void duplicateOtherItems(CompletionParameters params, @Nonnull CompletionResultSet result, List<CompletionItem> items) {
-        Set<String> completionItems = new HashSet();
-        Iterator var5 = items.iterator();
+        Set<String> completionItems = new HashSet<>();
 
-        while (var5.hasNext()) {
-            CompletionItem item = (CompletionItem) var5.next();
+        for (CompletionItem item : items) {
             String completionText = CompletionUtil.getCompletionText(item);
             completionItems.add(completionText);
         }
@@ -143,7 +141,7 @@ public class PythonCodeCompletionContributor extends CompletionContributor {
     }
 
     private ArrayList<LookupElement> createCompletions(CompletionContext context, List<CompletionItem> items) {
-        ArrayList<LookupElement> elements = new ArrayList();
+        ArrayList<LookupElement> elements = new ArrayList<>();
         int limit = this.getCompletionLimit(context);
         String prefix = context.getPrefix();
         LookupEx lookupEx = LookupManager.getActiveLookup(context.getParameters().getEditor());

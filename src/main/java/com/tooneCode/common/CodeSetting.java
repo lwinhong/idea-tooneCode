@@ -83,7 +83,7 @@ public class CodeSetting {
         parameter.getCloud().getAutoTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LINE_LEVEL.getLabel());
         parameter.getCloud().getManualTrigger().setModelLevel(ModelPowerLevelEnum.LARGE.getLabel());
         parameter.getCloud().getManualTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LEVEL_2.getLabel());
-        parameter.getCloud().setDisableLanguages(new ArrayList(List.of("plaintext")));
+        parameter.getCloud().setDisableLanguages(new ArrayList<>(List.of("plaintext")));
         return parameter;
     }
 
@@ -128,6 +128,7 @@ public class CodeSetting {
     }
 
     public MethodQuickSwitchEnum getMethodQuickSwitchEnum() {
+
         return this.methodQuickSwitchEnum;
     }
 

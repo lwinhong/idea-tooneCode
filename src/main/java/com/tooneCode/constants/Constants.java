@@ -26,7 +26,7 @@ public class Constants {
     public static final int MAX_LIST_VARIABLES_SIZE = 100;
     public static final int MAX_COMPLETION_PARAM_LENGTH = 5000000;
     public static final String DEFAULT_PLUGIN_VERSION = "1.0.0";
-    public static final String RETRY_PROMPT = "<COSY::RETRY>";
+    public static final String RETRY_PROMPT = "<CODE::RETRY>";
     public static final double CLOUD_COMPLETION_TRIGGER_TEMPERATURE = 0.1;
     public static final double CLOUD_COMPLETION_TRIGGER_TOPP = 0.9;
     public static final double CLOUD_COMPLETION_TOGGLE_TEMPERATURE = 0.3;

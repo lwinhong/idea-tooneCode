@@ -11,6 +11,9 @@ import com.tooneCode.ui.config.CodePersistentSetting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 一行一行的接受inlay提示的编码
+ */
 public class CodeApplyInlayByLineAction extends BaseAcceptAction {
     private static final Logger LOG = Logger.getInstance(CodeApplyInlayByLineAction.class);
 

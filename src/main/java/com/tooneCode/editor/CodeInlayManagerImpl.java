@@ -243,7 +243,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
 
     @RequiresEdt
     public void applyCompletion(@NotNull Project project, @NotNull Editor editor, @NotNull CodeEditorInlayItem inlayItem, Integer lineCount) {
-        WriteCommandAction.runWriteCommandAction(project, "Apply Tongyi Inline Suggestion", "TONGYI", () -> {
+        WriteCommandAction.runWriteCommandAction(project, "Apply Code Inline Suggestion", "TooneCode", () -> {
             if (!project.isDisposed()) {
                 String content = null;
                 if (lineCount != null) {
@@ -347,7 +347,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
 
     private void insertInlayContent(@NotNull Editor editor, String content) {
 
-        WriteCommandAction.runWriteCommandAction(editor.getProject(), "Apply Tongyi Inline Suggestion", "TONGYI", () -> {
+        WriteCommandAction.runWriteCommandAction(editor.getProject(), "Apply Code Inline Suggestion", "TooneCode", () -> {
             String code = content;
             Document document = editor.getDocument();
             if (document instanceof DocumentImpl && !((DocumentImpl) document).acceptsSlashR()) {

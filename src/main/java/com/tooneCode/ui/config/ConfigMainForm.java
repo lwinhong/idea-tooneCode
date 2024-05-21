@@ -18,12 +18,11 @@ import com.intellij.ui.components.JBTextField;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import com.intellij.util.Consumer;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.SwingHelper;
 import com.intellij.util.ui.UIUtil;
 import com.tooneCode.common.*;
-import com.tooneCode.constants.LingmaUrls;
+import com.tooneCode.constants.TooneCodeUrls;
 import com.tooneCode.core.CodeStartupAdapter;
 import com.tooneCode.core.CodeStartupListener;
 import com.tooneCode.core.TooneCoder;
@@ -33,12 +32,9 @@ import com.tooneCode.core.model.params.LoginParams;
 import com.tooneCode.editor.enums.*;
 import com.tooneCode.services.UserAuthService;
 import com.tooneCode.ui.enums.ProxyModeEnum;
-import com.tooneCode.ui.notifications.AuthLoginNotifier;
-import com.tooneCode.ui.notifications.AuthLogoutNotifier;
 import com.tooneCode.ui.notifications.NotificationFactory;
 import com.tooneCode.ui.statusbar.CodeStatusBarWidget;
 import com.tooneCode.util.*;
-import icons.CommonIcons;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -162,7 +158,7 @@ public class ConfigMainForm implements Disposable {
         this.privacyLabel.setCursor(Cursor.getPredefinedCursor(12));
         this.privacyLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                CodeBrowserUtil.browse(LingmaUrls.PRIVACY_URL);
+                CodeBrowserUtil.browse(TooneCodeUrls.PRIVACY_URL);
             }
         });
         this.localModelCheckBox.addChangeListener((e) -> {
@@ -539,7 +535,7 @@ public class ConfigMainForm implements Disposable {
         this.getAkLabel.setCursor(Cursor.getPredefinedCursor(12));
         this.getAkLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                CodeBrowserUtil.browse(LingmaUrls.GET_ACCESS_KEY_URL);
+                CodeBrowserUtil.browse(TooneCodeUrls.GET_ACCESS_KEY_URL);
             }
         });
         this.configAccessKeyUI.setup();

@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.event.HyperlinkEvent;
 
-import com.tooneCode.constants.LingmaUrls;
+import com.tooneCode.constants.TooneCodeUrls;
 import com.tooneCode.editor.ActionTriggerHelper;
 import com.tooneCode.ui.enums.TriggerPlaceEnum;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +51,7 @@ public class UrlUtil {
             } else {
                 if (command.startsWith("url:")) {
                     refId = command.substring("url:".length());
-                    LingmaUrls url = LingmaUrls.fromRefId(refId);
+                    TooneCodeUrls url = TooneCodeUrls.fromRefId(refId);
                     if (url != null) {
                         return CodeBrowserUtil.browse(url);
                     }

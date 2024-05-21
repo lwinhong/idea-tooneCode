@@ -9,6 +9,7 @@
         <jvm.exceptionFilter implementation="com.tooneCode.ui.filter.CodeDebuggerFilter"/>
         <codeInsight.inlayProvider language="JAVA"
                                    implementationClass="com.tooneCode.editor.CodeEditorChatHintProvider"/>
+
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">

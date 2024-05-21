@@ -27,10 +27,10 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
-    <depends optional="true" config-file="cosy-withJava.xml">com.intellij.modules.java</depends>
-    <depends optional="true" config-file="cosy-withPython.xml">com.intellij.modules.python</depends>
-    <depends optional="true" config-file="cosy-withGolang.xml">com.intellij.modules.goland</depends>
-    <depends optional="true" config-file="cosy-withJavaScript.xml">com.intellij.modules.webstorm</depends>
+    <depends optional="true" config-file="code-withJava.xml">com.intellij.modules.java</depends>
+    <depends optional="true" config-file="code-withPython.xml">com.intellij.modules.python</depends>
+    <depends optional="true" config-file="code-withGolang.xml">com.intellij.modules.goland</depends>
+    <depends optional="true" config-file="code-withJavaScript.xml">com.intellij.modules.webstorm</depends>
 
     <projectListeners>
         <listener class="com.tooneCode.listeners.CodeLookupManagerListener"

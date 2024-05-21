@@ -7,10 +7,16 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.project.DumbAware;
+import com.tooneCode.common.CodeSetting;
 import com.tooneCode.editor.CodeInlayManager;
+import com.tooneCode.editor.model.InlayDisposeEventEnum;
+import com.tooneCode.ui.config.CodePersistentSetting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 取消inlay提示
+ */
 public class CodeEscapeInlaysAction extends EditorAction implements DumbAware {
 
     public CodeEscapeInlaysAction() {
@@ -27,49 +33,29 @@ public class CodeEscapeInlaysAction extends EditorAction implements DumbAware {
         }
 
         protected boolean isEnabledForCaret(@NotNull Editor editor, @NotNull Caret caret, DataContext dataContext) {
-            if (editor == null) {
-                //$$$reportNull$$$0(0);
-            }
-
-            if (caret == null) {
-                //$$$reportNull$$$0(1);
-            }
-
             return isEditorSupported(editor) || this.baseHandler != null && this.baseHandler.isEnabled(editor, caret, dataContext);
         }
 
         public boolean executeInCommand(@NotNull Editor editor, DataContext dataContext) {
-            if (editor == null) {
-                //$$$reportNull$$$0(2);
-            }
-
             return this.baseHandler != null && this.baseHandler.executeInCommand(editor, dataContext);
         }
 
         protected void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
-            if (editor == null) {
-                //$$$reportNull$$$0(3);
-            }
 
             if (isEditorSupported(editor)) {
-                //CodeInlayManager.getInstance().disposeInlays(editor, InlayDisposeEventEnum.ESC_ACTION);
-//                CosySetting setting = CosyPersistentSetting.getInstance().getState();
-//                if (setting != null) {
-//                    setting.setShowInlineCancelTips(false);
-//                }
+                CodeInlayManager.getInstance().disposeInlays(editor, InlayDisposeEventEnum.ESC_ACTION);
+                CodeSetting setting = CodePersistentSetting.getInstance().getState();
+                if (setting != null) {
+                    setting.setShowInlineCancelTips(false);
+                }
             }
 
             if (this.baseHandler != null && this.baseHandler.isEnabled(editor, caret, dataContext)) {
                 this.baseHandler.execute(editor, caret, dataContext);
             }
-
         }
 
         static boolean isEditorSupported(@NotNull Editor editor) {
-            if (editor == null) {
-                //$$$reportNull$$$0(4);
-            }
-
             return CodeInlayManager.getInstance().isAvailable(editor)
                     && CodeInlayManager.getInstance().hasCompletionInlays(editor)
                     && LookupManager.getActiveLookup(editor) == null;

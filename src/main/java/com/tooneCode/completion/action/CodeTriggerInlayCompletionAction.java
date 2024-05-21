@@ -2,6 +2,7 @@ package com.tooneCode.completion.action;
 
 import com.intellij.codeInsight.CodeInsightActionHandler;
 import com.intellij.codeInsight.actions.BaseCodeInsightAction;
+import com.intellij.openapi.actionSystem.ActionUpdateThreadAware;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
@@ -15,7 +16,10 @@ import com.tooneCode.editor.model.InlayTriggerEventEnum;
 import com.tooneCode.ui.config.CodePersistentSetting;
 import org.jetbrains.annotations.NotNull;
 
-public class CodeTriggerInlayCompletionAction extends BaseCodeInsightAction implements DumbAware {
+/**
+ * 手动触发inlay提示
+ */
+public class CodeTriggerInlayCompletionAction extends BaseCodeInsightAction implements DumbAware, ActionUpdateThreadAware, CodeAction {
     @Override
     protected @NotNull CodeInsightActionHandler getHandler() {
         return CodeTriggerInlayCompletionAction.TriggerInlayCompletionHandler.INSTANCE;

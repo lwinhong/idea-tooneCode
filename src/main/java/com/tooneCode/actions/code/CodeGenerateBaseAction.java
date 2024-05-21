@@ -12,7 +12,6 @@ import com.tooneCode.services.CodeProjectServiceImpl;
 import com.tooneCode.toolWindow.ICodeToolWindow;
 import com.tooneCode.util.LanguageUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.HashMap;

@@ -14,17 +14,6 @@ public class CompletionContext {
     private @NotNull LogicalPosition position;
 
     public CompletionContext(String cursorPrefix, String cursorSuffix, String prefix, @NotNull CompletionParameters parameters, @NotNull CompletionResultSet resultSet, @NotNull LogicalPosition position) {
-//        if (parameters == null) {
-//            $$$reportNull$$$0(0);
-//        }
-//
-//        if (resultSet == null) {
-//            $$$reportNull$$$0(1);
-//        }
-//
-//        if (position == null) {
-//            $$$reportNull$$$0(2);
-//        }
 
         super();
         this.cursorPrefix = cursorPrefix;

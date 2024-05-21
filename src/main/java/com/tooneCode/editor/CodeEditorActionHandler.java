@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class CodeEditorActionHandler extends EditorActionHandler {
     private static final Logger LOG = Logger.getInstance(CodeEditorActionHandler.class);
-    private static final Set<String> HANDLEABLE_ACTIONS = new HashSet(Arrays.asList("EditorTab", "EditorChooseLookupItemReplace", "EditorChooseLookupItem", "EditorEscape", "ExpandLiveTemplateByTab", "NextTemplateVariable", "标签页", "选择查询条目替换", "选择查询条目", "Esc", "按 Tab 展开实时模板", "下一个模板变量或完成就地重构"));
+    private static final Set<String> HANDLEABLE_ACTIONS = new HashSet<>(Arrays.asList("EditorTab", "EditorChooseLookupItemReplace", "EditorChooseLookupItem", "EditorEscape", "ExpandLiveTemplateByTab", "NextTemplateVariable", "标签页", "选择查询条目替换", "选择查询条目", "Esc", "按 Tab 展开实时模板", "下一个模板变量或完成就地重构"));
     private static final Map<Integer, Set<String>> acceptActions = Map.of(9, Set.of("EditorTab", "EditorChooseLookupItemReplace", "ExpandLiveTemplateByTab", "标签页", "选择查询条目替换", "选择查询条目", "NextTemplateVariable"), 39, Set.of("EditorRight", "右"), 37, Set.of("EditorLeft", "左"), 38, Set.of("EditorUp", "上"), 40, Set.of("EditorDown", "下"));
     private final EditorActionHandler handler;
     private final String action;

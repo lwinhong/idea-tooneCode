@@ -1,6 +1,7 @@
 package com.tooneCode.services;
 
 import com.intellij.ide.DataManager;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -14,16 +15,24 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service(Service.Level.PROJECT)
-public final class CodeProjectServiceImpl implements ICodeProjectService {
-    private final Project project;
-    private final FileEditorManager fileEditorManager;
+public final class CodeProjectServiceImpl implements ICodeProjectService, Disposable {
+    private Project project;
+    private FileEditorManager fileEditorManager;
 
     private ICodeToolWindow codeToolWindow;
 
     public CodeProjectServiceImpl(Project project) {
         this.project = project;
-
         this.fileEditorManager = FileEditorManager.getInstance(project);
+    }
+
+    @Override
+    public void dispose() {
+        project = null;
+        if (codeToolWindow != null)
+            codeToolWindow.dispose();
+        codeToolWindow = null;
+        fileEditorManager = null;
     }
 
     /**
@@ -80,8 +89,8 @@ public final class CodeProjectServiceImpl implements ICodeProjectService {
                 });
     }
 
-    static class CodeDataContext implements DataContext {
 
+    static class CodeDataContext implements DataContext {
         @Override
         public @Nullable Object getData(@NotNull String dataId) {
             return null;

@@ -1,11 +1,8 @@
 package com.tooneCode.listeners;
 
-import com.intellij.ProjectTopics;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ModuleRootEvent;
-import com.intellij.openapi.roots.ModuleRootListener;
 import com.intellij.openapi.startup.ProjectActivity;
 import com.tooneCode.TooneCodeApp;
 import com.tooneCode.completion.template.TemplateSettingLoader;

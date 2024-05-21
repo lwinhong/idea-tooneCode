@@ -11,10 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.event.KeyEvent;
 
-public class CodeSelectPartInlayAction extends AnAction {
-    public CodeSelectPartInlayAction() {
-    }
-
+public class CodeSelectPartInlayAction extends AnAction implements CodeAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         if (e.getInputEvent() instanceof KeyEvent && e.getProject() != null) {

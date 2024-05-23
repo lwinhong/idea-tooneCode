@@ -62,24 +62,26 @@ public abstract class CodeGenerateBaseAction extends AnAction implements DumbAwa
     }
 
     protected void SendMessageToPage(@NotNull AnActionEvent e, String cmd, String value, String prompt) {
-        var tw = getCodeToolWindow(e);
-        if (tw != null) {
-            var filePath = getFilePath(e);
-            ActivateToolWindow(e, () -> {
-                try {
-                    tw.getICodeCefManager().SendMessageToPage(cmd, value,
-                            new HashMap<>() {
-                                {
-                                    put("prompt", prompt);
-                                    put("filePath", filePath);
-                                    put("language", LanguageUtil.getLanguageByFilePath(filePath));
-                                }
-                            });
-                } catch (Exception ex) {
-                    //
-                }
-            });
+        var codeToolWindow = getCodeToolWindow(e);
+        if (codeToolWindow == null) {
+            return;
         }
+        
+        var filePath = getFilePath(e);
+        ActivateToolWindow(e, () -> {
+            try {
+                codeToolWindow.getICodeCefManager().SendMessageToPage(cmd, value,
+                        new HashMap<>() {
+                            {
+                                put("prompt", prompt);
+                                put("filePath", filePath);
+                                put("language", LanguageUtil.getLanguageByFilePath(filePath));
+                            }
+                        });
+            } catch (Exception ex) {
+                //
+            }
+        });
     }
 
     protected String getFilePath(@NotNull AnActionEvent e) {

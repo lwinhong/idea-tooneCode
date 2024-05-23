@@ -66,16 +66,12 @@ public class TooneCodeApp {
 
     private static void overrideEditorActions() {
         EditorActionManager editorActionManager = EditorActionManager.getInstance();
-        String[] var1 = EDITOR_ACTIONS;
-        int var2 = var1.length;
 
-        for (int var3 = 0; var3 < var2; ++var3) {
-            String action = var1[var3];
+        for (String action : EDITOR_ACTIONS) {
             AnAction anAction = ActionManager.getInstance().getAction(action);
-            if (!(anAction instanceof EditorAction)) {
+            if (!(anAction instanceof EditorAction editorAction)) {
                 log.debug("ignore override action handler:" + action);
             } else {
-                EditorAction editorAction = (EditorAction) anAction;
                 EditorActionHandler handler = editorAction.getHandler();
                 if (handler != null) {
                     log.debug("override action handler:" + action);

@@ -1,11 +1,13 @@
 package com.tooneCode.services.model;
 
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.util.TextRange;
 import com.tooneCode.util.LanguageUtil;
 import lombok.Generated;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
+import com.intellij.openapi.vfs.VirtualFile;
 
 public class Measurements {
     Character charBeforeCaret;
@@ -33,8 +35,11 @@ public class Measurements {
             if (StringUtils.isEmpty(text)) {
                 return measurements;
             } else {
-                measurements.setFileName(editor.getVirtualFile().getName());
-                measurements.setLanguage(LanguageUtil.getLanguageByFilePath(editor.getVirtualFile().getPath()));
+                VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(editor.getDocument());
+                if (virtualFile != null) {
+                    measurements.setFileName(virtualFile.getName());
+                    measurements.setLanguage(LanguageUtil.getLanguageByFilePath(virtualFile.getPath()));
+                }
                 measurements.setCaretCharOffset(caretOffset);
                 String prefix;
                 if (text.length() > measurements.getCaretCharOffset()) {

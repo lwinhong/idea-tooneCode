@@ -14,10 +14,6 @@ public class CodeInlayCompletionSelectionListener implements SelectionListener {
     }
 
     public void selectionChanged(@NotNull SelectionEvent e) {
-        if (e == null) {
-            //$$$reportNull$$$0(0);
-        }
-
         Editor editor = e.getEditor();
         Project project = editor.getProject();
         if (project != null && !project.isDisposed()) {

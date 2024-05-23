@@ -40,13 +40,13 @@ public class CreateEditorAction extends AnAction implements DumbAware {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        String initialContent = "Your initial content";
+        //String initialContent = "Your initial content";
         //Document document = new DocumentImpl(initialContent);
         //Editor editor = EditorFactory.getInstance().createEditor(document);
         //PsiFile.getViewProvider();
         //PsiManager.getInstance(e.getProject()).findViewProvider();
-        Document document = EditorFactory.getInstance().createDocument(initialContent);
-        EditorFactory.getInstance().createEditor(document, e.getProject());
+//        Document document = EditorFactory.getInstance().createDocument(initialContent);
+//        EditorFactory.getInstance().createEditor(document, e.getProject());
 
         //这个打开设置的方法
 //        val notification = Notification("listener", "Title", "Hello, world!", NotificationType.INFORMATION)

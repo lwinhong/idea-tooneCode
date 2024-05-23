@@ -1,18 +1,28 @@
 package com.tooneCode.util;
 
+import com.intellij.execution.filters.ExceptionWorker;
+import com.intellij.lang.Language;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.source.tree.CompositeElement;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.tooneCode.common.CodeCacheKeys;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.editor.LogicalPosition;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class PsiUtils {
@@ -261,4 +271,134 @@ public class PsiUtils {
             }
         }
     }
+
+    public static String findErrorLineContent(Project project, Editor editor, int line) {
+        return findErrorLineContentByDefault(project, editor, line);
+    }
+
+    public static String findErrorLineContentByDefault(Project project, Editor editor, int line) {
+        while (line < editor.getDocument().getLineCount()) {
+            String lineContent = editor.getDocument().getText(new TextRange(editor.getDocument().getLineStartOffset(line), editor.getDocument().getLineEndOffset(line)));
+            ExceptionWorker.ParsedLine myInfo = ExceptionWorker.parseExceptionLine(lineContent);
+            if (myInfo != null && myInfo.fileName != null) {
+                String fileName = myInfo.fileName;
+                int documentLine = myInfo.lineNumber;
+                String classFullPath = lineContent.substring(myInfo.classFqnRange.getStartOffset(), myInfo.classFqnRange.getEndOffset());
+                List<VirtualFile> vFiles = new ArrayList<>(FilenameIndex.getVirtualFilesByName(project, fileName, GlobalSearchScope.projectScope(project)));
+                if (CollectionUtils.isEmpty(vFiles)) {
+                    ++line;
+                } else {
+                    VirtualFile vFile = findMostRelatedVirtualFile(vFiles, classFullPath);
+                    log.info("Find stacktrace related vfs " + vFile.getName());
+
+                    String var14;
+                    try {
+                        String content = new String(vFile.contentsToByteArray(true));
+                        Language language = com.intellij.lang.LanguageUtil.getFileLanguage(vFile);
+                        String languageStr = null;
+                        if (language != null) {
+                            languageStr = language.getDisplayName().toLowerCase();
+                        }
+
+                        StringBuilder sb = getStringBuilder(content, documentLine, languageStr);
+                        var14 = sb.toString();
+                    } catch (IOException var18) {
+                        IOException e = var18;
+                        log.error("vFile parse exception. ", e);
+                        continue;
+                    } finally {
+                        ++line;
+                    }
+
+                    return var14;
+                }
+            } else {
+                ++line;
+            }
+        }
+
+        return null;
+    }
+
+    public static VirtualFile findMostRelatedVirtualFile(List<VirtualFile> virtualFiles, String classFullPath) {
+        if (!CollectionUtils.isEmpty(virtualFiles) && classFullPath != null) {
+            Iterator<VirtualFile> var2 = virtualFiles.iterator();
+
+            VirtualFile virtualFile;
+            String vFileDotPath;
+            do {
+                if (!var2.hasNext()) {
+                    return (VirtualFile) virtualFiles.get(0);
+                }
+
+                virtualFile = (VirtualFile) var2.next();
+                String vPath = virtualFile.getPath();
+                int extPos = vPath.lastIndexOf(".");
+                if (extPos > 0) {
+                    vPath = vPath.substring(0, extPos);
+                }
+
+                vFileDotPath = vPath.replace("/", ".");
+            } while (!vFileDotPath.endsWith(classFullPath));
+
+            return virtualFile;
+        } else {
+            return null;
+        }
+    }
+
+    public static @NotNull StringBuilder getStringBuilder(String content, int documentLine, String languageStr) {
+        String[] contentLines = content.split("\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("```");
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(languageStr)) {
+            sb.append(languageStr);
+        }
+
+        sb.append("\n");
+        sb.append(findCompleteCodeBlock(contentLines, documentLine, "{", "}", 10));
+        sb.append("\n");
+        return sb;
+    }
+
+    public static String findCompleteCodeBlock(String[] contentLines, int documentLine, String blockStartSymbol, String blockEndSymbol, int maxSearchLine) {
+        int i = 0;
+
+        boolean found;
+        for (found = false; documentLine - i >= 0 && i < maxSearchLine; ++i) {
+            String line = contentLines[documentLine - i];
+            if (line.endsWith(blockStartSymbol)) {
+                found = true;
+                break;
+            }
+        }
+
+        int j = 0;
+        if (found) {
+            while (documentLine + j <= contentLines.length - 1 && j < maxSearchLine) {
+                String line = contentLines[documentLine + j];
+                if (line.endsWith(blockEndSymbol)) {
+                    break;
+                }
+
+                ++j;
+            }
+        } else {
+            j = maxSearchLine;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int k = Math.max(documentLine - i, 0); k <= Math.min(documentLine + j, contentLines.length - 1); ++k) {
+            sb.append(contentLines[k]);
+            sb.append("\n");
+        }
+
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 1);
+        }
+
+        return sb.toString();
+    }
+
 }

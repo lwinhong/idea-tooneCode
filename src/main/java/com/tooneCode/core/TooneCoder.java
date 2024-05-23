@@ -98,7 +98,7 @@ public class TooneCoder {
     }
 
     private void doStart(Project project, List<CodeStartupListener> listeners, AtomicBoolean startingState) {
-        List<WorkspaceFolder> workspaceFolders = new ArrayList();
+        List<WorkspaceFolder> workspaceFolders = new ArrayList<>();
         WorkspaceFolder folder = new WorkspaceFolder();
         folder.setName(project.getName());
         folder.setUri(project.getBasePath());
@@ -139,6 +139,7 @@ public class TooneCoder {
     }
 
     public boolean startup(Project project, InitializeParamsWithConfig params, List<CodeStartupListener> listeners, boolean debugMode) {
+
         try {
             File homeDir = this.getCodeHomeDir();
             if (homeDir == null) {

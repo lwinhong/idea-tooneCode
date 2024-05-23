@@ -1,6 +1,7 @@
 package com.tooneCode.ui.renderer;
 
 import com.intellij.codeInsight.hints.presentation.InputHandler;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorCustomElementRenderer;
@@ -11,6 +12,10 @@ import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
+import com.tooneCode.common.CodeSetting;
+import com.tooneCode.editor.enums.ExceptionResolveModeEnum;
+import com.tooneCode.services.CodeProjectServiceImpl;
+import com.tooneCode.ui.config.CodePersistentSetting;
 import icons.CommonIcons;
 
 import java.awt.Color;
@@ -21,6 +26,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class CodePresentation implements EditorCustomElementRenderer, InputHandler {
@@ -54,67 +60,32 @@ public class CodePresentation implements EditorCustomElementRenderer, InputHandl
     }
 
     public void mouseClicked(@NotNull MouseEvent mouseEvent, @NotNull Point point) {
-//        if (mouseEvent == null) {
-//            $$$reportNull$$$0(0);
-//        }
-//
-//        if (point == null) {
-//            $$$reportNull$$$0(1);
-//        }
-//
-//        CosySetting setting = CosyPersistentSetting.getInstance().getState();
-//        int line = this.editor.getDocument().getLineNumber(this.startOffset);
-//        String errorInformation = this.getErrorStacktrace(this.editor.getDocument(), this.startOffset, line);
-//        String codeContext = PsiUtils.findErrorLineContent(this.myProject, this.editor, line);
-//        if (setting != null && setting.getExceptionResolveV2ModeEnum() != null && ExceptionResolveModeEnum.USE_SEARCH.getType().equals(setting.getExceptionResolveV2ModeEnum().getType())) {
-//            SearchToolWindowFactory.showToolWindow(this.myProject);
-//            SearchValue searchValue = new SearchValue("", errorInformation, SearchValueTypeEnum.NLP.getType());
-//            SearchContext context = new SearchContext(OperationEnum.CLEAR_AND_ADD.text, SearchActionTypeEnum.CONSOLE_LOG_TRIGGER.getType());
-//            ((AnySearchNotifier) this.myProject.getMessageBus().syncPublisher(AnySearchNotifier.ANY_SEARCH_NOTIFICATION)).anySearch(context, searchValue);
-//        } else {
-//            SearchToolWindowFactory.showToolWindow(this.myProject);
-//            ChatContext chatContext = ChatContext.builder().sessionId(UUID.randomUUID().toString()).localeLanguage(Locale.getDefault().getLanguage()).build();
-//            String errorPrompt = String.format("修复报错:\n%s\n\n", errorInformation);
-//            if (StringUtils.isNotBlank(codeContext)) {
-//                errorPrompt = String.format("修复报错:\n%s\n代码上下文:\n%s\n", errorInformation, codeContext);
-//            }
-//
-//            GenerateInput genInput = new GenerateInput(errorPrompt, ChatTaskEnum.ERROR_INFO_ASK.name(), chatContext);
-//            SearchContext context = new SearchContext(OperationEnum.CLEAR_AND_ADD.text, SearchActionTypeEnum.RIGHT_CLICK_TRIGGER.getType());
-//            String requestId = UUID.randomUUID().toString();
-//            TelemetryService.getInstance().telemetryChatTask(this.myProject, TrackEventTypeEnum.CHAT_ERROR_INFO_ASK, requestId, chatContext.getSessionId(), ChatTaskEnum.ERROR_INFO_ASK.getName(), genInput);
-//            CosyCacheKeys.NEED_INIT_WELCOME_WINDOW.set(this.myProject, false);
-//            ToolWindow toolWindow = ToolWindowManager.getInstance(this.myProject).getToolWindow("Code Search");
-//            if (toolWindow == null) {
-//                ToolWindowManager.getInstance(this.myProject).registerToolWindow(RegisterToolWindowTask.closable("Code Search", CommonIcons.AI, ToolWindowAnchor.RIGHT));
-//                toolWindow = ToolWindowManager.getInstance(this.myProject).getToolWindow("Code Search");
-//            }
-//
-//            ToolWindow finalToolWindow = toolWindow;
-//            ApplicationManager.getApplication().invokeLater(() -> {
-//                if (finalToolWindow != null) {
-//                    if (finalToolWindow.getContentManager().findContent(I18NConstant.MAIN_CONTENT_NAME) == null) {
-//                        SearchToolWindowFactory.createSearchMainPanelAndGenerateContentForm(this.myProject, finalToolWindow, (project1) -> {
-//                            ((AnyGenerateNotifier) project1.getMessageBus().syncPublisher(AnyGenerateNotifier.ANY_GENERATE_NOTIFICATION)).anyGenerate(context, genInput, requestId);
-//                        });
-//                    } else {
-//                        SearchToolWindowFactory.showToolWindow(this.myProject);
-//                        ((AnyGenerateNotifier) this.myProject.getMessageBus().syncPublisher(AnyGenerateNotifier.ANY_GENERATE_NOTIFICATION)).anyGenerate(context, genInput, requestId);
-//                    }
-//                }
-//
-//            });
-//        }
 
+        int line = this.editor.getDocument().getLineNumber(this.startOffset);
+        String errorInformation = this.getErrorStacktrace(this.editor.getDocument(), this.startOffset, line);
+        String codeContext = com.tooneCode.util.PsiUtils.findErrorLineContent(this.myProject, this.editor, line);
+
+        var ref = new Object() {
+            String errorPrompt = String.format("修复报错:\n%s\n\n", errorInformation);
+        };
+        if (StringUtils.isNotBlank(codeContext)) {
+            ref.errorPrompt = String.format("修复报错:\n%s\n代码上下文:\n%s\n", errorInformation, codeContext);
+        }
+        var tw = CodeProjectServiceImpl.getInstance(myProject).getCodeToolWindow();
+        if (tw == null || tw.getICodeCefManager() == null)
+            return;
+
+        ApplicationManager.getApplication().invokeLater(() -> {
+            tw.getICodeCefManager().SendMessageToPage("chat_code", ref.errorPrompt, null);
+        });
     }
 
     public void mouseExited() {
-        ((EditorImpl) this.editor).setCustomCursor(this, Cursor.getPredefinedCursor(2));
+        ((EditorImpl) this.editor).setCustomCursor(this, Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public void mouseMoved(@NotNull MouseEvent mouseEvent, @NotNull Point point) {
-
-        ((EditorImpl) this.editor).setCustomCursor(this, Cursor.getPredefinedCursor(12));
+        ((EditorImpl) this.editor).setCustomCursor(this, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     public int calcWidthInPixels(@NotNull Inlay inlay) {
@@ -130,7 +101,7 @@ public class CodePresentation implements EditorCustomElementRenderer, InputHandl
         Color color = EditorColorsManager.getInstance().getGlobalScheme().getColor(EditorColors.READONLY_FRAGMENT_BACKGROUND_COLOR);
         Icon consoleIcon;
         //if (color == null) {
-            consoleIcon = CommonIcons.consoleIcon;
+        consoleIcon = CommonIcons.consoleIcon;
         //}
 //        else {
 //            consoleIcon = CommonIcons.lightConsoleIcon;

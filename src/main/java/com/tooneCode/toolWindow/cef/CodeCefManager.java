@@ -83,8 +83,8 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     public void LoadWebPage() {
-        _browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
-        //_browser.loadURL("http://localhost:5173/?idea=1");
+        //_browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
+        _browser.loadURL("http://localhost:5173/?idea=1");
     }
 
     private void AddHandler() {
@@ -128,16 +128,6 @@ public class CodeCefManager implements ICodeCefManager {
                 break;
             case "openNew":
                 EventQueue.invokeLater(() -> {
-//                    String ext = LanguageUtil.guessExtensionByMarkdownLanguage(markdownLanguage);
-//                    if (StringUtils.isBlank(ext) && questionCodeWithExt != null) {
-//                        ext = questionCodeWithExt.getExt();
-//                    }
-//
-//                    String sourceFilePath = null;
-//                    if (questionCodeWithExt != null) {
-//                        sourceFilePath = questionCodeWithExt.getFilePath();
-//                    }
-
                     CodeProjectServiceImpl.getInstance(this._project).NewEditor(executeData);
                 });
                 break;

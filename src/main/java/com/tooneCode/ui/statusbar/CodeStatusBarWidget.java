@@ -94,7 +94,7 @@ public class CodeStatusBarWidget extends EditorBasedStatusBarPopup {
         }
 
         boolean loggedIn = status != null && status.getStatus() != null && AuthStateEnum.LOGIN.getValue() == status.getStatus();
-        String popupGroup = loggedIn ? "cosyStatusBarPopupLoggedGroup" : "cosyStatusBarPopupNoLoginGroup";
+        String popupGroup = loggedIn ? "codeStatusBarPopupLoggedGroup" : "codeStatusBarPopupNoLoginGroup";
         AnAction defaultGroup = ActionManager.getInstance().getAction(popupGroup);
         if (!(defaultGroup instanceof ActionGroup)) {
             return null;
@@ -119,9 +119,9 @@ public class CodeStatusBarWidget extends EditorBasedStatusBarPopup {
     }
 
     private void appendCompletionActionPopup(DefaultActionGroup statusGroup) {
-        AnAction completionTitleDisplayAction = ActionManager.getInstance().getAction("CosyCompletionTitleDisplayAction");
-        AnAction localCompletionAction = ActionManager.getInstance().getAction("CosyLocalCompletionAction");
-        AnAction cloudCompletionAction = ActionManager.getInstance().getAction("CosyCloudCompletionAction");
+        AnAction completionTitleDisplayAction = ActionManager.getInstance().getAction("CodeCompletionTitleDisplayAction");
+        AnAction localCompletionAction = ActionManager.getInstance().getAction("CodeLocalCompletionAction");
+        AnAction cloudCompletionAction = ActionManager.getInstance().getAction("CodeCloudCompletionAction");
         if (localCompletionAction != null && cloudCompletionAction != null) {
             if (completionTitleDisplayAction != null) {
                 statusGroup.add(completionTitleDisplayAction);

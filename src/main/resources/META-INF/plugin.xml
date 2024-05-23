@@ -112,7 +112,7 @@
         </action>
 
         <!-- 按Tab键接受TooneCode的提示 -->
-        <action id="ApplyCosyInlayCompletion"
+        <action id="ApplyCodeInlayCompletion"
                 class="com.tooneCode.completion.action.CodeApplyInlayAction"
                 text="Apply TooneCode Inline Completion">
             <keyboard-shortcut first-keystroke="TAB" keymap="$default" replace-all="true"/>
@@ -121,7 +121,7 @@
             <keyboard-shortcut first-keystroke="alt TAB" keymap="$default"/>
         </action>
         <!-- 触发TooneCode的提示 -->
-        <action id="TriggerInlayCompletionAction"
+        <action id="CodeTriggerInlayCompletionAction"
                 class="com.tooneCode.completion.action.CodeTriggerInlayCompletionAction"
                 text="CodeTriggerInlayCompletionAction">
             <keyboard-shortcut first-keystroke="alt P" keymap="$default" replace-all="true"/>
@@ -131,13 +131,13 @@
         </action>
 
         <!-- Esc退出当前inlay 提示 -->
-        <action id="DisposeCosyInlayCompletionAction" class="com.tooneCode.completion.action.CodeEscapeInlaysAction"
+        <action id="DisposeCodeInlayCompletionAction" class="com.tooneCode.completion.action.CodeEscapeInlaysAction"
         >
             <keyboard-shortcut first-keystroke="ESCAPE" keymap="$default"/>
             <override-text place="MainMenu" text="Hide Completions in Editor"/>
         </action>
 
-        <action id="ApplyCosyInlayByLineCompletion"
+        <action id="ApplyCodeInlayByLineCompletion"
                 class="com.tooneCode.completion.action.CodeApplyInlayByLineAction"
                 text="Apply TooneCode Inline Completion By Line">
             <keyboard-shortcut first-keystroke="control DOWN" keymap="$default"/>
@@ -145,29 +145,29 @@
             <keyboard-shortcut first-keystroke="meta DOWN" keymap="Mac OS X 10.5+" replace-all="true"/>
         </action>
         <action class="com.tooneCode.completion.action.CodePrevInlayCompletionAction"
-                id="ShowCosyPrevInlayCompletionAction" text="Show Tongyi Previous Inline Completion">
+                id="ShowCodePrevInlayCompletionAction" text="Show Tongyi Previous Inline Completion">
             <keyboard-shortcut first-keystroke="alt OPEN_BRACKET" keymap="$default"/>
             <keyboard-shortcut first-keystroke="alt OPEN_BRACKET" keymap="Mac OS X" replace-all="true"/>
             <keyboard-shortcut first-keystroke="alt OPEN_BRACKET" keymap="Mac OS X 10.5+" replace-all="true"/>
         </action>
         <action class="com.tooneCode.completion.action.CodeNextInlayCompletionAction"
-                id="ShowCosyNextInlayCompletionAction" text="Show Tongyi Next Inline Completion">
+                id="ShowCodeNextInlayCompletionAction" text="Show Tongyi Next Inline Completion">
             <keyboard-shortcut first-keystroke="alt CLOSE_BRACKET" keymap="$default"/>
             <keyboard-shortcut first-keystroke="alt CLOSE_BRACKET" keymap="Mac OS X" replace-all="true"/>
             <keyboard-shortcut first-keystroke="alt CLOSE_BRACKET" keymap="Mac OS X 10.5+" replace-all="true"/>
         </action>
-        <action id="CosyCompletionTitleDisplayAction"
+        <action id="CodeCompletionTitleDisplayAction"
                 class="com.tooneCode.ui.statusbar.CodeCompletionTitleDisplayAction"
                 text="TooneCode Completion Settings"/>
-        <action id="DisplayStatusInfoAction"
+        <action id="CodeDisplayStatusInfoAction"
                 class="com.tooneCode.ui.statusbar.CodeStatusInfoDisplayAction" popup="true"/>
-        <action id="CosyOpenSettingsAction"
+        <action id="CodeOpenSettingsAction"
                 class="com.tooneCode.ui.action.OpenSettingsAction" popup="true"/>
         <action id="CodeCompletionEnabledToggleAction"
                 class="com.tooneCode.completion.action.CodeCompletionEnabledToggleAction"/>
-        <group id="cosyStatusBarPopupNoLoginGroup">
+        <group id="codeStatusBarPopupNoLoginGroup">
             <reference id="CodeCompletionEnabledToggleAction"/>
-            <reference id="CosyOpenSettingsAction"/>
+            <reference id="CodeOpenSettingsAction"/>
         </group>
 
 

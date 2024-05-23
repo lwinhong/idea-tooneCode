@@ -75,6 +75,7 @@ public class TextDocumentServiceImpl implements TextDocumentService {
 
             Either<List<CompletionItem>, CompletionList> list = Either.forLeft(items);
             languageClient.collectCompletionResult(item);
+
             //lastResponse = null;
             return list;
         });

@@ -181,7 +181,7 @@ public class ConfigMainForm implements Disposable {
             }
 
         });
-        String triggerShortcut = KeyboardUtil.getShortcutText("TriggerInlayCompletionAction");
+        String triggerShortcut = KeyboardUtil.getShortcutText("CodeTriggerInlayCompletionAction");
         this.cloudManualShortcutLabel.setText(String.format(CodeBundle.message("settings.cloud.manual.shortcut.text"), triggerShortcut));
         if (CodeConfig.IDE_NAME.toLowerCase(Locale.ROOT).contains("pycharm")) {
             this.exceptionPanel.setVisible(false);

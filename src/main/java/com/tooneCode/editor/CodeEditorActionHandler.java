@@ -40,21 +40,21 @@ public class CodeEditorActionHandler extends EditorActionHandler {
         boolean executeOriginHandler = true;
         LOG.info("execute action:" + this.action);
         if (HANDLEABLE_ACTIONS.contains(this.action) && CodeInlayManager.getInstance().hasCompletionInlays(editor)) {
-            int applyShortcut = KeyboardUtil.getShortcutKeyCode("ApplyCosyInlayCompletion");
-            int disposeShortcut = KeyboardUtil.getShortcutKeyCode("DisposeCosyInlayCompletionAction");
+            int applyShortcut = KeyboardUtil.getShortcutKeyCode("ApplyCodeInlayCompletion");
+            int disposeShortcut = KeyboardUtil.getShortcutKeyCode("DisposeCodeInlayCompletionAction");
             LOG.info("allow action:" + this.action + " accept:" + applyShortcut + " dispose:" + disposeShortcut);
             ActionManager actionManager;
             AnAction action;
             if (acceptActions.containsKey(applyShortcut) && (acceptActions.get(applyShortcut)).contains(this.action)) {
                 LOG.info("do insert inlay:" + this.action);
                 actionManager = ActionManager.getInstance();
-                action = actionManager.getAction("ApplyCosyInlayCompletion");
+                action = actionManager.getAction("ApplyCodeInlayCompletion");
                 ActionUtil.invokeAction(action, dataContext, "EditorTab", (InputEvent) null, (Runnable) null);
                 executeOriginHandler = false;
             } else if (disposeShortcut == 27 && this.action.equals("EditorEscape")) {
                 LOG.info("do escape inlay:" + this.action);
                 actionManager = ActionManager.getInstance();
-                action = actionManager.getAction("DisposeCosyInlayCompletionAction");
+                action = actionManager.getAction("DisposeCodeInlayCompletionAction");
                 ActionUtil.invokeAction(action, dataContext, "TextEditorWithPreview", (InputEvent) null, (Runnable) null);
             }
         }

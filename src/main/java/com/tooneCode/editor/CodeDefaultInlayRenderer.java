@@ -139,7 +139,7 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
             if (this.totalLineCount <= 1) {
                 this.cachedWidth = FontUtil.calculateWidth(inlay.getEditor(), this.content, this.lines);
             } else {
-                String shortcutText = KeyboardUtil.getShortcutText("ApplyCosyInlayByLineCompletion", "");
+                String shortcutText = KeyboardUtil.getShortcutText("ApplyCodeInlayByLineCompletion", "");
                 String tips = String.format("%s %s", shortcutText, ACCEPT_SBY_LINE_TOOLTIPS);
                 String maxLine = null;
                 Iterator var5 = this.tooltipTexts.iterator();
@@ -215,7 +215,7 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
         List<String> tooltips = new ArrayList<>();
         CodeSetting setting = CodePersistentSetting.getInstance().getState();
         if (setting != null && this.totalLineCount > 1) {
-            String shortcutText = KeyboardUtil.getShortcutText("ApplyCosyInlayByLineCompletion", "");
+            String shortcutText = KeyboardUtil.getShortcutText("ApplyCodeInlayByLineCompletion", "");
             if (StringUtils.isBlank(shortcutText)) {
                 return tooltips;
             } else {

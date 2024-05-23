@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 
 public class TooneCoder {
     public static TooneCoder INSTANCE = new TooneCoder();
-    private static final Logger log = LogUtil.getLogger();
+    private static final Logger log = Logger.getInstance(TooneCoder.class);
     private static final long STARTUP_TIMEOUT = 10000L;
 
     //    public static final int DEFAULT_LINGMA_PORT = 36510;

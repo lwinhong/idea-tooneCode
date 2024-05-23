@@ -83,7 +83,8 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     public void LoadWebPage() {
-        _browser.loadURL("http://localhost:5173/?idea=1");
+        _browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
+        //_browser.loadURL("http://localhost:5173/?idea=1");
     }
 
     private void AddHandler() {

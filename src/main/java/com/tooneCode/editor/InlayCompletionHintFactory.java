@@ -90,17 +90,17 @@ public class InlayCompletionHintFactory {
     }
 
     private static String hintText() {
-        String nextShortcut = KeyboardUtil.getShortcutText("ShowCosyNextInlayCompletionAction");
-        String prevShortcut = KeyboardUtil.getShortcutText("ShowCosyPrevInlayCompletionAction");
-        String acceptShortcut = KeyboardUtil.getShortcutText("ApplyCosyInlayCompletion");
-        String disposeShortcut = KeyboardUtil.getShortcutText("DisposeCosyInlayCompletionAction");
-        String triggerShortcut = KeyboardUtil.getShortcutText("TriggerInlayCompletionAction");
-        int applyShortcut = KeyboardUtil.getShortcutKeyCode("ApplyCosyInlayCompletion");
+        String nextShortcut = KeyboardUtil.getShortcutText("ShowCodeNextInlayCompletionAction");
+        String prevShortcut = KeyboardUtil.getShortcutText("ShowCodePrevInlayCompletionAction");
+        String acceptShortcut = KeyboardUtil.getShortcutText("ApplyCodeInlayCompletion");
+        String disposeShortcut = KeyboardUtil.getShortcutText("DisposeCodeInlayCompletionAction");
+        String triggerShortcut = KeyboardUtil.getShortcutText("CodeTriggerInlayCompletionAction");
+        int applyShortcut = KeyboardUtil.getShortcutKeyCode("ApplyCodeInlayCompletion");
         if (applyShortcut == 9) {
             acceptShortcut = "Tab";
         }
 
-        int cancelShortcut = KeyboardUtil.getShortcutKeyCode("DisposeCosyInlayCompletionAction");
+        int cancelShortcut = KeyboardUtil.getShortcutKeyCode("DisposeCodeInlayCompletionAction");
         if (cancelShortcut == 27) {
             disposeShortcut = "Esc";
         }

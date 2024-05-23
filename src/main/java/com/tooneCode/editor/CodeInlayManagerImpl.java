@@ -38,7 +38,7 @@ import java.util.List;
 @Service
 public final class CodeInlayManagerImpl implements CodeInlayManager {
 
-    private final Logger LOGGER = LogUtil.getLogger();
+    private final Logger LOGGER = Logger.getInstance(CodeInlayManagerImpl.class);
 
     @Override
     public void dispose() {

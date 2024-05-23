@@ -20,8 +20,7 @@ public class OpenSettingsAction extends AnAction implements DumbAware, ActionUpd
     }
 
     public void update(@NotNull AnActionEvent e) {
-
-        String text = CodeBundle.message("action.CosyOpenSettingsAction.text", new Object[0]);
+        String text = CodeBundle.message("action.CodeOpenSettingsAction.text", new Object[0]);
         e.getPresentation().setText(text);
     }
 }

@@ -28,7 +28,7 @@ public class ProjectActivityListener /* implements ProjectActivity, Disposable*/
 //    @Nullable
 //    @Override
 //    public Object execute(@NotNull Project project, @NotNull Continuation<? super Unit> continuation) {
-//        log.info("opening cosy:" + project.getName());
+//        log.info("opening code:" + project.getName());
 //        TooneCodeApp.init();
 //        TooneCoder.INSTANCE.start(project);
 //        TemplateSettingLoader.getInstance().run();

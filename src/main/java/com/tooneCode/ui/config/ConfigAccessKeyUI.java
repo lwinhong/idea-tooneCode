@@ -157,7 +157,7 @@ public class ConfigAccessKeyUI {
                         ConfigAccessKeyUI.this.updateOrgIds(project);
                     }
                 };
-                if (TooneCoder.INSTANCE.checkCosy(project, true, Collections.singletonList(listener))) {
+                if (TooneCoder.INSTANCE.checkCode(project, true, Collections.singletonList(listener))) {
                     this.updateOrgIds(project);
                 }
 

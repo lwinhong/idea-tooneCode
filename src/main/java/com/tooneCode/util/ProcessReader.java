@@ -87,15 +87,15 @@ public class ProcessReader extends Thread {
                 File homeDir = CodeConfig.getHomeDirectory().toFile();
                 if (homeDir.exists()) {
                     File tmpDir = new File(homeDir, "tmp");
-                    log.info("clear lingma storage temp dir:" + tmpDir);
+                    log.info("clear tooneCoder storage temp dir:" + tmpDir);
                     if (tmpDir.exists()) {
                         boolean success = FileUtils.deleteQuietly(tmpDir);
-                        log.info("clear lingma storage success:" + success);
+                        log.info("clear tooneCoder storage success:" + success);
                     }
                 }
             } catch (Exception var7) {
                 Exception e = var7;
-                log.warn("fail to clear lingma storage:" + e.getMessage(), e);
+                log.warn("fail to clear tooneCoder storage:" + e.getMessage(), e);
             } finally {
                 this.deleteLock.unlock();
             }

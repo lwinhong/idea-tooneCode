@@ -61,7 +61,7 @@ public class CodeEditorManagerListener implements FileEditorManagerListener {
         logger.debug("file open " + file.getPath());
         Project project = source.getProject();
         TelemetryService.getInstance().clearTypeCommandRecord();
-        if (TooneCoder.INSTANCE.checkCosy(project, false)) {
+        if (TooneCoder.INSTANCE.checkCode(project, false)) {
             this.openFile(file);
         }
     }
@@ -70,7 +70,7 @@ public class CodeEditorManagerListener implements FileEditorManagerListener {
 
         logger.debug("file close " + file.getPath());
         Project project = source.getProject();
-        if (TooneCoder.INSTANCE.checkCosy(project, false)) {
+        if (TooneCoder.INSTANCE.checkCode(project, false)) {
             TextDocumentIdentifier item = new TextDocumentIdentifier();
             item.setUri(file.getPath());
             DidCloseTextDocumentParams params = new DidCloseTextDocumentParams(item);
@@ -83,7 +83,7 @@ public class CodeEditorManagerListener implements FileEditorManagerListener {
 
         Project project = event.getManager().getProject();
         VirtualFile newFile = event.getNewFile();
-        if (TooneCoder.INSTANCE.checkCosy(project)) {
+        if (TooneCoder.INSTANCE.checkCode(project)) {
             this.openFile(newFile);
         }
 

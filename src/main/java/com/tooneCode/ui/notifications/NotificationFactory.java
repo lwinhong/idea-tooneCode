@@ -22,15 +22,15 @@ import javax.swing.event.HyperlinkEvent.EventType;
 import org.jetbrains.annotations.NotNull;
 
 public class NotificationFactory {
-    public static final NotificationGroup BALLOON_NOTIFICATION_GROUP = NotificationGroup.findRegisteredGroup("cosyBalloonNotifications");
-    public static final NotificationGroup STICKY_NOTIFICATION_GROUP = NotificationGroup.findRegisteredGroup("cosyStickyNotifications");
+    public static final NotificationGroup BALLOON_NOTIFICATION_GROUP = NotificationGroup.findRegisteredGroup("codeBalloonNotifications");
+    public static final NotificationGroup STICKY_NOTIFICATION_GROUP = NotificationGroup.findRegisteredGroup("codeStickyNotifications");
 
     public NotificationFactory() {
     }
 
     public static void showInfoNotification(Project project, String info) {
         if (BALLOON_NOTIFICATION_GROUP != null) {
-            String message = String.format("%s: %s", CodeBundle.message("cosy.plugin.name", new Object[0]), info);
+            String message = String.format("%s: %s", CodeBundle.message("code.plugin.name", new Object[0]), info);
             Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(message, NotificationType.INFORMATION);
             notification.setIcon(CommonIcons.AI);
             notification.notify(project);
@@ -39,7 +39,7 @@ public class NotificationFactory {
     }
 
     public static Notification createInfoStickyNotification(String content) {
-        return createInfoStickyNotification(CodeBundle.message("cosy.plugin.name", new Object[0]), content);
+        return createInfoStickyNotification(CodeBundle.message("code.plugin.name", new Object[0]), content);
     }
 
     public static Notification createInfoStickyNotification(String title, String content) {
@@ -54,7 +54,7 @@ public class NotificationFactory {
 
     public static void showWarnNotification(Project project, String content) {
         if (BALLOON_NOTIFICATION_GROUP != null) {
-            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("cosy.plugin.name", new Object[0]), content, NotificationType.WARNING, new DefaultUrlOpeningListener(project, (JComponent)null, false));
+            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]), content, NotificationType.WARNING, new DefaultUrlOpeningListener(project, (JComponent)null, false));
             notification.setIcon(CommonIcons.AI);
             notification.notify(project);
         }
@@ -72,7 +72,7 @@ public class NotificationFactory {
 
     public static void showNotification(Project project, NotificationType notificationType, String content) {
         if (BALLOON_NOTIFICATION_GROUP != null) {
-            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("cosy.plugin.name", new Object[0]), content, notificationType, new DefaultUrlOpeningListener(project, (JComponent)null, false));
+            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]), content, notificationType, new DefaultUrlOpeningListener(project, (JComponent)null, false));
             notification.setIcon(CommonIcons.AI);
             notification.notify(project);
         }

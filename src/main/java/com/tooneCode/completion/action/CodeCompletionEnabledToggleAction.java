@@ -1,5 +1,6 @@
 package com.tooneCode.completion.action;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
@@ -31,5 +32,10 @@ public class CodeCompletionEnabledToggleAction extends AnAction implements DumbA
         CodeSetting settings = CodePersistentSetting.getInstance().getState();
         var enabled = CodePersistentSetting.getInstance().isEnableCloudCompletion(settings, CompletionTriggerModeEnum.AUTO);
         e.getPresentation().setText(enabled ? "禁用自动提示" : "开启自动提示");
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
     }
 }

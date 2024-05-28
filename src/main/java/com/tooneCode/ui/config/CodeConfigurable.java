@@ -1,7 +1,6 @@
 package com.tooneCode.ui.config;
 
 import com.intellij.codeInsight.hints.ChangeListener;
-import com.intellij.codeInsight.hints.ImmediateConfigurable;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
@@ -221,7 +220,7 @@ public class CodeConfigurable implements SearchableConfigurable, UnnamedConfigur
                                 finalMainForm.updateLingmaEndpointConfig(project);
                                 finalMainForm.updateLingmaGlobalConfig(project);
                             } else {
-                                CodeConfigurable.log.warn("Update endpoint and proxy config error because the lingma agent failed to start.");
+                                CodeConfigurable.log.warn("Update endpoint and proxy config error because the tooneCoder agent failed to start.");
                             }
                         }
 
@@ -283,7 +282,7 @@ public class CodeConfigurable implements SearchableConfigurable, UnnamedConfigur
     private GlobalConfig getGlobalConfig(Project project) {
         GlobalConfig globalConfig = (GlobalConfig) CodeCacheKeys.KEY_GLOBAL_CONFIG.get(project);
         if (globalConfig == null) {
-            if (!TooneCoder.INSTANCE.checkCosy(project)) {
+            if (!TooneCoder.INSTANCE.checkCode(project)) {
                 return null;
             }
 
@@ -297,7 +296,7 @@ public class CodeConfigurable implements SearchableConfigurable, UnnamedConfigur
     }
 
     private GlobalConfig getGlobalConfigDirectly(Project project) {
-        if (TooneCoder.INSTANCE.checkCosy(project)) {
+        if (TooneCoder.INSTANCE.checkCode(project)) {
             GlobalConfig globalConfig = TooneCoder.INSTANCE.getLanguageService(project).getGlobalConfig(2000L);
             if (globalConfig == null) {
                 globalConfig = CodeCacheKeys.KEY_GLOBAL_CONFIG.get(project);

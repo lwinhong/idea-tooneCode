@@ -24,6 +24,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 import javax.swing.Icon;
 
 import org.apache.commons.lang3.StringUtils;
@@ -76,7 +77,7 @@ public class CodePresentation implements EditorCustomElementRenderer, InputHandl
             return;
 
         ApplicationManager.getApplication().invokeLater(() -> {
-            tw.getICodeCefManager().SendMessageToPage("chat_code", ref.errorPrompt, null);
+            tw.getICodeCefManager().SendMessageToPage("chat_code", ref.errorPrompt, Map.of("isMarked", "1"));
         });
     }
 

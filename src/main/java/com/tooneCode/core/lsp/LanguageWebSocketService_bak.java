@@ -74,14 +74,14 @@ public class LanguageWebSocketService_bak {
                 completionItems.addAll(result);
             }
         } catch (TimeoutException var9) {
-            log.warn("cosy completion request timeout, RequestId:" + params.getRequestId());
+            log.warn("code completion request timeout, RequestId:" + params.getRequestId());
         } catch (CancellationException var10) {
-            log.warn("cosy completion request canceled, RequestId:" + params.getRequestId());
+            log.warn("code completion request canceled, RequestId:" + params.getRequestId());
         } catch (InterruptedException var11) {
-            log.warn("cosy completion debouncer is interrupted, RequestId:" + params.getRequestId());
+            log.warn("code completion debouncer is interrupted, RequestId:" + params.getRequestId());
         } catch (Exception var12) {
             Exception e = var12;
-            log.warn("cosy completion error " + e.getMessage() + ", RequestId:" + params.getRequestId(), e);
+            log.warn("code completion error " + e.getMessage() + ", RequestId:" + params.getRequestId(), e);
         }
 
         return completionItems;
@@ -99,14 +99,14 @@ public class LanguageWebSocketService_bak {
                 completionItems.addAll(result);
             }
         } catch (TimeoutException var9) {
-            log.warn("cosy completion request timeout, RequestId:" + params.getRequestId());
+            log.warn("code completion request timeout, RequestId:" + params.getRequestId());
         } catch (CancellationException var10) {
-            log.warn("cosy completion request canceled, RequestId:" + params.getRequestId());
+            log.warn("code completion request canceled, RequestId:" + params.getRequestId());
         } catch (InterruptedException var11) {
-            log.warn("cosy completion debouncer is interrupted, RequestId:" + params.getRequestId());
+            log.warn("code completion debouncer is interrupted, RequestId:" + params.getRequestId());
         } catch (Exception var12) {
             Exception e = var12;
-            log.warn("cosy completion error " + e.getMessage() + ", RequestId:" + params.getRequestId(), e);
+            log.warn("code completion error " + e.getMessage() + ", RequestId:" + params.getRequestId(), e);
         }
 
         return completionItems;
@@ -139,12 +139,12 @@ public class LanguageWebSocketService_bak {
                 result = (List) either.getLeft();
             }
         } catch (InterruptedException var8) {
-            log.warn("cosy completion request interrupted");
+            log.warn("code completion request interrupted");
         } catch (TimeoutException var9) {
-            log.warn("cosy completion request timeout");
+            log.warn("code completion request timeout");
         } catch (Exception var10) {
             Exception e = var10;
-            log.warn("cosy completion error " + e.getMessage(), e);
+            log.warn("code completion error " + e.getMessage(), e);
         }
 
         return result;
@@ -159,10 +159,10 @@ public class LanguageWebSocketService_bak {
             Object either = future.get(timeout, TimeUnit.MILLISECONDS);
             recommendResult = (RecommendResult) JSON.parseObject(JSON.toJSONString(either), RecommendResult.class);
         } catch (TimeoutException var7) {
-            log.warn("cosy search request timeout");
+            log.warn("code search request timeout");
         } catch (Exception var8) {
             Exception e = var8;
-            log.warn("cosy search error " + e.getMessage(), e);
+            log.warn("code search error " + e.getMessage(), e);
         }
 
         return recommendResult;
@@ -195,10 +195,10 @@ public class LanguageWebSocketService_bak {
             Object either = future.get(timeout, TimeUnit.MILLISECONDS);
             chatAskResult = (ChatAskResult) JSON.parseObject(JSON.toJSONString(either), ChatAskResult.class);
         } catch (TimeoutException var7) {
-            log.warn("cosy chat ask request timeout");
+            log.warn("code chat ask request timeout");
         } catch (Exception var8) {
             Exception e = var8;
-            log.warn("cosy chat ask error " + e.getMessage(), e);
+            log.warn("code chat ask error " + e.getMessage(), e);
         }
 
         return chatAskResult;
@@ -213,10 +213,10 @@ public class LanguageWebSocketService_bak {
             Object either = future.get(timeout, TimeUnit.MILLISECONDS);
             chatReplyListResult = (ChatReplyListResult) JSON.parseObject(JSON.toJSONString(either), ChatReplyListResult.class);
         } catch (TimeoutException var7) {
-            log.warn("cosy chat reply request timeout");
+            log.warn("code chat reply request timeout");
         } catch (Exception var8) {
             Exception e = var8;
-            log.warn("cosy chat reply error " + e.getMessage(), e);
+            log.warn("code chat reply error " + e.getMessage(), e);
         }
 
         return chatReplyListResult;
@@ -231,10 +231,10 @@ public class LanguageWebSocketService_bak {
             Object either = future.get(timeout, TimeUnit.MILLISECONDS);
             chatLikeResult = (ChatLikeResult) JSON.parseObject(JSON.toJSONString(either), ChatLikeResult.class);
         } catch (TimeoutException var7) {
-            log.warn("cosy chat like request timeout");
+            log.warn("code chat like request timeout");
         } catch (Exception var8) {
             Exception e = var8;
-            log.warn("cosy chat like error " + e.getMessage(), e);
+            log.warn("code chat like error " + e.getMessage(), e);
         }
 
         return chatLikeResult;
@@ -247,7 +247,7 @@ public class LanguageWebSocketService_bak {
             this.server.getChatService().stop(params);
         } catch (Exception var3) {
             Exception e = var3;
-            log.warn("cosy chat stop error " + e.getMessage(), e);
+            log.warn("code chat stop error " + e.getMessage(), e);
         }
 
     }
@@ -261,10 +261,10 @@ public class LanguageWebSocketService_bak {
             Object either = future.get(timeout, TimeUnit.MILLISECONDS);
             chatSystemEventResult = (ChatSystemEventResult) JSON.parseObject(JSON.toJSONString(either), ChatSystemEventResult.class);
         } catch (TimeoutException var7) {
-            log.warn("cosy chat system event request timeout");
+            log.warn("code chat system event request timeout");
         } catch (Exception var8) {
             Exception e = var8;
-            log.warn("cosy chat system event error " + e.getMessage(), e);
+            log.warn("code chat system event error " + e.getMessage(), e);
         }
 
         return chatSystemEventResult;
@@ -346,10 +346,10 @@ public class LanguageWebSocketService_bak {
             CompletableFuture<LoginStartResult> future = this.server.getAuthService().login(loginParams);
             return (LoginStartResult) future.get(timeout, TimeUnit.MILLISECONDS);
         } catch (TimeoutException var5) {
-            log.warn("cosy auth login request timeout");
+            log.warn("code auth login request timeout");
         } catch (Exception var6) {
             Exception e = var6;
-            log.warn("cosy login error " + e.getMessage(), e);
+            log.warn("code login error " + e.getMessage(), e);
         }
 
         return null;
@@ -369,10 +369,10 @@ public class LanguageWebSocketService_bak {
 //
 //                return (AuthStatus) future.get(timeout, TimeUnit.MILLISECONDS);
 //            } catch (TimeoutException var7) {
-//                log.warn("cosy get auth status timeout");
+//                log.warn("code get auth status timeout");
 //            } catch (Exception var8) {
 //                Exception e = var8;
-//                log.warn("cosy get auth status error " + e.getMessage(), e);
+//                log.warn("code get auth status error " + e.getMessage(), e);
 //            }
 //
 //            if (i < retryCount - 1) {
@@ -394,10 +394,10 @@ public class LanguageWebSocketService_bak {
                 return result.getSuccess();
             }
         } catch (TimeoutException var5) {
-            log.warn("cosy auth logout timeout");
+            log.warn("code auth logout timeout");
         } catch (Exception var6) {
             Exception e = var6;
-            log.warn("cosy logout error " + e.getMessage(), e);
+            log.warn("code logout error " + e.getMessage(), e);
         }
 
         return false;
@@ -408,10 +408,10 @@ public class LanguageWebSocketService_bak {
             CompletableFuture<List<AuthGrantInfo>> future = this.server.getAuthService().grantInfos(params);
             return (List) future.get(timeout, TimeUnit.MILLISECONDS);
         } catch (TimeoutException var5) {
-            log.warn("cosy auth get grant infos timeout");
+            log.warn("code auth get grant infos timeout");
         } catch (Exception var6) {
             Exception e = var6;
-            log.warn("cosy auth get grant infos error " + e.getMessage(), e);
+            log.warn("code auth get grant infos error " + e.getMessage(), e);
         }
 
         return null;
@@ -425,7 +425,7 @@ public class LanguageWebSocketService_bak {
             log.warn("get global config timeout");
         } catch (Exception var5) {
             Exception e = var5;
-            log.warn("cosy global config error " + e.getMessage(), e);
+            log.warn("code global config error " + e.getMessage(), e);
         }
 
         return null;
@@ -436,7 +436,7 @@ public class LanguageWebSocketService_bak {
             this.server.updateGlobalConfig(params);
         } catch (Exception var5) {
             Exception e = var5;
-            log.warn("cosy update global config error " + e.getMessage(), e);
+            log.warn("code update global config error " + e.getMessage(), e);
         }
 
     }
@@ -449,7 +449,7 @@ public class LanguageWebSocketService_bak {
             log.warn("get global endpoint timeout");
         } catch (Exception var5) {
             Exception e = var5;
-            log.warn("cosy global endpoint error " + e.getMessage(), e);
+            log.warn("code global endpoint error " + e.getMessage(), e);
         }
 
         return null;
@@ -461,7 +461,7 @@ public class LanguageWebSocketService_bak {
             return (UpdateConfigResult) future.get(timeout, TimeUnit.MILLISECONDS);
         } catch (Exception var5) {
             Exception e = var5;
-            log.warn("cosy update endpoint config error " + e.getMessage(), e);
+            log.warn("code update endpoint config error " + e.getMessage(), e);
             return new UpdateConfigResult(false);
         }
     }
@@ -486,10 +486,10 @@ public class LanguageWebSocketService_bak {
             CompletableFuture<UpdateResult> future = this.server.ideUpdate(params);
             return (UpdateResult) future.get(timeout, TimeUnit.MILLISECONDS);
         } catch (TimeoutException var6) {
-            log.warn("cosy update timeout");
+            log.warn("code update timeout");
         } catch (Exception var7) {
             Exception e = var7;
-            log.warn("cosy update error " + e.getMessage(), e);
+            log.warn("code update error " + e.getMessage(), e);
         }
 
         return null;

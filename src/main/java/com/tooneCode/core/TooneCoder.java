@@ -81,7 +81,7 @@ public class TooneCoder {
             } else {
                 synchronized (startingState) {
                     if (startingState.get()) {
-                        log.warn("Project " + project.getName() + " is starting cosy, ignore repeat starting");
+                        log.warn("Project " + project.getName() + " is starting code, ignore repeat starting");
                         listeners.forEach(CodeStartupListener::onCancelled);
                     } else {
                         startingState.getAndSet(true);
@@ -113,10 +113,10 @@ public class TooneCoder {
             listeners.forEach(CodeStartupListener::onCancelled);
         } else {
             try {
-                log.info("check.cosy.version.state");
+                log.info("check.code.version.state");
                 BinaryManager.INSTANCE.checkBinary(false);
                 log.info("starting to startup Code");
-                log.info("start.cosy.process.state");
+                log.info("start.code.process.state");
                 if (INSTANCE.startup(project, params, listeners, false)) {
                     log.info("succeed to startup Code");
                     GrantAuthorNotification.notifyNeedLogin(project, false);
@@ -281,16 +281,16 @@ public class TooneCoder {
     }
 
 
-    public boolean checkCosy(Project project) {
+    public boolean checkCode(Project project) {
 
-        return this.checkCosy(project, true);
+        return this.checkCode(project, true);
     }
 
-    public boolean checkCosy(Project project, boolean autoRestart) {
-        return this.checkCosy(project, autoRestart, Collections.emptyList());
+    public boolean checkCode(Project project, boolean autoRestart) {
+        return this.checkCode(project, autoRestart, Collections.emptyList());
     }
 
-    public boolean checkCosy(Project project, boolean autoRestart, List<CodeStartupListener> listeners) {
+    public boolean checkCode(Project project, boolean autoRestart, List<CodeStartupListener> listeners) {
         LanguageWebSocketService languageWebSocketService = INSTANCE.getLanguageService(project);
         boolean isReady = this.isReady(project);
         if (isReady && languageWebSocketService != null && languageWebSocketService.isSessionOpen()) {
@@ -320,11 +320,11 @@ public class TooneCoder {
             return new AtomicBoolean(false);
         });
         if (startingState.get()) {
-            log.warn("Project " + project.getName() + " is restarting cosy, ignore repeat restarting");
+            log.warn("Project " + project.getName() + " is restarting code, ignore repeat restarting");
         } else {
             synchronized (startingState) {
                 if (startingState.get()) {
-                    log.warn("Project " + project.getName() + " is restarting cosy, ignore repeat restarting");
+                    log.warn("Project " + project.getName() + " is restarting code, ignore repeat restarting");
                     return;
                 }
 
@@ -377,7 +377,7 @@ public class TooneCoder {
 
     private File getCodeHomeDir() {
         File homeDir = CodeConfig.getHomeDirectory().toFile();
-        log.info("cosy home dir " + homeDir);
+        log.info("code home dir " + homeDir);
         if (!homeDir.exists() && !homeDir.mkdirs()) {
             log.error("fail to create directory " + homeDir);
             return null;
@@ -394,22 +394,22 @@ public class TooneCoder {
         boolean succeed = false;
         long maxTime = TimeUnit.SECONDS.toMillis(20L);
         long startTime = System.currentTimeMillis();
-        log.info("Waiting to start cosy and checking state");
+        log.info("Waiting to start code and checking state");
 
         while (true) {
             ProgressIndicatorUtils.checkCancelledEvenWithPCEDisabled(progressIndicator);
-            if (INSTANCE.checkCosy(project, false)) {
+            if (INSTANCE.checkCode(project, false)) {
                 succeed = true;
-                log.info("Checking cosy state: OK");
+                log.info("Checking code state: OK");
                 break;
             }
 
             if (System.currentTimeMillis() - startTime > maxTime) {
-                log.info("Checking cosy state: timeout");
+                log.info("Checking code state: timeout");
                 break;
             }
 
-            log.info("Checking cosy state: waiting");
+            log.info("Checking code state: waiting");
 
             try {
                 Thread.sleep(1000L);
@@ -476,7 +476,7 @@ public class TooneCoder {
         log.info("try find process and port by name");
         List<Long> cosyPidList = ProcessUtils.findCosyPidList();
         String pidListStr = org.apache.commons.lang3.StringUtils.join(cosyPidList, ",");
-        log.info(String.format("Found cosy pid list: %s", pidListStr == null ? "null" : pidListStr));
+        log.info(String.format("Found code pid list: %s", pidListStr == null ? "null" : pidListStr));
         if (CollectionUtils.isNotEmpty(cosyPidList)) {
             return new Pair(36510, (Long) cosyPidList.get(0));
         } else {

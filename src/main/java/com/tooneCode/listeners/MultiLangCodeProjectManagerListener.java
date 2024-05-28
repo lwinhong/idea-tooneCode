@@ -20,7 +20,7 @@ public class MultiLangCodeProjectManagerListener implements ProjectManagerListen
     //projectOpened这个过时了。 使用了com.tooneCode.listeners.ProjectActivityListener 来处理项目打开初始化
     public void projectOpened(@NotNull Project project) {
 
-        log.info("opening cosy:" + project.getName());
+        log.info("opening code:" + project.getName());
         TooneCodeApp.init();
         TooneCoder.INSTANCE.start(project);
         TemplateSettingLoader.getInstance().run();
@@ -30,7 +30,7 @@ public class MultiLangCodeProjectManagerListener implements ProjectManagerListen
     @Override
     public void projectClosed(@NotNull Project project) {
         ProjectManagerListener.super.projectClosed(project);
-        log.info("closing cosy:" + project.getName());
+        log.info("closing code:" + project.getName());
         TelemetryService.getInstance().destroyTelemetry(project);
         TooneCoder.INSTANCE.close(project);
         TrieCacheManager.getProjectClassTrieCache().clear();

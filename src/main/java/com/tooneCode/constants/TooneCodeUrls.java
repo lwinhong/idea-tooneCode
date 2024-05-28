@@ -5,15 +5,15 @@ import com.tooneCode.core.model.model.ConfigInfo;
 import lombok.Generated;
 
 public enum TooneCodeUrls {
-    OPEN_FEEDBACK_URL("feedbackUrl", "url_config.feedback", "https://developer.aliyun.com/ask/new?spm=a2c6h.13066369.question.23.38d01bdfIPOy5Z&excode=devops&exdcode=tongyilingma"),
-    MESSAGE_FEEDBACK_URL("feedbackUrl", "url_config.feedback", "https://developer.aliyun.com/ask/new?spm=a2c6h.13066369.question.23.38d01bdfIPOy5Z&excode=devops&exdcode=tongyilingma"),
-    SURVEY_URL("surveyUrl", "url_config.survey_feedback", "https://survey.aliyun.com/apps/zhiliao/gLgsYL8mB"),
-    HELP_DOCUMENT_URL("helpDocumentUrl", "url_config.help", "https://help.aliyun.com/document_detail/2590613.html"),
-    PRIVACY_URL("privacyDocumentUrl", "url_config.privacy", "https://help.aliyun.com/document_detail/2590617.html"),
-    EXPR_APPLY_URL("exprApplyUrl", "url_config.join", "https://tongyi.aliyun.com/lingma"),
-    NETWORK_ERROR_URL("networkErrorUrl", "url_config.network_error", "https://help.aliyun.com/document_detail/2671485.html"),
-    FAQ_URL("faqUrl", "url_config.faq", "https://help.aliyun.com/document_detail/2590620.html"),
-    GET_ACCESS_KEY_URL("accessKeyUrl", "url_config.access_key", "https://help.aliyun.com/zh/ram/user-guide/create-an-accesskey-pair");
+    OPEN_FEEDBACK_URL("feedbackUrl", "url_config.feedback", "http://www.toone.com.cn"),
+    MESSAGE_FEEDBACK_URL("feedbackUrl", "url_config.feedback", "http://www.toone.com.cn"),
+    SURVEY_URL("surveyUrl", "url_config.survey_feedback", "http://www.toone.com.cn"),
+    HELP_DOCUMENT_URL("helpDocumentUrl", "url_config.help", "http://www.toone.com.cn"),
+    PRIVACY_URL("privacyDocumentUrl", "url_config.privacy", "http://www.toone.com.cn"),
+    EXPR_APPLY_URL("exprApplyUrl", "url_config.join", "http://www.toone.com.cn"),
+    NETWORK_ERROR_URL("networkErrorUrl", "url_config.network_error", "http://www.toone.com.cn"),
+    FAQ_URL("faqUrl", "url_config.faq", "http://www.toone.com.cn"),
+    GET_ACCESS_KEY_URL("accessKeyUrl", "url_config.access_key", "http://www.toone.com.cn");
 
     final String refId;
     final String key;

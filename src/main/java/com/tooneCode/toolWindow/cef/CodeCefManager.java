@@ -2,14 +2,20 @@ package com.tooneCode.toolWindow.cef;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.jcef.*;
+import com.intellij.util.messages.MessageBusConnection;
 import com.tooneCode.services.CodeProjectServiceImpl;
+import com.tooneCode.toolWindow.cef.handler.CodeCefContextMenuHandler;
+import com.tooneCode.toolWindow.cef.handler.CodeCefJSDialogHandler;
+import com.tooneCode.toolWindow.cef.handler.CodeCefKeyboardHandler;
+import com.tooneCode.toolWindow.cef.handler.CodeCefLoadHandler;
+import com.tooneCode.topics.CefPageLoadedTopic;
 import org.cef.browser.CefBrowser;
 import com.alibaba.fastjson2.JSON;
 
@@ -20,11 +26,15 @@ import java.util.Map;
 
 import com.intellij.openapi.editor.colors.EditorColorsListener;
 
+
 public class CodeCefManager implements ICodeCefManager {
+    private static final Logger log = Logger.getInstance(CodeCefManager.class);
+
     private Project _project;
     private ToolWindow _toolWindow;
     JBCefBrowser _browser;
     JBCefJSQuery _jsQuery;
+    MessageBusConnection connectionEditorColorsManager;
 
     public CodeCefManager(Project project, ToolWindow toolWindow) {
         this._project = project;
@@ -33,21 +43,22 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     private void EditorColorListener() {
-        ApplicationManager.getApplication().getMessageBus().connect().subscribe(EditorColorsManager.TOPIC, new EditorColorsListener() {
-            public void globalSchemeChange(EditorColorsScheme scheme) {
-                EventQueue.invokeLater(() -> {
-                    SendMessage4ThemeChanged(scheme);
-                });
-            }
-        });
+        connectionEditorColorsManager = ApplicationManager.getApplication().getMessageBus().connect();
+        connectionEditorColorsManager.subscribe(EditorColorsManager.TOPIC, (EditorColorsListener) scheme -> EventQueue.invokeLater(() -> {
+            SendMessage4ThemeChanged(scheme);
+        }));
     }
 
     private void SendMessage4ThemeChanged(EditorColorsScheme scheme) {
-        if (scheme == null)
-            scheme = EditorColorsManager.getInstance().getGlobalScheme();
+        try {
+            if (scheme == null)
+                scheme = EditorColorsManager.getInstance().getGlobalScheme();
 
-        SendMessageToPage("changeTheme", scheme.getName(), null);
-        SendMessageToPage("colorChanged", JSON.toJSONString(getColorMap(scheme)), null);
+            SendMessageToPage("changeTheme", scheme.getName(), null);
+            SendMessageToPage("colorChanged", JSON.toJSONString(getColorMap(scheme)), null);
+        } catch (Exception e) {
+            log.error("SendMessage4ThemeChanged:异常", e);
+        }
     }
 
     private Map<String, String> getColorMap(EditorColorsScheme scheme) {
@@ -83,8 +94,19 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     public void LoadWebPage() {
+        var url = "http://aichat.t.vtoone.com/?idea=1";
+        //url = "http://localhost:5173/?idea=1";
         //_browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
-        _browser.loadURL("http://localhost:5173/?idea=1");
+//        try {
+//            String binaryPath = BinaryManager.INSTANCE.getBinaryPath(CodeConfig.getHomeDirectory().toFile());
+//            if (StringUtils.isNotBlank(binaryPath)) {
+//                _browser.loadURL(binaryPath);
+//                return;
+//            }
+//        } catch (Exception e) {
+//
+//        }
+        _browser.loadURL(url);
     }
 
     private void AddHandler() {
@@ -92,6 +114,10 @@ public class CodeCefManager implements ICodeCefManager {
         //一些自定handler加入
         client.addLoadHandler(new CodeCefLoadHandler(this), _browser.getCefBrowser());
         client.addJSDialogHandler(new CodeCefJSDialogHandler(), _browser.getCefBrowser());
+        client.addKeyboardHandler(new CodeCefKeyboardHandler(_browser), _browser.getCefBrowser());
+        client.addContextMenuHandler(new CodeCefContextMenuHandler(), _browser.getCefBrowser());
+        client.addKeyboardHandler(new CodeCefKeyboardHandler(_browser), _browser.getCefBrowser());
+//        client.addRequestHandler(new CodeCefRequestHandler(), _browser.getCefBrowser());
 
         //开发者工具
         CefBrowser devTools = _browser.getCefBrowser().getDevTools();
@@ -143,6 +169,11 @@ public class CodeCefManager implements ICodeCefManager {
 
     @Override
     public void SendMessageToPage(String cmd, String value, Map<String, String> more) {
+        SendMessageToPage(cmd, value, more, false);
+    }
+
+    @Override
+    public void SendMessageToPage(String cmd, String value, Map<String, String> more, Boolean setFocus) {
         var m = new HashMap<String, String>();
         m.put("value", value);
         m.put("cmd", cmd);
@@ -151,6 +182,8 @@ public class CodeCefManager implements ICodeCefManager {
         }
         value = JSON.toJSONString(m);
         ExecuteJS("window.exportVar(" + value + ");");
+        if (setFocus)
+            _browser.getCefBrowser().setFocus(true);
     }
 
     /*
@@ -167,6 +200,9 @@ public class CodeCefManager implements ICodeCefManager {
         ExecuteJS(inject);
 
         //_browser.openDevtools();
+        if (_project != null) {
+            _project.getMessageBus().syncPublisher(CefPageLoadedTopic.ANY_GENERATE_NOTIFICATION).anyGenerate();
+        }
     }
 
     @Override
@@ -175,7 +211,9 @@ public class CodeCefManager implements ICodeCefManager {
         _toolWindow = null;
         _browser = null;
         _jsQuery = null;
-
+        if (connectionEditorColorsManager != null)
+            connectionEditorColorsManager.disconnect();
+        connectionEditorColorsManager = null;
     }
 }
 

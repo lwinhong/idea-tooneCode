@@ -25,7 +25,8 @@ public class TooneCodeApp {
     private static final AtomicBoolean INITED = new AtomicBoolean(false);
     private static final String[] EDITOR_ACTIONS = new String[]{"EditorEscape", "ExpandLiveTemplateByTab", "NextTemplateVariable", "EditorBackSpace", "EditorEnter", "EditorUp", "EditorDown", "EditorLeft", "EditorRight", "EditorLineStart", "EditorLineEnd", "EditorDelete", "EditorTab", "EditorChooseLookupItemReplace", "ExpandLiveTemplateByTab", "NextTemplateVariable", "PreviousTemplateVariable", "EditorChooseLookupItem", "Esc", "按 Tab 展开实时模板", "下一个模板变量或完成就地重构", "退格", "Enter", "上", "下", "左", "右", "下", "将文本光标移至行首", "将文本光标移至行尾", "删除", "标签页", "选择查询条目替换", "按 Tab 展开实时模板", "下一个模板变量或完成就地重构", "上一个模板变量", "选择查询条目"};
 
-    public TooneCodeApp() {
+    public TooneCodeApp(String a, String b) {
+
     }
 
     public static synchronized void init() {
@@ -46,14 +47,20 @@ public class TooneCodeApp {
         VirtualFileManager.getInstance().addVirtualFileListener(new CodeVirtualFileListener());
         overrideEditorActions();
 
-        CodeSetting setting = CodePersistentSetting.getInstance().getState();
+        //CodeSetting setting = CodePersistentSetting.getInstance().getState();
         if (JBCefApp.isSupported()) {
             try {
                 JCefAppConfig config = JCefAppConfig.getInstance();
                 CefSettings cefSettings = config.getCefSettings();
                 cefSettings.user_agent = "Mozilla/5.0 (Android 6.0)";
                 Color bgColor = EditorColorsManager.getInstance().getGlobalScheme().getDefaultBackground();
+
+                config.getAppArgsAsList().add("--disable-web-security");
+                config.getAppArgsAsList().add("--disable-site-isolation-trials");
+                config.getAppArgsAsList().add("--allow-file-access-from-files");
+                config.getAppArgsAsList().add("--disable-features=SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure,EnableOfferingUploadOfAutofilledCreditCards,BlockInsecurePrivateNetworkRequests,StrictOriginIsolation,BackForwardCache,EnableCrossOriginEmbedderPolicyCredentiallessEnableCrossOriginEmbedderPolicyCredentialless");
                 Objects.requireNonNull(cefSettings);
+
                 //cefSettings.background_color = new CefSettings.ColorType(bgColor.getAlpha(), bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
 
             } catch (Exception var5) {

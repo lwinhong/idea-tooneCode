@@ -6,7 +6,11 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.tooneCode.toolWindow.ICodeToolWindow;
+import com.tooneCode.toolWindow.cef.CodeCefManager;
+import com.tooneCode.toolWindow.cef.ICodeCefManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +22,7 @@ import java.util.Objects;
 public final class CodeProjectServiceImpl implements ICodeProjectService, Disposable {
     private Project project;
     private FileEditorManager fileEditorManager;
-
+    private CodeCefManager codeCefManager;
     private ICodeToolWindow codeToolWindow;
 
     public CodeProjectServiceImpl(Project project) {
@@ -29,6 +33,9 @@ public final class CodeProjectServiceImpl implements ICodeProjectService, Dispos
     @Override
     public void dispose() {
         project = null;
+        if (codeCefManager != null)
+            codeCefManager.dispose();
+        codeCefManager = null;
         if (codeToolWindow != null)
             codeToolWindow.dispose();
         codeToolWindow = null;
@@ -68,6 +75,29 @@ public final class CodeProjectServiceImpl implements ICodeProjectService, Dispos
     @Override
     public void setCodeToolWindow(ICodeToolWindow toolWindow) {
         this.codeToolWindow = toolWindow;
+    }
+
+    @Override
+    public ICodeCefManager getCodeCefManager(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        return codeCefManager;
+    }
+
+    @Override
+    public ICodeCefManager getAndCreateCodeCefManager(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        if (codeCefManager == null) {
+            codeCefManager = new CodeCefManager(project, toolWindow);
+        }
+        return codeCefManager;
+    }
+
+    @Override
+    public ToolWindow getToolWindow(@NotNull Project project) {
+        return ToolWindowManager.getInstance(project).getToolWindow(getToolWindowId());
+    }
+
+    @Override
+    public String getToolWindowId() {
+        return "com.tooneCode.toolWindow";
     }
 
     private AnActionEvent buildAnActionEvent(AnAction action, String place, Object data) {

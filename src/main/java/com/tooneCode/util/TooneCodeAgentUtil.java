@@ -14,7 +14,7 @@ public class TooneCodeAgentUtil {
 
     public static GlobalEndpointConfig getGlobalEndpointConfigDirectly(Project project) {
         String var10001;
-        if (TooneCoder.INSTANCE.checkCosy(project)) {
+        if (TooneCoder.INSTANCE.checkCode(project)) {
             GlobalEndpointConfig globalConfig = TooneCoder.INSTANCE.getLanguageService(project).getEndpointConfig(2000L);
             if (globalConfig == null) {
                 globalConfig = (GlobalEndpointConfig) CodeCacheKeys.KEY_ENDPOINT_CONFIG.get(project);
@@ -30,7 +30,7 @@ public class TooneCodeAgentUtil {
         } else {
             Logger var10000 = log;
             var10001 = CodeCacheKeys.KEY_ENDPOINT_CONFIG.get(project) == null ? "" : ((GlobalEndpointConfig) CodeCacheKeys.KEY_ENDPOINT_CONFIG.get(project)).getEndpoint();
-            var10000.info("getGlobalEndpointConfigDirectly encountered cosy instance not ready, use cached endpoint=" + var10001);
+            var10000.info("getGlobalEndpointConfigDirectly encountered code instance not ready, use cached endpoint=" + var10001);
             return (GlobalEndpointConfig) CodeCacheKeys.KEY_ENDPOINT_CONFIG.get(project);
         }
     }

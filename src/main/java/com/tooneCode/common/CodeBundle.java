@@ -28,8 +28,8 @@ public class CodeBundle extends DynamicBundle {
 
     public static @NotNull @Nls String message(@NotNull String key, @NotNull Object... params) {
 
-        String fullName = INSTANCE.getMessage("cosy.plugin.name", new Object[0]);
-        String simpleName = INSTANCE.getMessage("cosy.plugin.simple.name", new Object[0]);
+        String fullName = INSTANCE.getMessage("code.plugin.name", new Object[0]);
+        String simpleName = INSTANCE.getMessage("code.plugin.simple.name", new Object[0]);
         String value = INSTANCE.getMessage(key, params);
 
         return value.replace("<PLUGIN_NAME>", fullName).replace("<SIMPLE_NAME>", simpleName);
@@ -44,8 +44,8 @@ public class CodeBundle extends DynamicBundle {
             key = key + ".vpc";
         }
 
-        String fullName = INSTANCE.getMessage("cosy.plugin.name", new Object[0]);
-        String simpleName = INSTANCE.getMessage("cosy.plugin.simple.name", new Object[0]);
+        String fullName = INSTANCE.getMessage("code.plugin.name", new Object[0]);
+        String simpleName = INSTANCE.getMessage("code.plugin.simple.name", new Object[0]);
         String value = INSTANCE.messageOrDefault(key, "", params);
         if (StringUtils.isBlank(value)) {
             value = INSTANCE.messageOrDefault(originKey, "", params);

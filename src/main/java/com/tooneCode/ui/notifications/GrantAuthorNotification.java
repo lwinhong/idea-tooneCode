@@ -137,7 +137,7 @@ public class GrantAuthorNotification {
             }
         }
 
-        if (TooneCoder.INSTANCE.checkCosy(project)) {
+        if (TooneCoder.INSTANCE.checkCode(project)) {
             //暂时不做提示
 //            AuthStatus authStatus = UserAuthService.getInstance().getState(project);
 //            if (authStatus != null && authStatus.getStatus() == AuthStateEnum.NETWORK_ERROR.getValue()) {

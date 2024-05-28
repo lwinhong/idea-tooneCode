@@ -4,7 +4,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectLocator;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
 import com.tooneCode.core.TooneCoder;
@@ -32,7 +31,7 @@ public class CodeVirtualFileListener implements VirtualFileListener {
         if (project == null) {
             log.warn("ignore save event:" + file.getPath() + ", project not ready.");
         } else {
-            if (TooneCoder.INSTANCE.checkCosy(project, false)) {
+            if (TooneCoder.INSTANCE.checkCode(project, false)) {
                 DidSaveTextDocumentParams params = new DidSaveTextDocumentParams();
                 TextDocumentIdentifier textDocument = new TextDocumentIdentifier(file.getPath());
                 params.setTextDocument(textDocument);

@@ -123,7 +123,7 @@ public class CodeCommandListener implements CommandListener {
                                 editorManager.disposeInlays(editor, InlayDisposeEventEnum.LIVE_TEMPLATE, event.getCommandName());
                             } else if (commandStartState == null || !StringUtils.isNotBlank(commandStartState.getSelectionText())) {
                                 String commandName = event.getCommandName().toLowerCase(Locale.ROOT);
-                                if (!ignoreCommands.contains(event.getCommandName()) && !commandName.contains("TooneCode") && !CodeCommands.ALL_TONGYI_COMMANDS.contains(event.getCommandName())) {
+                                if (!ignoreCommands.contains(event.getCommandName()) && !commandName.contains("TooneCode") && !CodeCommands.ALL_TOONECODE_COMMANDS.contains(event.getCommandName())) {
                                     if (event.getCommandName() != null && this.isSkipCommand(event.getCommandName())) {
                                         LOG.debug("Skipping invalid command. Event: " + event.getCommandName());
                                         editor.getDocument().putUserData(CodeCacheKeys.KEY_LAST_CHANGE_TEXT, null);

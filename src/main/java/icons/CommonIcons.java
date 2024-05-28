@@ -9,7 +9,7 @@ public class CommonIcons {
     public static Icon consoleIcon;
 
     static {
-        //AI = IconLoader.findIcon("/cosy/icons/logo_13.svg");
+        //AI = IconLoader.findIcon("/code/icons/logo_13.svg");
         AI = IconUtil.pluginIcon;
         consoleIcon = IconUtil.consoleIcon;
     }

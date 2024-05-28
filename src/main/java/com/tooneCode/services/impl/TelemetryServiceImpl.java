@@ -179,8 +179,8 @@ public final class TelemetryServiceImpl implements TelemetryService {
 
     public void telemetry(Project project, TrackEventTypeEnum eventType, String requestId, Map<String, String> data) {
         try {
-            if (!TooneCoder.INSTANCE.checkCosy(project, false)) {
-                logger.warn("invalid cosy service, ignore telemetry");
+            if (!TooneCoder.INSTANCE.checkCode(project, false)) {
+                logger.warn("invalid code service, ignore telemetry");
                 return;
             }
 

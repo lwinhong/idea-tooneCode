@@ -31,7 +31,7 @@ public class CodePluginStateListener implements PluginStateListener {
          log.info("trigger uninstall");
          File homeDir = CodeConfig.getHomeDirectory().toFile();
          if (!homeDir.exists()) {
-            log.warn("Cannot find cosy home directory.");
+            log.warn("Cannot find code home directory.");
             return;
          }
 

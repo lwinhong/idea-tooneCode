@@ -1,5 +1,6 @@
-package com.tooneCode.toolWindow.cef;
+package com.tooneCode.toolWindow.cef.handler;
 
+import com.tooneCode.toolWindow.cef.ICodeCefManager;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.handler.CefLoadHandlerAdapter;

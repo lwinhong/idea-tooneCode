@@ -18,7 +18,7 @@ public class CodeStatusBarWidgetFactory extends StatusBarEditorBasedWidgetFactor
     }
 
     public @Nls @NotNull String getDisplayName() {
-        return CodeBundle.message("cosy.plugin.name", new Object[0]);
+        return CodeBundle.message("code.plugin.name", new Object[0]);
     }
 
     public @NotNull StatusBarWidget createWidget(@NotNull Project project) {

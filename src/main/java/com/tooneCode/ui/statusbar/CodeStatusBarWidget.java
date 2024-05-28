@@ -64,7 +64,7 @@ public class CodeStatusBarWidget extends EditorBasedStatusBarPopup {
     @Override
     protected EditorBasedStatusBarPopup.@NotNull WidgetState getWidgetState(@Nullable VirtualFile virtualFile) {
         AuthStatus authStatus = LoginUtil.getAuthStatusCacheFirst(this.project);
-        String tooltip = CodeBundle.message("cosy.plugin.name");
+        String tooltip = CodeBundle.message("code.plugin.name");
         if (authStatus.getStatus() != AuthStateEnum.LOGIN.getValue()) {
             tooltip = tooltip + ": " + CodeBundle.message("statusbar.tool.title.not.logged", new Object[0]);
         }

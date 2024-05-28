@@ -13,7 +13,7 @@ public class CodeCommands {
     public static final String APPLY_TONGYI_SUGGESTION = "Apply TooneCode Inline Suggestion";
     public static final Set<String> ACCEPT_TONGYI_COMMANDS = Set.of(CodeBundle.message("action.ApplyCodeInlayCompletion.text", new Object[0]),
             "Apply TooneCode Inline Suggestion");
-    public static final Set<String> ALL_TONGYI_COMMANDS = new HashSet<>(Arrays.asList(
+    public static final Set<String> ALL_TOONECODE_COMMANDS = new HashSet<>(Arrays.asList(
             CodeBundle.message("action.PopupCosySelectionAction.text", new Object[0]),
             CodeBundle.message("action.TriggerCosySelectionChatAction.text", new Object[0]),
             CodeBundle.message("action.TriggerCosyTestcaseGenerationAction.text", new Object[0]),

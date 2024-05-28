@@ -261,7 +261,7 @@ public class ConfigMainForm implements Disposable {
 
             }
         };
-        if (TooneCoder.INSTANCE.checkCosy(project, true, List.of(startupListener))) {
+        if (TooneCoder.INSTANCE.checkCode(project, true, List.of(startupListener))) {
             log.debug("get global config directly");
             startupListener.onStartup();
         } else {
@@ -626,7 +626,7 @@ public class ConfigMainForm implements Disposable {
                     GlobalEndpointConfig endpointConfig = TooneCodeAgentUtil.getGlobalEndpointConfigDirectly(project);
                     boolean differentEndpointUrl = endpointConfig != null && endpointConfig.getEndpoint() != null && !endpointConfig.getEndpoint().equals(dedicatedDomainUrl);
                     if (differentEndpointUrl) {
-                        log.info("Log in by dedicated login button. Detected dedicated domain url changed, update lingma endpoint config.");
+                        log.info("Log in by dedicated login button. Detected dedicated domain url changed, update tooneCoder endpoint config.");
                         this.updateLingmaEndpointConfig(project);
                     } else {
                         log.info("Log in by dedicated login button. Don't need update endpoint, directly login.");
@@ -686,7 +686,7 @@ public class ConfigMainForm implements Disposable {
     public void updateLingmaGlobalConfig(Project project) {
         if (project != null) {
             CodeStatusBarWidget.updateStatusBar(null, project);
-            if (TooneCoder.INSTANCE.checkCosy(project)) {
+            if (TooneCoder.INSTANCE.checkCode(project)) {
                 GlobalConfig config = new GlobalConfig();
                 if (this.getProxyMode().getType().equals(ProxyModeEnum.MANUAL.getType())) {
                     config.setProxyMode(this.getProxyMode().getType());
@@ -706,7 +706,7 @@ public class ConfigMainForm implements Disposable {
     public void updateLingmaEndpointConfig(Project project) {
         if (project != null) {
             CodeStatusBarWidget.updateStatusBar(null, project);
-            if (TooneCoder.INSTANCE.checkCosy(project)) {
+            if (TooneCoder.INSTANCE.checkCode(project)) {
                 GlobalEndpointConfig config = new GlobalEndpointConfig();
                 if (LoginModeEnum.DEDICATED.getLabel().equals(this.getLoginMode())) {
                     config.setEndpoint(this.getDedicatedUrlField(false));
@@ -1139,7 +1139,7 @@ public class ConfigMainForm implements Disposable {
     protected GlobalEndpointConfig getEndpointConfig(Project project) {
         GlobalEndpointConfig globalConfig = (GlobalEndpointConfig) CodeCacheKeys.KEY_ENDPOINT_CONFIG.get(project);
         if (globalConfig == null) {
-            if (!TooneCoder.INSTANCE.checkCosy(project)) {
+            if (!TooneCoder.INSTANCE.checkCode(project)) {
                 return null;
             }
 

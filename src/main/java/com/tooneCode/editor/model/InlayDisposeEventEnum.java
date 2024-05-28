@@ -7,7 +7,7 @@ public enum InlayDisposeEventEnum {
     POPUP_COMPLETION("popup-completion"),
     SELECT_POPUP_COMPLETION("select-popup-completion"),
     POPUP_COMPLETION_FINISHED("popup-completion-finished"),
-    SELECT_COSY_POPUP_COMPLETION("select-cosy-popup-completion"),
+    SELECT_COSY_POPUP_COMPLETION("select-code-popup-completion"),
     CHANGE_CARET("change-caret"),
     CHANGE_COMMAND("change-command"),
     LIVE_TEMPLATE("live-template"),

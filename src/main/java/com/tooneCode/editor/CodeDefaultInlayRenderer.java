@@ -130,7 +130,7 @@ public class CodeDefaultInlayRenderer implements CodeInlayRenderer {
     }
 
     public @Nullable @NonNls String getContextMenuGroupId(@NotNull Inlay inlay) {
-        return "cosy.inlayContextMenu";
+        return "code.inlayContextMenu";
     }
 
     public int calcWidthInPixels(@NotNull Inlay inlay) {

@@ -50,11 +50,8 @@ public class BinaryManager {
     }
 
     public void checkBinary(@NotNull File workDirectory, boolean sameVersionForceUpdate) {
-        if (workDirectory == null) {
-            //$$$reportNull$$$0(0);
-        }
 
-        log.info("checking cosy binary updating, sameVersionForceUpdate = " + sameVersionForceUpdate);
+        log.info("checking code binary updating, sameVersionForceUpdate = " + sameVersionForceUpdate);
         File root = this.getBinaryRoot(workDirectory);
         if (root == null) {
             log.error("fail to init binary");
@@ -67,11 +64,11 @@ public class BinaryManager {
             File configFile = new File(root, "config.json");
             if (files != null && files.length != 0 && configFile.exists()) {
                 if (this.checkBinaryVersion(root, configFile, sameVersionForceUpdate)) {
-                    this.initBinary(root);
+                    //this.initBinary(root);//暂时不这个
                     ApplicationUtil.killCosyProcess();
                 }
             } else {
-                this.initBinary(root);
+                //this.initBinary(root);//暂时不这个
             }
 
         }
@@ -80,22 +77,22 @@ public class BinaryManager {
     private void initBinary(File binDir) {
         try {
             log.info("start to init binary file.");
-            InputStream stream = this.getClass().getResourceAsStream("/binaries/lingma.zip");
+            InputStream stream = this.getClass().getResourceAsStream("/binaries/tooneCoder.zip");
             if (stream != null) {
-                File zipFile = new File(System.getProperty("java.io.tmpdir"), String.format("cosy_%d.zip", System.currentTimeMillis()));
+                File zipFile = new File(System.getProperty("java.io.tmpdir"), String.format("tooneCode_%d.zip", System.currentTimeMillis()));
                 FileUtils.copyToFile(stream, zipFile);
                 if (zipFile.exists()) {
-                    log.info("Check cosy process before initBinary");
-                    this.findProcessAndKill();
+                    log.info("Check code process before initBinary");
+                    //this.findProcessAndKill();
                     File finalDir = ZipUtil.unZip(zipFile, binDir.getAbsolutePath(), EXCLUDE_DIRECTORIES, BINARY_DIRECTORIES);
                     log.info("complete to init binary file." + finalDir);
                     zipFile.delete();
                     this.checkWin7(finalDir);
                 } else {
-                    log.error("fail to get cosy temp zipfile.");
+                    log.error("fail to get code temp zipfile.");
                 }
             } else {
-                log.info("fail to get cosy binary resource.");
+                log.info("fail to get code binary resource.");
             }
         } catch (Throwable var5) {
             Throwable e = var5;
@@ -146,16 +143,16 @@ public class BinaryManager {
 
     private boolean checkBinaryVersion(File binDir, File configFile, boolean sameVersionForceUpdate) {
         try {
-            String configContent = ZipUtil.getEntryToString("/binaries/lingma.zip", "config.json");
+            String configContent = ZipUtil.getEntryToString("/binaries/tooneCoder.zip", "config.json");
             String zipVersion = this.getVersionString(configContent);
             if (StringUtils.isEmpty(zipVersion)) {
-                log.warn("invalid cosy config zip version.");
+                log.warn("invalid code config zip version.");
                 return false;
             } else {
                 String fileContent = FileUtils.readFileToString(configFile, "utf-8");
                 String localVersion = this.getVersionString(fileContent);
                 if (StringUtils.isEmpty(localVersion)) {
-                    log.warn("invalid cosy config local version.");
+                    log.warn("invalid code config local version.");
                     return true;
                 } else {
                     return this.compareBinary(binDir, zipVersion, localVersion, sameVersionForceUpdate);
@@ -192,9 +189,6 @@ public class BinaryManager {
     }
 
     public String getBinaryPath(@NotNull File workDirectory) throws IOException {
-        if (workDirectory == null) {
-            //$$$reportNull$$$0(1);
-        }
 
         File root = this.getBinaryRoot(workDirectory);
         if (root == null) {
@@ -207,10 +201,6 @@ public class BinaryManager {
     }
 
     private File getBinaryRoot(@NotNull File workDirectory) {
-        if (workDirectory == null) {
-            //$$$reportNull$$$0(2);
-        }
-
         File dir = new File(workDirectory, "bin");
         return !dir.exists() && !dir.mkdirs() ? null : dir;
     }
@@ -231,7 +221,7 @@ public class BinaryManager {
 
         if (maxDir != null) {
             Map<String, String> config = new HashMap();
-            config.put("cosy.core.version", maxDir.getName());
+            config.put("code.core.version", maxDir.getName());
             FileUtils.write(configFile, JSON.toJSONString(config), "utf-8");
             this.checkBinaryPermissions(root, maxDir.getName());
             return this.getBinaryVersionPath(root, maxDir.getName());
@@ -243,7 +233,7 @@ public class BinaryManager {
     private String getBinaryPathFromConfig(File root, File configFile) throws IOException {
         String fileContent = FileUtils.readFileToString(configFile, "utf-8");
         if (StringUtils.isEmpty(fileContent)) {
-            log.error("invalid cosy config file.");
+            log.error("invalid code config file.");
             return null;
         } else {
             String version = this.getVersionString(fileContent);
@@ -257,7 +247,8 @@ public class BinaryManager {
     }
 
     private String getBinaryVersionPath(File root, String version) {
-        return Paths.get(root.getAbsolutePath(), version, String.format("%s_%s", CodeConfig.SYSTEM_ARCH, CodeConfig.PLATFORM_NAME), CodeConfig.COSY_EXECUTABLE_NAME).toString();
+        return Paths.get(root.getAbsolutePath(), version, "index.html").toString();
+//        return Paths.get(root.getAbsolutePath(), version, String.format("%s_%s", CodeConfig.SYSTEM_ARCH, CodeConfig.PLATFORM_NAME), CodeConfig.COSY_EXECUTABLE_NAME).toString();
     }
 
     private void checkBinaryPermissions(File root, String version) {
@@ -285,9 +276,9 @@ public class BinaryManager {
             return null;
         } else {
             JSONObject jobj = JSON.parseObject(configContent);
-            String version = jobj.getString("cosy.core.version");
+            String version = jobj.getString("code.core.version");
             if (StringUtils.isEmpty(version)) {
-                log.warn("invalid cosy config version from cotnent:" + configContent);
+                log.warn("invalid code config version from cotnent:" + configContent);
                 return null;
             } else {
                 return version;

@@ -94,7 +94,7 @@ public class TooneCodePluginUpdateChecker {
                     return;
                 }
 
-                if (TooneCoder.INSTANCE.checkCosy(project)) {
+                if (TooneCoder.INSTANCE.checkCode(project)) {
                     UpdateResult result = TooneCoder.INSTANCE.getLanguageService(project).ideUpdate(true, 3000L);
                     if (result != null && result.isHasUpdate()) {
                         LOGGER.info("found available plugin from server:" + result.getVersion());
@@ -172,7 +172,7 @@ public class TooneCodePluginUpdateChecker {
     @RequiresEdt
     private static void notifyUpdateAvailable(@NotNull Project project, PluginDownloader pluginDownloader) {
 
-        Notification notification = NotificationFactory.STICKY_NOTIFICATION_GROUP.createNotification(CodeBundle.message("cosy.plugin.name", new Object[0]),
+        Notification notification = NotificationFactory.STICKY_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]),
                 CodeBundle.message("notifications.update.check.content", new Object[0]), NotificationType.INFORMATION);
         notification.setIcon(CommonIcons.AI);
         notification.addAction(NotificationAction.createSimpleExpiring(CodeBundle.message("notifications.update.check.btn.install", new Object[0]), () -> {

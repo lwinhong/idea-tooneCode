@@ -26,7 +26,7 @@ public class TrackThreadService {
     }
 
     private void report(Project project, ReportStatistic reportStatistic) {
-        if (TooneCoder.INSTANCE.checkCosy(project)) {
+        if (TooneCoder.INSTANCE.checkCode(project)) {
             TooneCoder.INSTANCE.getLanguageService(project).updateReport(reportStatistic);
         }
     }

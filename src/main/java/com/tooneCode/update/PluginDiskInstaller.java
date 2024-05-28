@@ -114,7 +114,7 @@ public class PluginDiskInstaller {
     public static void notifyUpdateFinished(@NotNull Project project) {
 
 
-        Notification notification = NotificationFactory.STICKY_NOTIFICATION_GROUP.createNotification(CodeBundle.message("cosy.plugin.name", new Object[0]),
+        Notification notification = NotificationFactory.STICKY_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]),
                 CodeBundle.message("notifications.update.installed.content", new Object[0]), NotificationType.INFORMATION);
         notification.addAction(NotificationAction.createSimpleExpiring(CodeBundle.message("notifications.update.installed.btn.restart", new Object[0]), PluginDiskInstaller::restartLater));
         notification.addAction(NotificationAction.createSimpleExpiring(CodeBundle.message("notifications.update.installed.btn.change.settings", new Object[0]), () -> {

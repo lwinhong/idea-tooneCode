@@ -28,7 +28,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
     public CodeGenerateApi() {
     }
 
-    public CodeGenerateResponse run(String requestJson, ICodeGenerateApiCallBack callBack) throws Exception {
+    public CodeGenerateResponse run(String requestJson, String url, ICodeGenerateApiCallBack callBack) throws Exception {
         var completableFuture = CompletableFuture.supplyAsync(() -> {
             // 创建请求体
             requestBody = new RealRequestBody(requestJson);
@@ -38,7 +38,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
                     .build();
 
             request = CodeGenerateApiManager.AddHeaders(new Request.Builder())
-                    .url(CodeGenerateApiManager.ONLINE_CODE_API)
+                    .url(url)
                     .post(requestBody)
                     .build();
 
@@ -60,7 +60,6 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
             }
             return listener.getResult();
         });
-
         return new CodeGenerateResponse(this, completableFuture, TIMEOUT);
     }
 
@@ -97,12 +96,11 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
         public CodeEventSourceListener(CountDownLatch eventLatch, ICodeGenerateApiCallBack callBack) {
             this.eventLatch = eventLatch;
             this.callBack = callBack;
-
         }
 
         @Override
         public void onOpen(@NotNull EventSource eventSource, @NotNull Response response) {
-            System.out.println("onOpen");
+            System.out.println("onOpen->url:" + response.request().url() + ", code:" + response.code());
         }
 
         @Override
@@ -114,24 +112,12 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
                 }
             }
             System.out.println("onEvent:" + sb.toString());
-
-//            if ("done".equals(type)) {
-//
-//            } else if ("data".equals(type)) {
-//                sb.append(CodeGenerateApiManager.responseTextHandler(data));
-//                if (callBack != null) {
-//                    if (!callBack.SetEventSource(sb.toString())) {
-//                        eventSource.cancel();
-//                    }
-//                }
-//                System.out.println("onEvent:" + sb.toString());
-//            }
         }
 
         @Override
         public void onClosed(@NotNull EventSource eventSource) {
-            System.out.println("onClosed");
             CountDown();
+            System.out.println("onClosed:" + eventSource.request().url());
         }
 
         @Override

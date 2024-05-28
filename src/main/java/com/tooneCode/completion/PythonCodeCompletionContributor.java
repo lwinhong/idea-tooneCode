@@ -34,7 +34,6 @@ import icons.CommonIcons;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -65,7 +64,7 @@ public class PythonCodeCompletionContributor extends CompletionContributor {
                 log.info("ignore completion, the switch closed");
             } else {
                 Project project = parameters.getEditor().getProject();
-                if (TooneCoder.INSTANCE.checkCosy(project)) {
+                if (TooneCoder.INSTANCE.checkCode(project)) {
                     Document document = parameters.getEditor().getDocument();
                     if (parameters.getEditor().getCaretModel().getCaretCount() > 1) {
                         log.info("Multi editing mode, skip completion");

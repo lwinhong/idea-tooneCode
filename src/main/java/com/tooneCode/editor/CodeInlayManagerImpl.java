@@ -32,7 +32,6 @@ import com.intellij.util.concurrency.annotations.RequiresEdt;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -148,7 +147,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
     public void editorChanged(@NotNull CompletionTriggerConfig config, @NotNull Editor editor, int offset,
                               CompletionTriggerModeEnum triggerMode) {
         Project project = editor.getProject();
-        if (TooneCoder.INSTANCE.checkCosy(project, true)) {
+        if (TooneCoder.INSTANCE.checkCode(project, true)) {
             SwingUtilities.invokeLater(() -> {
                 this.disposeInlays(editor, InlayDisposeEventEnum.TYPING);
                 InlayPreviewRequest.build().generate(config, editor, triggerMode);
@@ -375,7 +374,7 @@ public final class CodeInlayManagerImpl implements CodeInlayManager {
         InlayCompletionRequest oldRequest = CodeCacheKeys.KEY_COMPLETION_LATEST_REQUEST.get(editor);
         if (list != null && !list.isEmpty() && oldRequest != null) {
             this.disposeInlays(editor, InlayDisposeEventEnum.TOGGLE_COMPLETION);
-            if (TooneCoder.INSTANCE.checkCosy(editor.getProject(), true)) {
+            if (TooneCoder.INSTANCE.checkCode(editor.getProject(), true)) {
                 if (maxCount > list.size()) {
                     InlayPreviewRequest.build().toggle(editor, oldRequest);
                 } else {

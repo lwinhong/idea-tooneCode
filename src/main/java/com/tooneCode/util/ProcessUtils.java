@@ -78,7 +78,7 @@ public class ProcessUtils {
     }
 
     public static void killProcess(long pid) {
-        log.info("Kill cosy process: " + pid);
+        log.info("Kill code process: " + pid);
         Runtime rt = Runtime.getRuntime();
         String osName = System.getProperty("os.name").toLowerCase();
 
@@ -337,7 +337,7 @@ public class ProcessUtils {
     public static boolean checkAndWaitCosyState(@NotNull ProgressIndicator progressIndicator, @NotNull Project project) {
 
         boolean succeed = false;
-        if (!TooneCoder.INSTANCE.checkCosy(project, true)) {
+        if (!TooneCoder.INSTANCE.checkCode(project, true)) {
             succeed = TooneCoder.INSTANCE.checkAndWaitCosyState(progressIndicator, project);
         } else {
             log.info("Cosy state is OK, login/logout directly.");

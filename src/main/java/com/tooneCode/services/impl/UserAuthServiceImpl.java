@@ -171,7 +171,7 @@ public final class UserAuthServiceImpl implements UserAuthService {
     }
 
     public AuthStatus getState(Project project) {
-        if (TooneCoder.INSTANCE.checkCosy(project)) {
+        if (TooneCoder.INSTANCE.checkCode(project)) {
             return TooneCoder.INSTANCE.getLanguageService(project).authStatus(REQUEST_TIMEOUT, 2);
         } else {
             ThreadUtil.execute(() -> {
@@ -261,13 +261,13 @@ public final class UserAuthServiceImpl implements UserAuthService {
                 }
 
                 if (System.currentTimeMillis() - startTime > maxTime) {
-                    log.info("Checking cosy state: timeout");
+                    log.info("Checking code state: timeout");
                     break;
                 }
 
                 if (System.currentTimeMillis() - doubleCheckStartTime > doubleCheckDuration || LoginUtil.getLoginResult() != null) {
                     AuthStatus status = LoginUtil.getAuthStatus(project);
-                    log.info("double checking cosy state: " + status);
+                    log.info("double checking code state: " + status);
                     if (AuthStateEnum.LOGIN.getValue() == status.getStatus()) {
                         if (notification != null) {
                             notification.expire();

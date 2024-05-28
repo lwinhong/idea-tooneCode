@@ -20,7 +20,7 @@ public class CodeGenerateApiManager {
     // 代码接口
     public static final String ONLINE_CODE_APIKEY = "app-HZSqJWyZI6xjqkbyXUIcLErR";
     public static final String ONLINE_CODE_API = "http://ai.t.vtoone.com/api/v1/completion-messages";
-    public static final Boolean isUseOnline = true;
+    public static final Boolean isUseOnline = false;
 
     private CodeGenerateApiManager() {
     }
@@ -43,7 +43,7 @@ public class CodeGenerateApiManager {
         var requestApi = new CodeGenerateApi();
         try {
             var json = JSON.toJSONString(BuildRequestData(postData));
-            return requestApi.run(json, callBack);
+            return requestApi.run(json, getChatApi(), callBack);
         } catch (Exception e) {
             return null;
         }

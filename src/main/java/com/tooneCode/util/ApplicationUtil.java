@@ -25,7 +25,7 @@ public class ApplicationUtil {
     public static void killCosyProcess() {
 //        List<Long> cosyPidList = ProcessUtils.findCosyPidList();
 //        String pidListStr = StringUtils.join(cosyPidList, ",");
-//        log.info(String.format("Found cosy pid list: %s", pidListStr == null ? "null" : pidListStr));
+//        log.info(String.format("Found code pid list: %s", pidListStr == null ? "null" : pidListStr));
 //        if (CollectionUtils.isNotEmpty(cosyPidList)) {
 //            Iterator var2 = cosyPidList.iterator();
 //

@@ -8,5 +8,6 @@ public class CodeGenerateAddOptimizationAction extends CodeGenerateBaseAction {
     protected void onActionPerformed(@NotNull AnActionEvent e) {
         var selectedText = getEditorSelectedText(e);
         SendMessageToPage(e, ChatCodeCmd, selectedText, "生成优化建议，并生成优化之后的代码");
+
     }
 }

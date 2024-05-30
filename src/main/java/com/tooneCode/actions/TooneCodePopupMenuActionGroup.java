@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 编辑器右键菜单：TooneCode， 然后动态生成子菜单
  */
-public class TooneCodePopupMenuActionGroup extends ActionGroup {
+public class TooneCodePopupMenuActionGroup extends ActionGroup implements ITooneCodePopupMenuActionGroup {
 
     public AnAction @NotNull [] getChildren(AnActionEvent e) {
         Project project = e.getProject();
@@ -22,6 +22,26 @@ public class TooneCodePopupMenuActionGroup extends ActionGroup {
         var hasSelected = project != null
                 && editor != null && editor.getSelectionModel().hasSelection();
 
+        List<AnAction> actions = new ArrayList<>();
+        var am = ActionManager.getInstance();
+        var askAction = am.getAction("tooneCode.actions.code.CodeGenerateAskAction");
+        actions.add(askAction);
+
+        if (hasSelected) {
+            for (String action : new String[]{
+                    "CodeGenerateAddExplainAction",
+                    "CodeGenerateAddCommentsAction",
+                    "CodeGenerateAddOptimizationAction",
+                    "CodeGenerateAddTestsAction"}) {
+                var actionInstance = am.getAction("tooneCode.actions.code." + action);
+                if (actionInstance != null)
+                    actions.add(actionInstance);
+            }
+        }
+        return actions.toArray(new AnAction[0]);
+    }
+
+    public AnAction @NotNull [] getChildren(Boolean hasSelected) {
         List<AnAction> actions = new ArrayList<>();
         var am = ActionManager.getInstance();
         var askAction = am.getAction("tooneCode.actions.code.CodeGenerateAskAction");

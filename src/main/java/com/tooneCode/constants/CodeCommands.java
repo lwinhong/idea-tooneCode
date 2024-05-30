@@ -15,7 +15,7 @@ public class CodeCommands {
             "Apply TooneCode Inline Suggestion");
     public static final Set<String> ALL_TOONECODE_COMMANDS = new HashSet<>(Arrays.asList(
             CodeBundle.message("action.PopupCosySelectionAction.text", new Object[0]),
-            CodeBundle.message("action.TriggerCosySelectionChatAction.text", new Object[0]),
+            CodeBundle.message("action.TriggerCodeSelectionChatAction.text", new Object[0]),
             CodeBundle.message("action.TriggerCosyTestcaseGenerationAction.text", new Object[0]),
             CodeBundle.message("action.TriggerCosyDescriptionGenerateCodeGenerationAction.text", new Object[0]),
             CodeBundle.message("action.TriggerCosyExplainCodeGenerationAction.text", new Object[0]),

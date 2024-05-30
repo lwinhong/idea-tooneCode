@@ -7,6 +7,7 @@ import okhttp3.internal.sse.RealEventSource;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 import okio.BufferedSink;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +25,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
     private RealRequestBody requestBody;
     private Request request;
     private CodeEventSourceListener eventSourceListener;
+    private String serverTaskId;
 
     public CodeGenerateApi() {
     }
@@ -43,7 +45,7 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
                     .build();
 
             var eventLatch = new CountDownLatch(1);
-            var listener = eventSourceListener = new CodeEventSourceListener(eventLatch, callBack);
+            var listener = eventSourceListener = new CodeEventSourceListener(eventLatch, callBack, this);
             realEventSource = new RealEventSource(request, eventSourceListener);
             try {
                 realEventSource.connect(client);
@@ -92,10 +94,13 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
         private CountDownLatch eventLatch;
         private ICodeGenerateApiCallBack callBack;
         private StringBuilder sb = new StringBuilder();
+        private CodeGenerateApi codeGenerateApi;
 
-        public CodeEventSourceListener(CountDownLatch eventLatch, ICodeGenerateApiCallBack callBack) {
+
+        public CodeEventSourceListener(CountDownLatch eventLatch, ICodeGenerateApiCallBack callBack, CodeGenerateApi codeGenerateApi) {
             this.eventLatch = eventLatch;
             this.callBack = callBack;
+            this.codeGenerateApi = codeGenerateApi;
         }
 
         @Override
@@ -105,7 +110,10 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
 
         @Override
         public void onEvent(@NotNull EventSource eventSource, String id, String type, @NotNull String data) {
-            sb.append(CodeGenerateApiManager.responseTextHandler(data));
+            sb.append(CodeGenerateApiManager.responseTextHandler(data, (json) -> {
+                if (codeGenerateApi != null)
+                    codeGenerateApi.serverTaskId = json.getTask_id();
+            }));
             if (callBack != null) {
                 if (!callBack.SetEventSource(sb.toString())) {
                     eventSource.cancel();
@@ -142,12 +150,44 @@ public class CodeGenerateApi implements Disposable, ICodeGenerateApiRequest {
             sb = null;
             eventLatch = null;
             callBack = null;
+            codeGenerateApi = null;
         }
     }
 
     public void Abort() {
+        StopServer();
         if (realEventSource != null)
             realEventSource.cancel();
+    }
+
+    private void StopServer() {
+        if (!StringUtils.isNotBlank(serverTaskId))
+            return;
+
+        requestBody = new RealRequestBody(CodeGenerateApiManager.BuildStopRequestDataJson());
+        var client = new OkHttpClient.Builder()
+                .connectTimeout(4, TimeUnit.SECONDS)
+                .readTimeout(4, TimeUnit.SECONDS)
+                .build();
+
+        request = CodeGenerateApiManager.AddHeaders(new Request.Builder())
+                .url(CodeGenerateApiManager.getChatApi() + "/:" + serverTaskId + "/stop")
+                .post(requestBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String result = "";
+                if (response.body() != null) {
+                    result = response.body().string();
+                }
+                System.out.println(result);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            }
+        });
     }
 
     @Override

@@ -113,7 +113,7 @@ public class InlayCompletionHintFactory {
         JButton chatButton;
 
         public ChatHintJComponent(Editor editor) {
-            String shortcutStr = KeyboardUtil.getShortcutText("TriggerCosySelectionChatAction", "");
+            String shortcutStr = KeyboardUtil.getShortcutText("TriggerCodeSelectionChatAction", "");
             this.chatButton = new JButton(I18NConstant.ACTION_TRIGGER_SELECTION_CHAT + " " + shortcutStr);
             this.chatButton.setBorder(BorderFactory.createLineBorder(CodeColor.CHAT_QUICK_ENTRY_BORDER_COLOR, 1, true));
             this.chatButton.setBackground(CodeColor.CHAT_QUICK_ENTRY_BG_COLOR);

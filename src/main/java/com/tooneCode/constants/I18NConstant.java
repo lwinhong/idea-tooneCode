@@ -130,7 +130,7 @@ public class I18NConstant {
         RESULT_CNT_TIPS = CodeBundle.message("result.cnt.tips", new Object[0]);
         SOURCE_FILTER_BUTTON_TEXT = CodeBundle.message("filter.source", new Object[0]);
         COSY_RESTARTING = CodeBundle.message("code.restarting", new Object[0]);
-        ACTION_TRIGGER_SELECTION_CHAT = CodeBundle.message("action.TriggerCosySelectionChatAction.text", new Object[0]);
+        ACTION_TRIGGER_SELECTION_CHAT = CodeBundle.message("action.TriggerCodeSelectionChatAction.text", new Object[0]);
         ACTION_TRIGGER_TESTCASE_GENERATION = CodeBundle.message("action.TriggerCosyTestcaseGenerationAction.text", new Object[0]);
         ACTION_TRIGGER_DESC_GENERATE_CODE = CodeBundle.message("action.TriggerCosyDescriptionGenerateCodeGenerationAction.text", new Object[0]);
         ACTION_TRIGGER_EXPLAIN_CODE = CodeBundle.message("action.TriggerCosyExplainCodeGenerationAction.text", new Object[0]);

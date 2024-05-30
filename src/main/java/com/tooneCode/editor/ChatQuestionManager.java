@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.tooneCode.actions.ITooneCodePopupMenuActionGroup;
+import com.tooneCode.actions.TooneCodePopupMenuActionGroup;
 import com.tooneCode.constants.I18NConstant;
 import lombok.Generated;
 
@@ -35,19 +39,35 @@ public class ChatQuestionManager {
     }
 
     static {
-        var prefix = "tooneCode.actions.code.";
-        Map.of("CodeGenerateAskAction", "提问",
-                        "CodeGenerateAddExplainAction", "解释代码",
-                        "CodeGenerateAddCommentsAction", "生成代码注释",
-                        "CodeGenerateAddOptimizationAction", "生成优化建议",
-                        "CodeGenerateAddTestsAction", "生成单元测试")
-                .forEach((key, value) -> register(value, prefix + key));
-//
+
+        var g = ActionManager.getInstance().getAction("com.tooneCode.actions.TooneCodePopupMenuActionGroup");
+        if (g instanceof ITooneCodePopupMenuActionGroup) {
+            var actions = ((ITooneCodePopupMenuActionGroup) g).getChildren(true);
+            var manager = ActionManager.getInstance();
+            for (AnAction action : actions) {
+                var text = action.getTemplatePresentation().getText();
+                register(text, manager.getId(action));
+            }
+        } else {
+            var prefix = "tooneCode.actions.code.";
 //        register("提问", prefix + "CodeGenerateAskAction");
 //        register("解释代码", prefix + "CodeGenerateAddExplainAction");
 //        register("生成代码注释", prefix + "CodeGenerateAddCommentsAction");
 //        register("生成优化建议", prefix + "CodeGenerateAddOptimizationAction");
 //        register("生成单元测试", prefix + "CodeGenerateAddTestsAction");
+
+            for (String id : new String[]{"CodeGenerateAskAction",
+                    "CodeGenerateAddExplainAction",
+                    "CodeGenerateAddCommentsAction",
+                    "CodeGenerateAddOptimizationAction",
+                    "CodeGenerateAddTestsAction"}) {
+                String realId = prefix + id;
+                AnAction triggerChatAction = ActionManager.getInstance().getAction(realId);
+                var text = triggerChatAction.getTemplatePresentation().getText();
+                register(text, realId);
+            }
+        }
+
     }
 
     public static class ChatQuestion {

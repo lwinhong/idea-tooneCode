@@ -55,10 +55,12 @@
         <editorFactoryListener implementation="com.tooneCode.listeners.CodeEditorListener"/>
         <typedHandler order="first, before completionAutoPopup"
                       implementation="com.tooneCode.editor.InputTypeEndHandler"/>
-        <!--        <postStartupActivity implementation="com.tooneCode.listeners.ProjectActivityListener"/>-->
-        <statusBarWidgetFactory id="com.tooneCode.intellij.status"
-                                implementation="com.tooneCode.ui.statusbar.CodeStatusBarWidgetFactory"/>
-        <applicationConfigurable instance="com.tooneCode.ui.config.CodeConfigurable" displayName="TooneCode"/>
+        <!--   这是新版本的写法     <postStartupActivity implementation="com.tooneCode.listeners.ProjectActivityListener"/>-->
+
+        <!-- 设置和状态栏暂时不要 -->
+        <!--        <statusBarWidgetFactory id="com.tooneCode.intellij.status"-->
+        <!--                                implementation="com.tooneCode.ui.statusbar.CodeStatusBarWidgetFactory"/>-->
+        <!--        <applicationConfigurable instance="com.tooneCode.ui.config.CodeConfigurable" displayName="TooneCode"/>-->
         <actionPromoter order="last" implementation="com.tooneCode.completion.action.CodeActionPromoter"/>
         <notificationGroup id="codeBalloonNotifications" displayType="BALLOON" key="notifications.balloon.group.name"/>
         <notificationGroup id="codeStickyNotifications" displayType="STICKY_BALLOON"

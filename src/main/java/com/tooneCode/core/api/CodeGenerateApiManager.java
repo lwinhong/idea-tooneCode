@@ -1,5 +1,7 @@
 package com.tooneCode.core.api;
 
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.util.Consumer;
 import okhttp3.MediaType;
 import com.alibaba.fastjson2.JSON;
 
@@ -69,10 +71,16 @@ public class CodeGenerateApiManager {
         return postData;
     }
 
-    public static String responseTextHandler(String originalText) {
+    public static String BuildStopRequestDataJson() {
+        return JSON.toJSONString(Map.of("user", "abc-123"));
+    }
+
+    public static String responseTextHandler(String originalText, Consumer<responseDataEntity> consumer) {
         if (isUseOnline) {
             if (JSON.isValid(originalText)) {
                 var json = JSON.parseObject(originalText, responseDataEntity.class);
+                if (consumer != null)
+                    consumer.consume(json);
                 if ("message".equals(json.getEvent())) {
                     if (json.getAnswer() != null) {
                         return json.getAnswer();
@@ -84,9 +92,18 @@ public class CodeGenerateApiManager {
         return originalText;
     }
 
-    static class responseDataEntity {
+    public static class responseDataEntity {
         String event;
         String answer;
+        String task_id;
+
+        public String getTask_id() {
+            return task_id;
+        }
+
+        public void setTask_id(String task_id) {
+            this.task_id = task_id;
+        }
 
         public String getEvent() {
             return event;

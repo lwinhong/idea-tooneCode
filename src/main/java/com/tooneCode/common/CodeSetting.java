@@ -77,7 +77,7 @@ public class CodeSetting {
         parameter.getCloud().setShowInlineWhenIDECompletion(false);
         parameter.getCloud().setAutoTrigger(new ChangeUserSettingParams.CloudModelAutoTrigger());
         parameter.getCloud().setManualTrigger(new ChangeUserSettingParams.CloudModelManualTrigger());
-        parameter.getCloud().getAutoTrigger().setEnable(true);
+        parameter.getCloud().getAutoTrigger().setEnable(false);
         parameter.getCloud().getAutoTrigger().setModelLevel(ModelPowerLevelEnum.LARGE.getLabel());
         //parameter.getCloud().getAutoTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LEVEL_1.getLabel());
         parameter.getCloud().getAutoTrigger().setGenerateLength(CompletionGenerateLengthLevelEnum.LINE_LEVEL.getLabel());

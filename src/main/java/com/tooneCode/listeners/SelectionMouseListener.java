@@ -37,7 +37,7 @@ public class SelectionMouseListener extends MouseAdapter {
 
     public void mouseClicked(MouseEvent e) {
         if (this.editor != null && this.editor.getProject() != null) {
-            AnAction triggerChatAction = ActionManager.getInstance().getAction("TriggerCosySelectionChatAction");
+            AnAction triggerChatAction = ActionManager.getInstance().getAction("TriggerCodeSelectionChatAction");
             DataContext dataContext = DataManager.getInstance().getDataContext(this.editor.getComponent());
             triggerChatAction.actionPerformed(new AnActionEvent((InputEvent) null, dataContext, "EditorPopup", new Presentation(), ActionManager.getInstance(), 0));
         }

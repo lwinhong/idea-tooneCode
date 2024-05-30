@@ -23,11 +23,11 @@ public class ChatQuestionManager {
     }
 
     public static List<ChatQuestion> getWelcomeQuestions() {
-        return (List) questions.values().stream().filter(ChatQuestion::isShowInWelcome).collect(Collectors.toList());
+        return questions.values().stream().filter(ChatQuestion::isShowInWelcome).collect(Collectors.toList());
     }
 
     public static List<ChatQuestion> getMethodHintQuestions() {
-        return (List) questions.values().stream().filter(ChatQuestion::isShowInMethodHintMenu).collect(Collectors.toList());
+        return questions.values().stream().filter(ChatQuestion::isShowInMethodHintMenu).collect(Collectors.toList());
     }
 
     public static Map<String, ChatQuestion> getAllQuestions() {
@@ -35,10 +35,19 @@ public class ChatQuestionManager {
     }
 
     static {
-        register("提问", "tooneCode.actions.code.CodeGenerateAskAction");
-        register("生成注释", "tooneCode.actions.code.CodeGenerateAddCommentsAction");
-        register("解析代码", "tooneCode.actions.code.CodeGenerateAddExplainAction", false, true);
-        register("生成测试", "tooneCode.actions.code.CodeGenerateAddTestsAction");
+        var prefix = "tooneCode.actions.code.";
+        Map.of("CodeGenerateAskAction", "提问",
+                        "CodeGenerateAddExplainAction", "解释代码",
+                        "CodeGenerateAddCommentsAction", "生成代码注释",
+                        "CodeGenerateAddOptimizationAction", "生成优化建议",
+                        "CodeGenerateAddTestsAction", "生成单元测试")
+                .forEach((key, value) -> register(value, prefix + key));
+//
+//        register("提问", prefix + "CodeGenerateAskAction");
+//        register("解释代码", prefix + "CodeGenerateAddExplainAction");
+//        register("生成代码注释", prefix + "CodeGenerateAddCommentsAction");
+//        register("生成优化建议", prefix + "CodeGenerateAddOptimizationAction");
+//        register("生成单元测试", prefix + "CodeGenerateAddTestsAction");
     }
 
     public static class ChatQuestion {

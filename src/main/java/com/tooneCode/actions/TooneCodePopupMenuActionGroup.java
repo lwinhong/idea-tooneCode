@@ -29,8 +29,9 @@ public class TooneCodePopupMenuActionGroup extends ActionGroup {
 
         if (hasSelected) {
             for (String action : new String[]{
-                    "CodeGenerateAddCommentsAction",
                     "CodeGenerateAddExplainAction",
+                    "CodeGenerateAddCommentsAction",
+                    "CodeGenerateAddOptimizationAction",
                     "CodeGenerateAddTestsAction"}) {
                 var actionInstance = am.getAction("tooneCode.actions.code." + action);
                 if (actionInstance != null)

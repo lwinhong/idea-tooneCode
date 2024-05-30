@@ -89,22 +89,29 @@
         <action
                 id="tooneCode.actions.code.CodeGenerateAddCommentsAction"
                 class="com.tooneCode.actions.code.CodeGenerateAddCommentsAction"
-                text="生成注释"
-                description="生成注释."
+                text="生成代码注释"
+                description="生成代码注释."
         >
         </action>
         <action
                 id="tooneCode.actions.code.CodeGenerateAddExplainAction"
                 class="com.tooneCode.actions.code.CodeGenerateAddExplainAction"
-                text="解析代码"
-                description="解析代码."
+                text="解释代码"
+                description="解释代码."
         >
         </action>
         <action
                 id="tooneCode.actions.code.CodeGenerateAddTestsAction"
                 class="com.tooneCode.actions.code.CodeGenerateAddTestsAction"
-                text="生成测试"
+                text="生成单元测试"
                 description="生成测试."
+        >
+        </action>
+        <action
+                id="tooneCode.actions.code.CodeGenerateAddOptimizationAction"
+                class="com.tooneCode.actions.code.CodeGenerateAddOptimizationAction"
+                text="生成优化建议"
+                description="生成优化建议."
         >
         </action>
         <action

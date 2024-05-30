@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="一些关紧字眼修改为tw&#10;和视图交互第一次问题解决&#10;cef handler添加">
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="生成注释提示语修改">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddOptimizationAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddCommentsAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddCommentsAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/TooneCodePopupMenuActionGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/TooneCodePopupMenuActionGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/ChatQuestionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/ChatQuestionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +165,7 @@
       <recent name="com.tooneCode.editor" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.idea-tooneCode [assemble]">
+  <component name="RunManager" selected="Gradle.Run Plugin">
     <configuration name="CodeGenerateApi" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.tooneCode.core.api.CodeGenerateApi" />
       <module name="idea-tooneCode.main" />
@@ -430,7 +434,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716885619371</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="生成注释提示语修改">
+      <option name="closed" value="true" />
+      <created>1716900458920</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1716900458920</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -479,7 +491,8 @@
     <MESSAGE value="1.插件最低版本降到2022.2版&#10;2.actionId冲突修改&#10;3.控制台异常可以直接到聊天页面，生成解决方案" />
     <MESSAGE value="1" />
     <MESSAGE value="一些关紧字眼修改为tw&#10;和视图交互第一次问题解决&#10;cef handler添加" />
-    <option name="LAST_COMMIT_MESSAGE" value="一些关紧字眼修改为tw&#10;和视图交互第一次问题解决&#10;cef handler添加" />
+    <MESSAGE value="生成注释提示语修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="生成注释提示语修改" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -578,6 +591,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/BinaryManager.java</url>
           <line>78</line>
           <option name="timeStamp" value="386" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="387" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/model/AuthStatus.java</url>

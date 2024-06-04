@@ -14,13 +14,10 @@ import com.intellij.psi.PsiFile;
 import com.tooneCode.services.CodeProjectServiceImpl;
 import com.tooneCode.toolWindow.CodeToolWindow;
 import com.tooneCode.toolWindow.ICodeToolWindow;
-import com.tooneCode.ui.notifications.NotificationFactory;
 import com.tooneCode.util.LanguageUtil;
-import com.tooneCode.util.PsiUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 

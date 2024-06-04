@@ -2,6 +2,7 @@ package com.tooneCode.ui.renderer;
 
 import com.intellij.codeInsight.hints.presentation.InputHandler;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorCustomElementRenderer;
@@ -12,10 +13,13 @@ import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
+import com.tooneCode.actions.code.CodeGenerateBaseAction;
 import com.tooneCode.common.CodeSetting;
 import com.tooneCode.editor.enums.ExceptionResolveModeEnum;
 import com.tooneCode.services.CodeProjectServiceImpl;
+import com.tooneCode.toolWindow.CodeToolWindow;
 import com.tooneCode.ui.config.CodePersistentSetting;
+import com.tooneCode.util.LanguageUtil;
 import icons.CommonIcons;
 
 import java.awt.Color;
@@ -25,6 +29,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.Map;
+import java.util.Objects;
 import javax.swing.Icon;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +39,7 @@ public class CodePresentation implements EditorCustomElementRenderer, InputHandl
     private final Editor editor;
     private final Project myProject;
     private final int startOffset;
+    private static final Logger log = Logger.getInstance(CodePresentation.class);
 
     public CodePresentation(Editor editor, Project project, int starOffset) {
         this.editor = editor;
@@ -72,12 +78,22 @@ public class CodePresentation implements EditorCustomElementRenderer, InputHandl
         if (StringUtils.isNotBlank(codeContext)) {
             ref.errorPrompt = String.format("修复报错:\n%s\n代码上下文:\n%s\n", errorInformation, codeContext);
         }
-        var tw = CodeProjectServiceImpl.getInstance(myProject).getCodeToolWindow();
-        if (tw == null || tw.getICodeCefManager() == null)
-            return;
 
+        // 确保工具窗口存在
         ApplicationManager.getApplication().invokeLater(() -> {
-            tw.getICodeCefManager().SendMessageToPage("chat_code", ref.errorPrompt, Map.of("isMarked", "1"));
+            CodeToolWindow.ShowToolWindowAndCreate(myProject, (toolWindow) -> {
+                if (toolWindow == null) {
+                    // 提示
+                    log.warn("CodeToolWindow is null"); // 改为warn级别
+                    return;
+                }
+                try {
+                    final var projectService = CodeProjectServiceImpl.getInstance(myProject); // 使用局部变量
+                    projectService.getCodeCefManager(myProject, toolWindow).SendMessageToPage("chat_code", ref.errorPrompt, Map.of("isMarked", "1"), true);
+                } catch (Exception ex) {
+                    log.error("Error sending message to page", ex); // 记录异常堆栈信息
+                }
+            });
         });
     }
 

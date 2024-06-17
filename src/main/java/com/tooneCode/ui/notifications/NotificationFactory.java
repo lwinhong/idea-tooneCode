@@ -14,11 +14,13 @@ import com.tooneCode.common.CodeBundle;
 import com.tooneCode.util.ColorUtil;
 import com.tooneCode.util.UrlUtil;
 import icons.CommonIcons;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent.EventType;
+
 import org.jetbrains.annotations.NotNull;
 
 public class NotificationFactory {
@@ -44,7 +46,7 @@ public class NotificationFactory {
 
     public static Notification createInfoStickyNotification(String title, String content) {
         if (STICKY_NOTIFICATION_GROUP != null) {
-            Notification notification = STICKY_NOTIFICATION_GROUP.createNotification(title, content, NotificationType.INFORMATION, new DefaultUrlOpeningListener((Project)null, (JComponent)null, false));
+            Notification notification = STICKY_NOTIFICATION_GROUP.createNotification(title, content, NotificationType.INFORMATION, new DefaultUrlOpeningListener((Project) null, (JComponent) null, false));
             notification.setIcon(CommonIcons.AI);
             return notification;
         } else {
@@ -54,7 +56,7 @@ public class NotificationFactory {
 
     public static void showWarnNotification(Project project, String content) {
         if (BALLOON_NOTIFICATION_GROUP != null) {
-            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]), content, NotificationType.WARNING, new DefaultUrlOpeningListener(project, (JComponent)null, false));
+            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]), content, NotificationType.WARNING, new DefaultUrlOpeningListener(project, (JComponent) null, false));
             notification.setIcon(CommonIcons.AI);
             notification.notify(project);
         }
@@ -63,7 +65,7 @@ public class NotificationFactory {
 
     public static void showWarnNotification(Project project, String title, String content) {
         if (BALLOON_NOTIFICATION_GROUP != null) {
-            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(title, content, NotificationType.ERROR, new DefaultUrlOpeningListener(project, (JComponent)null, false));
+            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(title, content, NotificationType.ERROR, new DefaultUrlOpeningListener(project, (JComponent) null, false));
             notification.setIcon(CommonIcons.AI);
             notification.notify(project);
         }
@@ -72,7 +74,7 @@ public class NotificationFactory {
 
     public static void showNotification(Project project, NotificationType notificationType, String content) {
         if (BALLOON_NOTIFICATION_GROUP != null) {
-            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]), content, notificationType, new DefaultUrlOpeningListener(project, (JComponent)null, false));
+            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(CodeBundle.message("code.plugin.name", new Object[0]), content, notificationType, new DefaultUrlOpeningListener(project, (JComponent) null, false));
             notification.setIcon(CommonIcons.AI);
             notification.notify(project);
         }
@@ -81,7 +83,7 @@ public class NotificationFactory {
 
     public static void showNotification(Project project, NotificationType notificationType, String title, String content) {
         if (BALLOON_NOTIFICATION_GROUP != null) {
-            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(title, content, notificationType, new DefaultUrlOpeningListener(project, (JComponent)null, true));
+            Notification notification = BALLOON_NOTIFICATION_GROUP.createNotification(title, content, notificationType, new DefaultUrlOpeningListener(project, (JComponent) null, true));
             notification.setIcon(CommonIcons.AI);
             notification.notify(project);
         }

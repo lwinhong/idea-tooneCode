@@ -62,9 +62,9 @@
         <!--                                implementation="com.tooneCode.ui.statusbar.CodeStatusBarWidgetFactory"/>-->
         <!--        <applicationConfigurable instance="com.tooneCode.ui.config.CodeConfigurable" displayName="TooneCode"/>-->
         <actionPromoter order="last" implementation="com.tooneCode.completion.action.CodeActionPromoter"/>
-        <notificationGroup id="codeBalloonNotifications" displayType="BALLOON" key="notifications.balloon.group.name"/>
+        <notificationGroup id="codeBalloonNotifications" displayType="BALLOON" key="code.notifications.balloon.group.name"/>
         <notificationGroup id="codeStickyNotifications" displayType="STICKY_BALLOON"
-                           key="notifications.sticky.group.name"/>
+                           key="code.notifications.sticky.group.name"/>
     </extensions>
     <actions>
         <action

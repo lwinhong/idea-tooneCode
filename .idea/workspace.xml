@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="加入优化建议">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/ITooneCodePopupMenuActionGroup.java" afterDir="false" />
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="修改url地址">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/handler/CodeCefDownloadHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/TooneCodePopupMenuActionGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/TooneCodePopupMenuActionGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddOptimizationAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/actions/code/CodeGenerateAddOptimizationAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/common/CodeSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/common/CodeSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/constants/CodeCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/constants/CodeCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/constants/I18NConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/constants/I18NConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApiManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/ChatQuestionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/ChatQuestionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayCompletionHintFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/editor/InlayCompletionHintFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/listeners/SelectionMouseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/listeners/SelectionMouseListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" afterDir="false" />
@@ -68,8 +59,8 @@
         <option value="AnnotationType" />
         <option value="JUnit4 Test Class" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -115,40 +106,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Run Plugin.executor": "Debug",
-    "Gradle.idea-tooneCode [:CodeGenerateApi.main()].executor": "Debug",
-    "Gradle.idea-tooneCode [assemble].executor": "Debug",
-    "Gradle.idea-tooneCode [setupDependencies].executor": "Run",
-    "Gradle.idea-toonecode [setupDependencies].executor": "Run",
-    "Gradle.构建 idea-tooneCode.executor": "Run",
-    "JUnit.CodeGenerateApiTest.executor": "Debug",
-    "JUnit.CodeGenerateApiTest.run.executor": "Debug",
-    "Kotlin 脚本(测试版).build.gradle.kts.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
-    "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/liyk/idea-plugin/idea-tooneCode/build/distributions/idea-tooneCode-0.2-SNAPSHOT.zip",
-    "project.structure.last.edited": "SDK",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.17721522",
-    "settings.editor.selected.configurable": "通义灵码"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Run Plugin.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.idea-tooneCode [:CodeGenerateApi.main()].executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.idea-tooneCode [assemble].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.idea-tooneCode [setupDependencies].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.idea-toonecode [setupDependencies].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.构建 idea-tooneCode.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CodeGenerateApiTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.CodeGenerateApiTest.run.executor&quot;: &quot;Debug&quot;,
+    &quot;Kotlin 脚本(测试版).build.gradle.kts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode/build/distributions/idea-tooneCode-0.0.3-SNAPSHOT.zip&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.17721522&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件": [
-      "JavaFX"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/新建临时文件&quot;: [
+      &quot;JavaFX&quot;
     ],
-    "kotlin-gradle-user-dirs": [
-      "C:\\Users\\Administrator\\.gradle"
+    &quot;kotlin-gradle-user-dirs&quot;: [
+      &quot;C:\\Users\\Administrator\\.gradle&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.tooneCode.services." />
@@ -270,6 +267,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713774781248</updated>
+      <workItem from="1717641461524" duration="383000" />
+      <workItem from="1717743830731" duration="352000" />
+      <workItem from="1718545088401" duration="71000" />
     </task>
     <task id="LOCAL-00001" summary="首次">
       <option name="closed" value="true" />
@@ -463,8 +463,51 @@
       <option name="project" value="LOCAL" />
       <updated>1717033788161</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="1.关闭自动完成&#10;2.关闭状态栏和设置&#10;3.hit下拉改为自动获取">
+      <option name="closed" value="true" />
+      <created>1717051185353</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1717051185353</updated>
+    </task>
+    <task id="LOCAL-00026" summary="cosy字眼修改">
+      <option name="closed" value="true" />
+      <created>1717051469123</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1717051469123</updated>
+    </task>
+    <task id="LOCAL-00027" summary="版本修改">
+      <option name="closed" value="true" />
+      <created>1717378482861</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1717378482861</updated>
+    </task>
+    <task id="LOCAL-00028" summary="java bug 调试打开聊天对话框调用逻辑调整">
+      <option name="closed" value="true" />
+      <created>1717490879111</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1717490879111</updated>
+    </task>
+    <task id="LOCAL-00029" summary="修改url地址">
+      <option name="closed" value="true" />
+      <created>1717578538696</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1717578538696</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -493,7 +536,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="首次" />
     <MESSAGE value="实现代码插入" />
     <MESSAGE value="新增右键菜单和action" />
     <MESSAGE value="action和web页面交互" />
@@ -514,7 +556,12 @@
     <MESSAGE value="一些关紧字眼修改为tw&#10;和视图交互第一次问题解决&#10;cef handler添加" />
     <MESSAGE value="生成注释提示语修改" />
     <MESSAGE value="加入优化建议" />
-    <option name="LAST_COMMIT_MESSAGE" value="加入优化建议" />
+    <MESSAGE value="1.关闭自动完成&#10;2.关闭状态栏和设置&#10;3.hit下拉改为自动获取" />
+    <MESSAGE value="cosy字眼修改" />
+    <MESSAGE value="版本修改" />
+    <MESSAGE value="java bug 调试打开聊天对话框调用逻辑调整" />
+    <MESSAGE value="修改url地址" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改url地址" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -615,11 +662,6 @@
           <option name="timeStamp" value="386" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="387" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java</url>
           <line>184</line>
           <option name="timeStamp" value="390" />
@@ -628,6 +670,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/api/CodeGenerateApi.java</url>
           <line>166</line>
           <option name="timeStamp" value="391" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/handler/CodeCefJSDialogHandler.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="393" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/handler/CodeCefDownloadHandler.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="398" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/model/AuthStatus.java</url>

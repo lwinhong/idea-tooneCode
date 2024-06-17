@@ -11,10 +11,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.jcef.*;
 import com.intellij.util.messages.MessageBusConnection;
 import com.tooneCode.services.CodeProjectServiceImpl;
-import com.tooneCode.toolWindow.cef.handler.CodeCefContextMenuHandler;
-import com.tooneCode.toolWindow.cef.handler.CodeCefJSDialogHandler;
-import com.tooneCode.toolWindow.cef.handler.CodeCefKeyboardHandler;
-import com.tooneCode.toolWindow.cef.handler.CodeCefLoadHandler;
+import com.tooneCode.toolWindow.cef.handler.*;
 import com.tooneCode.topics.CefPageLoadedTopic;
 import org.cef.browser.CefBrowser;
 import com.alibaba.fastjson2.JSON;
@@ -32,9 +29,10 @@ public class CodeCefManager implements ICodeCefManager {
 
     private Project _project;
     private ToolWindow _toolWindow;
-    JBCefBrowser _browser;
-    JBCefJSQuery _jsQuery;
-    MessageBusConnection connectionEditorColorsManager;
+    private JBCefBrowser _browser;
+    private JBCefJSQuery _jsQuery;
+    private JBCefClient client;
+    private MessageBusConnection connectionEditorColorsManager;
 
     public CodeCefManager(Project project, ToolWindow toolWindow) {
         this._project = project;
@@ -94,8 +92,9 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     public void LoadWebPage() {
-        var url = "http://aichat.t.vtoone.com/#/idea";
-        // url = "http://localhost:5173/#/idea";
+        var url = "http://aichat.t.vtoone.com/#/?ide=idea";
+        url = "http://localhost:5173/#/?ide=idea";
+        url = "http://10.1.33.77:8180/code/#/?ide=idea";
         //_browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
 //        try {
 //            String binaryPath = BinaryManager.INSTANCE.getBinaryPath(CodeConfig.getHomeDirectory().toFile());
@@ -110,14 +109,16 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     private void AddHandler() {
-        JBCefClient client = _browser.getJBCefClient();
+        client = _browser.getJBCefClient();
+        var browser = _browser.getCefBrowser();
         //一些自定handler加入
-        client.addLoadHandler(new CodeCefLoadHandler(this), _browser.getCefBrowser());
-        client.addJSDialogHandler(new CodeCefJSDialogHandler(), _browser.getCefBrowser());
-        client.addKeyboardHandler(new CodeCefKeyboardHandler(_browser), _browser.getCefBrowser());
-        client.addContextMenuHandler(new CodeCefContextMenuHandler(), _browser.getCefBrowser());
-        client.addKeyboardHandler(new CodeCefKeyboardHandler(_browser), _browser.getCefBrowser());
-//        client.addRequestHandler(new CodeCefRequestHandler(), _browser.getCefBrowser());
+        client.addLoadHandler(new CodeCefLoadHandler(this), browser);
+        client.addJSDialogHandler(new CodeCefJSDialogHandler(), browser);
+        client.addKeyboardHandler(new CodeCefKeyboardHandler(_browser), browser);
+        client.addContextMenuHandler(new CodeCefContextMenuHandler(), browser);
+        client.addKeyboardHandler(new CodeCefKeyboardHandler(_browser), browser);
+//        client.addRequestHandler(new CodeCefRequestHandler(), browser);
+        client.addDownloadHandler(new CodeCefDownloadHandler(_project), browser);
 
         //开发者工具
         CefBrowser devTools = _browser.getCefBrowser().getDevTools();
@@ -211,6 +212,9 @@ public class CodeCefManager implements ICodeCefManager {
         _toolWindow = null;
         _browser = null;
         _jsQuery = null;
+        if (client != null && !client.isDisposed())
+            client.dispose();
+        client = null;
         if (connectionEditorColorsManager != null)
             connectionEditorColorsManager.disconnect();
         connectionEditorColorsManager = null;

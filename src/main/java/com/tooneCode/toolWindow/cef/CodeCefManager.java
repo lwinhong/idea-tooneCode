@@ -93,8 +93,8 @@ public class CodeCefManager implements ICodeCefManager {
 
     public void LoadWebPage() {
         var url = "http://aichat.t.vtoone.com/#/?ide=idea";
-        url = "http://localhost:5173/#/?ide=idea";
-        url = "http://10.1.33.77:8180/code/#/?ide=idea";
+//        url = "http://localhost:5173/#/?ide=idea";
+//        url = "http://codedemo.t.vtoone.com/#/?ide=idea";
         //_browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
 //        try {
 //            String binaryPath = BinaryManager.INSTANCE.getBinaryPath(CodeConfig.getHomeDirectory().toFile());

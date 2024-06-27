@@ -9,14 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="0.0.6版本">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/idea_tooneCode_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="加入从页面调用的设置实现，不过设置暂时还是屏蔽的">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/state/CodeStateService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/state/CodeStateServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/ICodeProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/ICodeProjectService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/action/OpenSettingsAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/action/OpenSettingsAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/TooneCodeApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/TooneCodeApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,9 +93,6 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="PerforceDirect.Settings">
-    <option name="CHARSET" value="无" />
-  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -115,7 +109,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Gradle.Run Plugin.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.Run Plugin.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.idea-tooneCode [:CodeGenerateApi.main()].executor&quot;: &quot;Debug&quot;,
     &quot;Gradle.idea-tooneCode [assemble].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.idea-tooneCode [buildPlugin].executor&quot;: &quot;Run&quot;,
@@ -135,7 +129,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode/out/artifacts/idea_tooneCode_main_jar/idea-tooneCode.main.jar&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode/build/distributions/idea-tooneCode-0.0.6-SNAPSHOT.zip&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -315,7 +309,9 @@
       <workItem from="1719196260946" duration="624000" />
       <workItem from="1719218479527" duration="3697000" />
       <workItem from="1719299913563" duration="2505000" />
-      <workItem from="1719401485576" duration="1558000" />
+      <workItem from="1719401485576" duration="6849000" />
+      <workItem from="1719470372059" duration="19000" />
+      <workItem from="1719470396838" duration="10000" />
     </task>
     <task id="LOCAL-00001" summary="首次">
       <option name="closed" value="true" />
@@ -581,7 +577,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719306310045</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="加入从页面调用的设置实现，不过设置暂时还是屏蔽的">
+      <option name="closed" value="true" />
+      <created>1719450337340</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1719450337340</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -614,7 +618,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="防丢，先上一波" />
     <MESSAGE value="基本补齐，还不咋地怎么跑起来" />
     <MESSAGE value="action 完善" />
     <MESSAGE value="实现从聊天代码中直接插入文件" />
@@ -639,7 +642,8 @@
     <MESSAGE value="0.0.4版本" />
     <MESSAGE value="0.0.5版本" />
     <MESSAGE value="0.0.6版本" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.0.6版本" />
+    <MESSAGE value="加入从页面调用的设置实现，不过设置暂时还是屏蔽的" />
+    <option name="LAST_COMMIT_MESSAGE" value="加入从页面调用的设置实现，不过设置暂时还是屏蔽的" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -758,11 +762,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/handler/CodeCefDownloadHandler.java</url>
           <line>39</line>
           <option name="timeStamp" value="398" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java</url>
-          <line>68</line>
-          <option name="timeStamp" value="400" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/model/AuthStatus.java</url>

@@ -11,9 +11,9 @@ public interface ICodeCefManager extends Disposable {
 
     void ExecuteJS(String js);
 
-    void SendMessageToPage(String cmd, String value, Map<String, String> more);
+    void SendMessageToPage(String cmd, Object value, Map<String, String> more);
 
-    void SendMessageToPage(String cmd, String value, Map<String, String> more, Boolean setFocus);
+    void SendMessageToPage(String cmd, Object value, Map<String, String> more, Boolean setFocus);
 
     void onLoadEnd();
 

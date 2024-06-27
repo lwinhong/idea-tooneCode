@@ -1,5 +1,6 @@
 package com.tooneCode;
 
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.diagnostic.Logger;
@@ -13,11 +14,15 @@ import com.jetbrains.cef.JCefAppConfig;
 import com.tooneCode.common.CodeSetting;
 import com.tooneCode.editor.CodeEditorActionHandler;
 import com.tooneCode.listeners.CodeVirtualFileListener;
+import com.tooneCode.services.state.CodeStateService;
 import com.tooneCode.ui.config.CodePersistentSetting;
+import com.tooneCode.ui.notifications.NotificationFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.cef.CefSettings;
 
 import java.awt.*;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TooneCodeApp {
@@ -44,6 +49,19 @@ public class TooneCodeApp {
 //            BinaryManager.INSTANCE.checkBinary(false);
 //        })).start();
 //        LingmaPluginUpdateChecker.delayCheckUpdate();
+
+        //自定义数据持久化
+        var codeStateService = CodeStateService.getInstance();
+        if (StringUtils.isBlank(codeStateService.getState().appId)) {
+            codeStateService.getState().appId  = UUID.randomUUID().toString();
+        }
+
+        //简易的方式实现数据持久化
+//        String configName = "toonecodePluginAppId";
+//        var appId = PropertiesComponent.getInstance().getValue(configName);
+//        if (StringUtils.isBlank(appId))
+//            PropertiesComponent.getInstance().setValue(configName, UUID.randomUUID().toString());
+
         VirtualFileManager.getInstance().addVirtualFileListener(new CodeVirtualFileListener());
         overrideEditorActions();
 

@@ -11,6 +11,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.jcef.*;
 import com.intellij.util.messages.MessageBusConnection;
 import com.tooneCode.services.CodeProjectServiceImpl;
+import com.tooneCode.services.state.CodeStateService;
 import com.tooneCode.toolWindow.cef.handler.*;
 import com.tooneCode.topics.CefPageLoadedTopic;
 import org.cef.browser.CefBrowser;
@@ -175,13 +176,13 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     @Override
-    public void SendMessageToPage(String cmd, String value, Map<String, String> more) {
+    public void SendMessageToPage(String cmd, Object value, Map<String, String> more) {
         SendMessageToPage(cmd, value, more, false);
     }
 
     @Override
-    public void SendMessageToPage(String cmd, String value, Map<String, String> more, Boolean setFocus) {
-        var m = new HashMap<String, String>();
+    public void SendMessageToPage(String cmd, Object value, Map<String, String> more, Boolean setFocus) {
+        var m = new HashMap<String, Object>();
         m.put("value", value);
         m.put("cmd", cmd);
         if (more != null && !more.isEmpty()) {
@@ -205,11 +206,16 @@ public class CodeCefManager implements ICodeCefManager {
                 + _jsQuery.inject("data", "successCallback", "errorCallback")
                 + " };";
         ExecuteJS(inject);
-
+        SendAppId();
         //_browser.openDevtools();
         if (_project != null) {
             _project.getMessageBus().syncPublisher(CefPageLoadedTopic.ANY_GENERATE_NOTIFICATION).anyGenerate();
         }
+    }
+
+    private void SendAppId() {
+        var id = CodeStateService.getInstance().getState().appId;
+        SendMessageToPage("appId", Map.of("appId", id), null);
     }
 
     @Override

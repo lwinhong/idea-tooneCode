@@ -14,6 +14,8 @@ public interface ICodeProjectService {
 
     void NewEditor(Map data);
 
+    void OpenSettings(Project project);
+
     ICodeToolWindow getCodeToolWindow();
 
     void setCodeToolWindow(ICodeToolWindow toolWindow);

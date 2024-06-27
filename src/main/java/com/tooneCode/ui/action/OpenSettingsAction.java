@@ -1,5 +1,6 @@
 package com.tooneCode.ui.action;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.ActionUpdateThreadAware;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -22,5 +23,10 @@ public class OpenSettingsAction extends AnAction implements DumbAware, ActionUpd
     public void update(@NotNull AnActionEvent e) {
         String text = CodeBundle.message("action.CodeOpenSettingsAction.text", new Object[0]);
         e.getPresentation().setText(text);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return super.getActionUpdateThread();
     }
 }

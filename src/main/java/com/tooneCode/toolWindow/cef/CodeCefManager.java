@@ -93,6 +93,7 @@ public class CodeCefManager implements ICodeCefManager {
 
     public void LoadWebPage() {
         var url = "http://aichat.t.vtoone.com/#/?ide=idea";
+        url = "http://codegen.t.vtoone.com/generator/#/?ide=idea";
 //        url = "http://localhost:5173/#/?ide=idea";
 //        url = "http://codedemo.t.vtoone.com/#/?ide=idea";
         //_browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
@@ -156,6 +157,11 @@ public class CodeCefManager implements ICodeCefManager {
             case "openNew":
                 EventQueue.invokeLater(() -> {
                     CodeProjectServiceImpl.getInstance(this._project).NewEditor(executeData);
+                });
+                break;
+            case "openSettings":
+                EventQueue.invokeLater(() -> {
+                    CodeProjectServiceImpl.getInstance(this._project).OpenSettings(this._project);
                 });
                 break;
         }

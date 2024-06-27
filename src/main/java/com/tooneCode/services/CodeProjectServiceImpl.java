@@ -67,6 +67,13 @@ public final class CodeProjectServiceImpl implements ICodeProjectService, Dispos
         action.actionPerformed(event);
     }
 
+    public void OpenSettings(Project project) {
+        var action = ActionManager.getInstance().getAction("CodeOpenSettingsAction");
+        var event = buildAnActionEvent(action, "OpenSettingsAction", null);
+
+        action.actionPerformed(event);
+    }
+
     @Override
     public ICodeToolWindow getCodeToolWindow() {
         return this.codeToolWindow;

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="idea-tooneCode:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="修改url地址">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/handler/CodeCefDownloadHandler.java" afterDir="false" />
+    <list default="true" id="83e7a163-2c07-4ddc-80fb-88b1d42ec9ee" name="更改" comment="0.0.6版本">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/idea_tooneCode_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/CodeProjectServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/ICodeProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/services/ICodeProjectService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messageBundle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messageBundle_en_US.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messageBundle_en_US.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messageBundle_zh_CN.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messageBundle_zh_CN.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/action/OpenSettingsAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tooneCode/ui/action/OpenSettingsAction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +80,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/lwinhong/idea-tooneCode.git&quot;,
-    &quot;accountId&quot;: &quot;0ddd20cd-3da7-4155-bccb-9d91a6ceafd0&quot;
+    &quot;accountId&quot;: &quot;0bad8e27-ae3c-4144-a047-d0a9ec101c38&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -91,6 +95,9 @@
     <option name="FILTER_INFO" value="true" />
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="PerforceDirect.Settings">
+    <option name="CHARSET" value="无" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -111,6 +118,8 @@
     &quot;Gradle.Run Plugin.executor&quot;: &quot;Debug&quot;,
     &quot;Gradle.idea-tooneCode [:CodeGenerateApi.main()].executor&quot;: &quot;Debug&quot;,
     &quot;Gradle.idea-tooneCode [assemble].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.idea-tooneCode [buildPlugin].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.idea-tooneCode [publishPlugin].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.idea-tooneCode [setupDependencies].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.idea-toonecode [setupDependencies].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.构建 idea-tooneCode.executor&quot;: &quot;Run&quot;,
@@ -119,19 +128,20 @@
     &quot;Kotlin 脚本(测试版).build.gradle.kts.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
     &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode/build/distributions/idea-tooneCode-0.0.3-SNAPSHOT.zip&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/liyk/idea-plugin/idea-tooneCode/out/artifacts/idea_tooneCode_main_jar/idea-tooneCode.main.jar&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;工件&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.17721522&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
@@ -175,20 +185,7 @@
       <recent name="com.tooneCode.editor" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Run Plugin">
-    <configuration name="CodeGenerateApi" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.tooneCode.core.api.CodeGenerateApi" />
-      <module name="idea-tooneCode.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.tooneCode.core.api.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Gradle.idea-tooneCode [buildPlugin]">
     <configuration name="idea-tooneCode [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -211,20 +208,54 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CodeGenerateApiTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="idea-tooneCode.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.tooneCode.core.api.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.tooneCode.core.api" />
-      <option name="MAIN_CLASS_NAME" value="com.tooneCode.core.api.CodeGenerateApiTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="idea-tooneCode [buildPlugin]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="buildPlugin" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="idea-tooneCode [publishPlugin]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="env">
+          <map>
+            <entry key="-Dorg.gradle.project.intellijPublishToken" value="YOUR_TOKEN" />
+          </map>
+        </option>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="publishPlugin" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
     </configuration>
     <configuration name="CodeGenerateApiTest.run" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="idea-tooneCode.main" />
@@ -251,13 +282,21 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.idea-tooneCode [buildPlugin]" />
         <item itemvalue="Gradle.idea-tooneCode [assemble]" />
+        <item itemvalue="Gradle.idea-tooneCode [publishPlugin]" />
         <item itemvalue="Kotlin 脚本(测试版).build.gradle.kts" />
         <item itemvalue="JUnit.CodeGenerateApiTest.run" />
-        <item itemvalue="JUnit.CodeGenerateApiTest" />
-        <item itemvalue="应用程序.CodeGenerateApi" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -270,6 +309,13 @@
       <workItem from="1717641461524" duration="383000" />
       <workItem from="1717743830731" duration="352000" />
       <workItem from="1718545088401" duration="71000" />
+      <workItem from="1718631298614" duration="5132000" />
+      <workItem from="1718674317944" duration="1471000" />
+      <workItem from="1719190268858" duration="3170000" />
+      <workItem from="1719196260946" duration="624000" />
+      <workItem from="1719218479527" duration="3697000" />
+      <workItem from="1719299913563" duration="2505000" />
+      <workItem from="1719401485576" duration="1558000" />
     </task>
     <task id="LOCAL-00001" summary="首次">
       <option name="closed" value="true" />
@@ -503,7 +549,39 @@
       <option name="project" value="LOCAL" />
       <updated>1717578538696</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="解决下载问题">
+      <option name="closed" value="true" />
+      <created>1718591075234</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1718591075234</updated>
+    </task>
+    <task id="LOCAL-00031" summary="0.0.4版本">
+      <option name="closed" value="true" />
+      <created>1718675034306</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1718675034306</updated>
+    </task>
+    <task id="LOCAL-00032" summary="0.0.5版本">
+      <option name="closed" value="true" />
+      <created>1719281270052</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1719281270052</updated>
+    </task>
+    <task id="LOCAL-00033" summary="0.0.6版本">
+      <option name="closed" value="true" />
+      <created>1719306310045</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1719306310045</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,10 +614,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="实现代码插入" />
-    <MESSAGE value="新增右键菜单和action" />
-    <MESSAGE value="action和web页面交互" />
-    <MESSAGE value="加入了一些自动完成代码" />
     <MESSAGE value="防丢，先上一波" />
     <MESSAGE value="基本补齐，还不咋地怎么跑起来" />
     <MESSAGE value="action 完善" />
@@ -561,7 +635,11 @@
     <MESSAGE value="版本修改" />
     <MESSAGE value="java bug 调试打开聊天对话框调用逻辑调整" />
     <MESSAGE value="修改url地址" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改url地址" />
+    <MESSAGE value="解决下载问题" />
+    <MESSAGE value="0.0.4版本" />
+    <MESSAGE value="0.0.5版本" />
+    <MESSAGE value="0.0.6版本" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.0.6版本" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -680,6 +758,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/handler/CodeCefDownloadHandler.java</url>
           <line>39</line>
           <option name="timeStamp" value="398" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/toolWindow/cef/CodeCefManager.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="400" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/tooneCode/core/model/model/AuthStatus.java</url>

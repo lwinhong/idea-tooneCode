@@ -1,11 +1,15 @@
 package com.tooneCode.toolWindow.cef;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.intellij.ide.plugins.PluginManager;
+import com.intellij.ide.plugins.PluginManagerCore;
+import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
+import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.jcef.*;
@@ -94,7 +98,7 @@ public class CodeCefManager implements ICodeCefManager {
 
     public void LoadWebPage() {
         var url = "http://aichat.t.vtoone.com/#/?ide=idea";
-        url = "http://codegen.t.vtoone.com/generator/#/?ide=idea";
+        //url = "http://codegen.t.vtoone.com/generator/#/?ide=idea";
 //        url = "http://localhost:5173/#/?ide=idea";
 //        url = "http://codedemo.t.vtoone.com/#/?ide=idea";
         //_browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
@@ -206,16 +210,24 @@ public class CodeCefManager implements ICodeCefManager {
                 + _jsQuery.inject("data", "successCallback", "errorCallback")
                 + " };";
         ExecuteJS(inject);
-        SendAppId();
+        EventQueue.invokeLater(this::SendAppInfo);
+
         //_browser.openDevtools();
         if (_project != null) {
             _project.getMessageBus().syncPublisher(CefPageLoadedTopic.ANY_GENERATE_NOTIFICATION).anyGenerate();
         }
     }
 
-    private void SendAppId() {
+    private void SendAppInfo() {
         var id = CodeStateService.getInstance().getState().appId;
-        SendMessageToPage("appId", Map.of("appId", id), null);
+        var ideaVersion = ApplicationInfo.getInstance().getFullVersion();
+        var pluginVersion = PluginManagerCore.getPlugin(PluginId.getId("com.tooneCode.idea-tooneCode")).getVersion();
+
+        SendMessageToPage("appInfo",
+                Map.of("appId", id,
+                        "ide", "idea",
+                        "pluginVersion", pluginVersion,
+                        "ideVersion", ideaVersion), null);
     }
 
     @Override

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.tooneCode"
-version = "0.0.6-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()

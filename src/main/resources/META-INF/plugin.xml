@@ -49,7 +49,7 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="com.tooneCode.toolWindow" anchor="right" secondary="false"
-                    canCloseContents="true"
+                    canCloseContents="true" icon="CommonIcons.AI"
                     factoryClass="com.tooneCode.toolWindow.CodeToolWindow"/>
         <notificationGroup id="tooneCode.notice" displayType="BALLOON"/>
         <editorFactoryListener implementation="com.tooneCode.listeners.CodeEditorListener"/>
@@ -62,7 +62,8 @@
         <!--                                implementation="com.tooneCode.ui.statusbar.CodeStatusBarWidgetFactory"/>-->
         <!--        <applicationConfigurable instance="com.tooneCode.ui.config.CodeConfigurable" displayName="TooneCode"/>-->
         <actionPromoter order="last" implementation="com.tooneCode.completion.action.CodeActionPromoter"/>
-        <notificationGroup id="codeBalloonNotifications" displayType="BALLOON" key="code.notifications.balloon.group.name"/>
+        <notificationGroup id="codeBalloonNotifications" displayType="BALLOON"
+                           key="code.notifications.balloon.group.name"/>
         <notificationGroup id="codeStickyNotifications" displayType="STICKY_BALLOON"
                            key="code.notifications.sticky.group.name"/>
     </extensions>

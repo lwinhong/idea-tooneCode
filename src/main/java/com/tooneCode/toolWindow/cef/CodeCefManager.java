@@ -1,7 +1,6 @@
 package com.tooneCode.toolWindow.cef;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.intellij.ide.plugins.PluginManager;
 import com.intellij.ide.plugins.PluginManagerCore;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ApplicationManager;
@@ -23,6 +22,7 @@ import com.alibaba.fastjson2.JSON;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.Inet4Address;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,12 +93,13 @@ public class CodeCefManager implements ICodeCefManager {
         }
         _browser = new JBCefBrowser();
         AddHandler();
+
         return _browser.getComponent();
     }
 
     public void LoadWebPage() {
         var url = "http://aichat.t.vtoone.com/#/?ide=idea";
-        //url = "http://codegen.t.vtoone.com/generator/#/?ide=idea";
+        url = "http://codegen.t.vtoone.com/#/?ide=idea";
 //        url = "http://localhost:5173/#/?ide=idea";
 //        url = "http://codedemo.t.vtoone.com/#/?ide=idea";
         //_browser.loadURL("http://aichat.t.vtoone.com/?idea=1");
@@ -210,7 +211,17 @@ public class CodeCefManager implements ICodeCefManager {
                 + _jsQuery.inject("data", "successCallback", "errorCallback")
                 + " };";
         ExecuteJS(inject);
-        EventQueue.invokeLater(this::SendAppInfo);
+
+        var thead = new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                log.info("Thread.sleep(3000)：开始收集插件信息");
+                EventQueue.invokeLater(this::SendAppInfo);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        thead.start();
 
         //_browser.openDevtools();
         if (_project != null) {
@@ -219,15 +230,35 @@ public class CodeCefManager implements ICodeCefManager {
     }
 
     private void SendAppInfo() {
-        var id = CodeStateService.getInstance().getState().appId;
-        var ideaVersion = ApplicationInfo.getInstance().getFullVersion();
-        var pluginVersion = PluginManagerCore.getPlugin(PluginId.getId("com.tooneCode.idea-tooneCode")).getVersion();
+        try {
+            log.info("开始收集插件信息");
+            var id = CodeStateService.getInstance().getState().appId;
+            var application = ApplicationInfo.getInstance();
+            var ideaVersion = application.getFullVersion();
+            var plugin = PluginManagerCore.getPlugin(PluginId.getId("com.tooneCode.idea-tooneCode"));
+            String appVersion = "";
+            if (plugin != null) {
+                appVersion = plugin.getVersion();
+            }
 
-        SendMessageToPage("appInfo",
-                Map.of("appId", id,
-                        "ide", "idea",
-                        "pluginVersion", pluginVersion,
-                        "ideVersion", ideaVersion), null);
+            var localHost = Inet4Address.getLocalHost();
+            var hostName = localHost.getHostName();
+            var ip = localHost.getHostAddress();
+            var osPlatform = com.intellij.openapi.util.SystemInfo.OS_NAME;
+
+            log.info("开始收集插件信息:SendMessageToPage");
+            SendMessageToPage("appInfo",
+                    Map.of("appId", id,
+                            "ide", "idea",
+                            "appVersion", appVersion,
+                            "ideVersion", ideaVersion,
+                            "os", osPlatform,
+                            "hostName", hostName,
+                            "ip", ip
+                    ), null);
+        } catch (Exception e) {
+            log.error("发送插件信息异常", e);
+        }
     }
 
     @Override
